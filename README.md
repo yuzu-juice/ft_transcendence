@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, <!-- login_name -->.*
+*This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, tamatsuu, <!-- login_name -->.*
 
 ---
 
@@ -203,7 +203,7 @@ The application will be available at:
 ---
 
 ## Modules
-
+<!-- TODO: 実装が進んだら更新 -->
 Total claimed points: **14**
 
 | Module | Category | Type | Points | Implemented by |
