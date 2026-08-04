@@ -1,14 +1,8 @@
-*This project has been created as part of the 42 curriculum by tamatsuu, ssoeno, genomoto, takitaga, <!-- login_name -->.*
+*This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, <!-- login_name -->.*
 
 ---
 
 ## Description
-
-<!-- TODO:
-A “Description” section that clearly presents the project, including its goal and a
-brief overview.
-プロジェクトを進めつつ考える。
--->
 
 **Key Features:**
 
@@ -18,6 +12,7 @@ brief overview.
 - Multi-language support (Japanese, English, Chinese)
 - OAuth login (GitHub)
 - Progressive Web App support
+- <!-- TODO: 実装完了後、具体的な内容を追加 -->
 
 ---
 
@@ -25,27 +20,21 @@ brief overview.
 
 | Login | Role | Responsibilities |
 |---|---|---|
-| <!-- login1 --> | Product Owner + Developer | <!-- TODO: 担当内容 --> |
-| <!-- login2 --> | Project Manager + Developer | <!-- TODO: 担当内容 --> |
-| <!-- login3 --> | Tech Lead + Developer | <!-- TODO: 担当内容 --> |
-| <!-- login4 --> | Developer | <!-- TODO: 担当内容 --> |
+| takitaga | Product Owner + Developer | <!-- TODO: 担当内容 --> |
+| ssoeno | Project Manager + Developer | Public API implementation |
+| genomoto | Technical Lead + Developer | <!-- TODO: 担当内容 --> |
+| <!-- login_name --> | Developer | <!-- TODO: 担当内容 --> |
 
 ---
 
 ## Project Management
 
-<!-- TODO: 以下を埋める
-- どうやってタスクを分担したか（GitHub Issues / Notion / etc.）
-- ミーティングの頻度・方法
-- コミュニケーションチャンネル（Discord）
--->
+**Task organization:** We used [GitHub Projects](https://github.com/users/yuzu-juice/projects/3/views/2) to manage tasks, track progress, and distribute work among team members.
 
-**Task organization:** We used [GitHub Projects](https://github.com/users/yuzu-juice/projects/3/views/2)
-to manage tasks, track progress, and distribute work among team members.
+**Meeting cadence:** <!-- TODO: 例）Weekly sync on Discord every Sunday -->
 
-**Meeting cadence:** <!-- TODO -->
-
-**Communication:** <!-- TODO -->
+**Communication:** 
+Discord for daily communication
 
 ---
 
@@ -93,18 +82,6 @@ The application will be available at:
 - Backend API: `https://localhost:3000`
 - API Documentation (Swagger UI): `https://localhost:3000/api/docs`
 
-### Environment Variables
-
-See `.env.example` for the full list of required variables.
-
-| Variable | Description |
-|---|---|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `BETTER_AUTH_SECRET` | Secret key for Better Auth |
-| `BETTER_AUTH_URL` | Base URL of the backend |
-| `GITHUB_CLIENT_ID` | GitHub OAuth App Client ID |
-| `GITHUB_CLIENT_SECRET` | GitHub OAuth App Client Secret |
-
 ---
 
 ## Technical Stack
@@ -113,36 +90,38 @@ See `.env.example` for the full list of required variables.
 
 | Technology | Version | Reason |
 |---|---|---|
-| React | 19 | <!-- TODO: 選定理由 --> |
-| Vite | latest | <!-- TODO: 選定理由 --> |
-| Tailwind CSS | v4 | <!-- TODO: 選定理由 --> |
-| TanStack Router | v1 | <!-- TODO: 選定理由 --> |
-| TanStack Query | v5 | <!-- TODO: 選定理由 --> |
-| react-i18next | latest | Multi-language support |
+| React | 19 | Component-based UI; treated as a framework in this project due to its ecosystem and architectural patterns |
+| Vite | latest | Fast build tool for modern frontend development |
+| Tailwind CSS | v4 | Utility-first CSS framework for rapid UI development |
+| TanStack Router | v1 | Type-safe file-based routing with built-in devtools and performance optimization |
+| TanStack Query | v5 | Simplifies data fetching and caching; prevents unnecessary re-fetches compared to plain useEffect/useState |
+| TanStack Form | latest | Form implementation with type-safe validation |
+| react-i18next | latest | React integration of i18next for multi-language support |
 
 ### Backend
 
 | Technology | Version | Reason |
 |---|---|---|
-| Hono | v4 | <!-- TODO: 選定理由 --> |
-| Drizzle ORM | latest | Type-safe SQL queries |
-| Better Auth | latest | Authentication with OAuth and 2FA support |
-| Zod | v4 | Runtime validation and OpenAPI generation |
-| PostgreSQL | 17 | <!-- TODO: 選定理由 --> |
+| Hono | v4 | Lightweight TypeScript-first web framework built on Web Standards |
+| Drizzle ORM | latest | TypeScript-first ORM with SQL-like query syntax; first example in official docs uses PostgreSQL |
+| Better Auth | latest | Supports Email+Password, OAuth, and 2FA (TOTP); integrates with Hono and Drizzle |
+| Zod | v4 | Runtime validation and automatic OpenAPI spec generation via @hono/zod-openapi |
+| PostgreSQL | 17 | Relational DB; used as the base for Better Auth schema design |
 
 ### Infrastructure
 
 | Technology | Reason |
 |---|---|
-| Docker / Docker Compose | Single-command deployment |
-| pnpm workspace | Monorepo management |
-| Cloudflare Tunnel | <!-- TODO: デプロイ環境の説明 --> |
+| Docker / Docker Compose | Single-command deployment as required by the subject |
+| pnpm workspace | Monorepo management; built-in support reduces tooling overhead |
+| Node.js | 24 LTS runtime for the backend |
+| Cloudflare Tunnel + Cloudflare Access | Exposes the local server for peer review without making it publicly accessible |
 
 ---
 
 ## Database Schema
 
-<!-- TODO: ER図を挿入してもいいかも -->
+<!-- TODO: 実装後にER図をいれてもいいかも -->
 
 ### Tables
 
@@ -216,7 +195,7 @@ See `.env.example` for the full list of required variables.
 | Real-time updates | Task changes reflected instantly via WebSocket | <!-- TODO --> |
 | Public API | REST API with API key auth and Swagger docs | <!-- TODO --> |
 | Notifications | In-app notifications on task events | <!-- TODO --> |
-| Multi-language | Switch between Japanese, English, <!-- TODO --> | <!-- TODO --> |
+| Multi-language | Switch between Japanese, English, and Chinese | <!-- TODO --> |
 | Health check | `/health` endpoint for monitoring | <!-- TODO --> |
 | Privacy Policy | Accessible from footer | <!-- TODO --> |
 | Terms of Service | Accessible from footer | <!-- TODO --> |
@@ -258,17 +237,17 @@ Two roles are implemented: `admin` (can manage all users and tasks) and `user` (
 
 <!-- TODO: 実装完了後に各メンバーが自分で記載する -->
 
-### <!-- login1 --> (Product Owner)
-- ...
+### takitaga (Product Owner)
+- <!-- TODO: 実装完了後に記載 -->
 
-### <!-- login2 --> (Project Manager)
-- ...
+### ssoeno (Project Manager)
+- <!-- TODO: 実装完了後に記載 -->
 
-### <!-- login3 --> (Tech Lead)
-- ...
+### genomoto (Technical Lead)
+- <!-- TODO: 実装完了後に記載 -->
 
-### <!-- login4 --> (Developer)
-- ...
+### <!-- login_name --> (Developer)
+- <!-- TODO: 実装完了後に記載 -->
 
 ---
 
@@ -277,22 +256,34 @@ Two roles are implemented: `admin` (can manage all users and tasks) and `user` (
 ### Documentation
 
 - [Hono](https://hono.dev/)
+- [Hono Integration | Better Auth](https://better-auth.com/docs/integrations/hono)
+- [Drizzle ORM Adapter | Better Auth](https://better-auth.com/docs/adapters/drizzle)
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Better Auth](https://www.better-auth.com/)
 - [TanStack Router](https://tanstack.com/router)
 - [TanStack Query](https://tanstack.com/query)
+- [TanStack Form](https://tanstack.com/form/latest)
 - [react-i18next](https://react.i18next.com/)
 - [Zod](https://zod.dev/)
-- [@hono/zod-openapi](https://github.com/honojs/middleware/tree/main/packages/zod-openapi)
+- [Zod OpenAPI - Hono](https://hono.dev/examples/zod-openapi)
+- [swagger-ui middleware](https://github.com/honojs/middleware/tree/main/packages/swagger-ui)
+- [hono-rate-limiter](https://github.com/rhinobase/hono-rate-limiter)
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app/)
+
+### Articles
+
+- [React入門 2026 - モダンなReact開発を基礎から学ぶ](https://zenn.dev/rasshii/books/learning-react-2026)
+- [React Router v6 から Tanstack Router v1に移行して感じたメリット](https://zenn.dev/genda_jp/articles/52977482fba7fa)
+- [TanStack Routerでサクッと始める型安全ルーティング](https://zenn.dev/calloc134/articles/6680b272a2c2c5)
+- [【パスキー・2FA・OAuth】Better Authで作るモダン認証システム](https://zenn.dev/sc30gsw/articles/0484624ecd07b8)
 
 ### AI Usage
 
-AI tools were used in this project for the following purposes:
+AI tools (Claude) were used in this project for the following purposes:
 
 | Task | How AI was used |
 |---|---|
-| Code review | Reviewing Zod schema definitions and <!-- TODO: 実装後に追記 --> |
+| Code review | Reviewing Zod schema definitions and <!-- TODO: 実装が進んだら具体的に記載する。 --> |
 | Documentation | Drafting Privacy Policy and Terms of Service pages |
 
 All AI-generated content was reviewed, tested, and understood by the team members before being included in the project. No code was copied without understanding its behavior.
