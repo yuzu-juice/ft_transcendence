@@ -84,7 +84,7 @@ The application will be available at:
 |---|---|---|
 | React | 19 | Component-based UI; treated as a framework in this project due to its ecosystem and architectural patterns |
 | Vite | latest | Fast build tool for modern frontend development |
-| Tailwind CSS | v4 | Utility-first CSS framework for rapid UI development |
+| Tailwind CSS | v4 | Utility-first CSS framework for rapid UI development, responsive UI development |
 | TanStack Router | v1 | Type-safe file-based routing with built-in devtools and performance optimization |
 | TanStack Query | v5 | Simplifies data fetching and caching; prevents unnecessary re-fetches compared to plain useEffect/useState |
 | TanStack Form | latest | Form implementation with type-safe validation |
