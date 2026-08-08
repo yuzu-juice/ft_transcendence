@@ -6,13 +6,6 @@
 
 **Key Features:**
 
-- Task management with real-time updates
-- Role-based access control (admin / user)
-- Public API with Swagger documentation
-- Multi-language support (Japanese, English, Chinese)
-- OAuth login (GitHub)
-- Progressive Web App support
-- <!-- TODO: 実装完了後、具体的な内容を追加 -->
 
 ---
 
@@ -176,7 +169,7 @@ The application will be available at:
 #### Authentication
 
 | Feature | Description |
-|---|---|---|
+|---|---|
 | Sign up / Log in with email and password | Passwords are stored with hashing and salting |
 | Log in with GitHub (OAuth) | Retrieves GitHub username, email, and avatar |
 | Two-Factor Authentication (2FA / TOTP) | One-time password via authenticator app (e.g. Google Authenticator) |
@@ -185,14 +178,14 @@ The application will be available at:
 #### Profile
 
 | Feature | Description |
-|---|---|---|
+|---|---|
 | View and edit profile | View and update display name and avatar image |
 | Upload avatar image | Shows a default image if none is set |
 
 #### Tasks
 
 | Feature | Description |
-|---|---|---|
+|---|---|
 | Create a task | Set title, description, priority, and due date |
 | View task list | Browse all tasks created by any user |
 | View task detail | See full task information and assignees |
@@ -203,21 +196,21 @@ The application will be available at:
 
 #### Data and Analytics
 
-| Feature | Description | Module |
-|---|---|---|
+| Feature | Description |
+|---|---|
 | Data visualization dashboard | Interactive charts showing task progress, status distribution, and priority breakdown; supports date range filters |
 
 #### API
 
-| Feature | Description | Module |
-|---|---|---|
+| Feature | Description |
+|---|---|
 | Issue and manage API keys | Users can generate and revoke their own API keys |
 | Get task list | `GET /api/tasks` — filterable by status and page number |
 | Get task detail | `GET /api/tasks/:id` — returns task info and assignees |
 | Create a task | `POST /api/tasks` — accepts title, description, priority, and due date |
 | Update a task | `PUT /api/tasks/:id` — partial update (only sent fields are changed) |
 | Delete a task | `DELETE /api/tasks/:id` — deletes the task and returns 204 |
-| Rate limiting | Uses `hono-rate-limiter`; 60 requests per minute per API key |　<!-- TODO:rate limitは後日要検討 -->
+| Rate limiting | Uses `hono-rate-limiter`; 60 requests per minute per API key <!-- TODO:rate limitは後日要検討 --> |　
 | API documentation | `GET /api/docs` — Swagger UI for browsing and testing endpoints in the browser |
 
 #### UI and Accessibility
@@ -225,15 +218,15 @@ The application will be available at:
 | Feature | Description | Module |
 |---|---|---|
 | Language switcher | Switch between Japanese, English, and one additional language |
-| Additional browser support | Verified to work on Firefox and Safari in addition to Chrome |　　<!-- TODO:要確認 -->
+| Additional browser support | Verified to work on Firefox and Safari in addition to Chrome <!-- TODO:要確認 --> |
 | View Privacy Policy and Terms of Service | Accessible via links in the footer |
 
 ### Features Available to Admins Only
 
 #### User Management
 
-| Feature | Description | Module |
-|---|---|---|
+| Feature | Description |
+|---|---|
 | View user management page | Full list of all users (hidden from regular users) |
 | Edit / delete users | Update name and email, or delete accounts |
 | Change user roles | Promote a user to admin, or demote an admin to user |
@@ -241,7 +234,7 @@ The application will be available at:
 #### Task Management
 
 | Feature | Description |
-|---|---|---|
+|---|---|
 | Edit / delete any task | Admins can modify tasks created by other users |
 
 
@@ -287,16 +280,16 @@ Two roles are implemented: `admin` (can manage all users and tasks) and `user` (
 
 <!-- TODO: 実装完了後に各メンバーが自分で記載する -->
 
-### takitaga (Product Owner)
+takitaga (Product Owner)
+-  <!-- TODO: 実装完了後に記載 -->
+
+ssoeno (Project Manager)
 - <!-- TODO: 実装完了後に記載 -->
 
-### ssoeno (Project Manager)
+genomoto (Technical Lead)
 - <!-- TODO: 実装完了後に記載 -->
 
-### genomoto (Technical Lead)
-- <!-- TODO: 実装完了後に記載 -->
-
-### <!-- login_name --> (Developer)
+<!-- login_name --> (Developer)
 - <!-- TODO: 実装完了後に記載 -->
 
 ---
