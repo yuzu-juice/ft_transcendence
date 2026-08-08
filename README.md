@@ -215,8 +215,8 @@ The application will be available at:
 
 #### UI and Accessibility
 
-| Feature | Description | Module |
-|---|---|---|
+| Feature | Description |
+|---|---|
 | Language switcher | Switch between Japanese, English, and one additional language |
 | Additional browser support | Verified to work on Firefox and Safari in addition to Chrome <!-- TODO:要確認 --> |
 | View Privacy Policy and Terms of Service | Accessible via links in the footer |
