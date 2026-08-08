@@ -1,3 +1,14 @@
 # Editor
 .vscode/
 .idea/
+
+# Node.js
+node_modules/
+
+# pnpm
+.pnpm-store
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+.vite/

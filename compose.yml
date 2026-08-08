@@ -1,0 +1,34 @@
+name: ft_transcendence
+
+x-workspace: &workspace
+    image: ft_transcendence-workspace:dev
+    build:
+        context: .
+        target: development
+    init: true
+    networks:
+        - app
+
+services:
+    frontend:
+        <<: *workspace
+        command:
+            - pnpm
+            - --filter
+            - frontend
+            - dev
+        ports:
+            - "127.0.0.1:5173:5173"
+
+    backend:
+        <<: *workspace
+        command:
+            - pnpm
+            - --filter
+            - backend
+            - dev
+        ports:
+            - "127.0.0.1:3000:3000"
+
+networks:
+    app:
