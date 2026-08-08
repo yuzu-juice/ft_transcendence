@@ -158,7 +158,7 @@ The application will be available at:
 | createdAt | timestamp | |
 | updatedAt | timestamp | |
 
-**task_assignment** — Many-to-many: tasks ↔ users
+**task_assignment** — Many-to-many: tasks ↔ users  <!-- TODO: 1つのタスクにアサインできるユーザーは一人にしたほうがシンプルかも -->
 
 | Column | Type | Description |
 |---|---|---|
@@ -167,61 +167,111 @@ The application will be available at:
 | userId | text (FK → user.id) | |
 | assignedAt | timestamp | |
 
-**notification** — In-app notifications triggered by task events
-
-| Column | Type | Description |
-|---|---|---|
-| id | text (PK) | |
-| userId | text (FK → user.id) | Recipient |
-| taskId | text (FK → task.id) | |
-| type | text | `created` / `updated` / `deleted` |
-| isRead | boolean | Default: false |
-| createdAt | timestamp | |
-
 ---
 
 ## Features
 
-<!-- TODO: 実装が進んだら担当者欄を埋める -->
+### Features Available to All Users
 
-| Feature | Description | Implemented by |
+#### Authentication
+
+| Feature | Description |
 |---|---|---|
-| Email + Password auth | Sign up and log in securely with hashed passwords | <!-- TODO --> |
-| GitHub OAuth | Log in with GitHub account | <!-- TODO --> |
-| User profile | View and edit profile, upload avatar | <!-- TODO --> |
-| Task CRUD | Create, view, edit, delete tasks | <!-- TODO --> |
-| Task assignment | Assign tasks to multiple users | <!-- TODO --> |
-| Role-based access | Admin can manage all users and tasks | <!-- TODO --> |
-| Real-time updates | Task changes reflected instantly via WebSocket | <!-- TODO --> |
-| Public API | REST API with API key auth and Swagger docs | <!-- TODO --> |
-| Notifications | In-app notifications on task events | <!-- TODO --> |
-| Multi-language | Switch between Japanese, English, and Chinese | <!-- TODO --> |
-| Health check | `/health` endpoint for monitoring | <!-- TODO --> |
-| Privacy Policy | Accessible from footer | <!-- TODO --> |
-| Terms of Service | Accessible from footer | <!-- TODO --> |
+| Sign up / Log in with email and password | Passwords are stored with hashing and salting |
+| Log in with GitHub (OAuth) | Retrieves GitHub username, email, and avatar |
+| Two-Factor Authentication (2FA / TOTP) | One-time password via authenticator app (e.g. Google Authenticator) |
+| Log out | Destroys session and redirects to login page |
+
+#### Profile
+
+| Feature | Description |
+|---|---|---|
+| View and edit profile | View and update display name and avatar image |
+| Upload avatar image | Shows a default image if none is set |
+
+#### Tasks
+
+| Feature | Description |
+|---|---|---|
+| Create a task | Set title, description, priority, and due date |
+| View task list | Browse all tasks created by any user |
+| View task detail | See full task information and assignees |
+| Edit / delete own tasks | Only tasks created by the user can be modified |
+| Change task status | Three stages: todo → in_progress → done |
+| Assign users to a task | Multiple users can be assigned to a single task |  <!-- TODO:要検討 -->
+| Search, filter, sort, and paginate tasks | Filter by status, priority, due date; 20 items per page |
+
+#### Data and Analytics
+
+| Feature | Description | Module |
+|---|---|---|
+| Data visualization dashboard | Interactive charts showing task progress, status distribution, and priority breakdown; supports date range filters |
+
+#### API
+
+| Feature | Description | Module |
+|---|---|---|
+| Issue and manage API keys | Users can generate and revoke their own API keys |
+| Get task list | `GET /api/tasks` — filterable by status and page number |
+| Get task detail | `GET /api/tasks/:id` — returns task info and assignees |
+| Create a task | `POST /api/tasks` — accepts title, description, priority, and due date |
+| Update a task | `PUT /api/tasks/:id` — partial update (only sent fields are changed) |
+| Delete a task | `DELETE /api/tasks/:id` — deletes the task and returns 204 |
+| Rate limiting | Uses `hono-rate-limiter`; 60 requests per minute per API key |　<!-- TODO:rate limitは後日要検討 -->
+| API documentation | `GET /api/docs` — Swagger UI for browsing and testing endpoints in the browser |
+
+#### UI and Accessibility
+
+| Feature | Description | Module |
+|---|---|---|
+| Language switcher | Switch between Japanese, English, and one additional language |
+| Additional browser support | Verified to work on Firefox and Safari in addition to Chrome |　　<!-- TODO:要確認 -->
+| View Privacy Policy and Terms of Service | Accessible via links in the footer |
+
+### Features Available to Admins Only
+
+#### User Management
+
+| Feature | Description | Module |
+|---|---|---|
+| View user management page | Full list of all users (hidden from regular users) |
+| Edit / delete users | Update name and email, or delete accounts |
+| Change user roles | Promote a user to admin, or demote an admin to user |
+
+#### Task Management
+
+| Feature | Description |
+|---|---|---|
+| Edit / delete any task | Admins can modify tasks created by other users |
+
 
 ---
 
 ## Modules
-<!-- TODO: 実装が進んだら更新 -->
-Total claimed points: **14**
+
+Total claimed points: <!-- TODO: 実装完了後に合計点数を記載 -->
 
 | Module | Category | Type | Points | Implemented by |
 |---|---|---|---|---|
 | Use a framework for both frontend and backend (React + Hono) | Web | Major | 2 | <!-- TODO --> |
-| Real-time features (WebSocket) | Web | Major | 2 | <!-- TODO --> |
-| Public API (5+ endpoints, API key, rate limiting, Swagger) | Web | Major | 2 | <!-- TODO --> |
+| Public API (5+ endpoints, API key, rate limiting, Swagger) | Web | Major | 2 | ssoeno |
 | ORM (Drizzle ORM) | Web | Minor | 1 | <!-- TODO --> |
-| Standard user management (profile, avatar, online status) | User Management | Major | 2 | <!-- TODO --> |
-| Advanced permissions system (admin / user roles) | User Management | Major | 2 | <!-- TODO --> |
-| OAuth 2.0 (GitHub) | User Management | Minor | 1 | <!-- TODO --> |
-| Multiple languages (3 languages, i18n) | Accessibility | Minor | 1 | <!-- TODO --> |
-| Health check and backup procedures | Devops | Minor | 1 | <!-- TODO --> |
+| Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components). | Web | Minor | 1 | takitaga |
+| Implement advanced search functionality with filters, sorting, and pagination | Web | Minor | 1 | <!-- TODO --> |
+| Support for multiple languages (at least 3  languages). | Accessibility and Internationalization | Minor | 1 | ssoeno | 
+| Support for additional browsers. | Accessiblity and Interationalization  | Minor | 1 | <!-- TODO --> | 
+| Implement remote authentication with OAuth 2.0 | User Management | Minor | 1 | <!-- TODO --> | 
+| Implement a complete 2FA (Two-Factor Authentication) system for the users | User Management | Minor | 1 | <!-- TODO --> | 
+| Advanced permissions system | User Management | Major | 2 | <!-- TODO --> | 
+| Implement WAF/ModSecurity (hardened) + HashiCorp Vault for secrets  | Cybersecurity | Major | 2 | <!-- TODO --> | 
+| Infrastructure for log management using ELK (Elasticsearch, Logstash,Kibana).  | Devops | Major | 2 | <!-- TODO --> | 
+| Monitoring system with Prometheus and Grafana. | Devops | Major | 2 | <!-- TODO --> | 
+| Advanced analytics dashboard with data visualization. | Deta and Analytics  | Major | 2 | ssoeno |
+
 
 ### Module Justifications
 
-**Real-time features (WebSocket)**
-When a task is created, updated, or deleted, all connected users see the change immediately without refreshing. This is implemented using Hono's WebSocket support (`@hono/node-ws`) with room-based broadcasting scoped to all authenticated users.
+<!-- TODO: 実装完了後に更新 -->
 
 **Public API**
 <!-- TODO: 実装後に具体的なエンドポイントを記載 -->
