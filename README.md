@@ -4,8 +4,7 @@
 
 ## Description
 
-**Key Features:**
-
+This project is a task management web app built with React and Hono. It combines authentication, permissions management, a public API, and a data visualization dashboard to help teams manage their tasks efficiently.
 
 ---
 
