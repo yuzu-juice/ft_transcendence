@@ -3,6 +3,7 @@ packages:
     - "packages/*"
 allowBuilds:
     esbuild: true
+    lefthook: true
 strictDepBuilds: true
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade

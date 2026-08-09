@@ -88,4 +88,4 @@ pnpm lint # Lintのみ
 ```
 
 一部のエディタにおいて、Biomeの公式プラグインが提供されているものがありますので、ご自身の環境に合わせて導入してください。詳細は[Biome公式の拡張機能 | Biome](https://biomejs.dev/ja/editors/first-party-extensions/)をご覧ください。
-また、Pull Requestを行う前には、必ずソースコードをフォーマットしてください。
+本環境では`lefthook`を使用することで、`git commit`時に自動的にBiomeが実行されます。
