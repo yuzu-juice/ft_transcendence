@@ -6,6 +6,10 @@ x-workspace: &workspace
         context: .
         target: development
     init: true
+    cap_drop:
+        - ALL
+    security_opt:
+        - no-new-privileges:true
     networks:
         - app
 
