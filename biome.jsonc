@@ -1,125 +1,120 @@
 {
-	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true,
-	},
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
 
-	"files": {
-		"ignoreUnknown": true,
-		"includes": [
-			"**",
-			"!!**/node_modules",
-			"!!**/dist",
-			"!!**/build",
-			"!!**/coverage",
-			"!!**/.turbo",
-			"!!**/.vite",
-			"!!**/.wrangler",
-		],
-	},
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!!**/node_modules",
+      "!!**/dist",
+      "!!**/build",
+      "!!**/coverage",
+      "!!**/.turbo",
+      "!!**/.vite",
+      "!!**/.wrangler"
+    ]
+  },
 
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "space",
-		"indentWidth": 2,
-		"lineWidth": 100,
-		"lineEnding": "lf",
-	},
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
 
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "single",
-			"jsxQuoteStyle": "double",
-			"semicolons": "asNeeded",
-			"trailingCommas": "all",
-			"arrowParentheses": "always",
-			"bracketSpacing": true,
-			"bracketSameLine": false,
-		},
-	},
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false
+    }
+  },
 
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
 
-			"complexity": {
-				"noForEach": "off",
-				"useLiteralKeys": "off",
-			},
+      "complexity": {
+        "noForEach": "off",
+        "useLiteralKeys": "off"
+      },
 
-			"correctness": {
-				"noUnusedImports": "error",
-				"noUnusedVariables": "warn",
-			},
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "warn"
+      },
 
-			"suspicious": {
-				"noExplicitAny": "warn",
-			},
+      "suspicious": {
+        "noExplicitAny": "warn"
+      },
 
-			"style": {
-				"useImportType": "error",
-				"useConst": "error",
-				"noNonNullAssertion": "warn",
-			},
-		},
-	},
+      "style": {
+        "useImportType": "error",
+        "useConst": "error",
+        "noNonNullAssertion": "warn"
+      }
+    }
+  },
 
-	"assist": {
-		"enabled": true,
-		"actions": {
-			"source": {
-				"organizeImports": "on",
-			},
-		},
-	},
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
 
-	"overrides": [
-		{
-			"includes": ["apps/frontend/**"],
-			"linter": {
-				"domains": {
-					"react": "recommended",
-				},
-				"rules": {
-					"a11y": {
-						"recommended": true,
-					},
-				},
-			},
-		},
+  "overrides": [
+    {
+      "includes": ["apps/frontend/**"],
+      "linter": {
+        "domains": {
+          "react": "recommended"
+        },
+        "rules": {
+          "a11y": {
+            "recommended": true
+          }
+        }
+      }
+    },
 
-		{
-			"includes": [
-				"**/*.test.ts",
-				"**/*.test.tsx",
-				"**/*.spec.ts",
-				"**/*.spec.tsx",
-			],
-			"linter": {
-				"domains": {
-					"test": "recommended",
-				},
-				"rules": {
-					"suspicious": {
-						"noExplicitAny": "off",
-					},
-				},
-			},
-		},
+    {
+      "includes": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+      "linter": {
+        "domains": {
+          "test": "recommended"
+        },
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
 
-		{
-			"includes": ["**/*.config.ts", "**/*.config.js", "**/scripts/**"],
-			"linter": {
-				"rules": {
-					"suspicious": {
-						"noConsole": "off",
-					},
-				},
-			},
-		},
-	],
+    {
+      "includes": ["**/*.config.ts", "**/*.config.js", "**/scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ]
 }
