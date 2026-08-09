@@ -1,5 +1,5 @@
 pre-commit:
     commands:
         biome:
-            run: pnpm biome check --write --staged
+            run: pnpm biome format --write --staged
             stage_fixed: true
