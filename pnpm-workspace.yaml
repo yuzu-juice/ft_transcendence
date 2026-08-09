@@ -1,5 +1,9 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+    - "apps/*"
+    - "packages/*"
 allowBuilds:
-  esbuild: true
+    esbuild: true
+strictDepBuilds: true
+minimumReleaseAge: 1440
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
