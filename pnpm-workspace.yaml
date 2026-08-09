@@ -7,4 +7,6 @@ allowBuilds:
 strictDepBuilds: true
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
+trustPolicyExclude:
+    - "semver"
 blockExoticSubdeps: true
