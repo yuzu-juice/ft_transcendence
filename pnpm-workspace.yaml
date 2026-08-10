@@ -1,0 +1,12 @@
+packages:
+    - "apps/*"
+    - "packages/*"
+allowBuilds:
+    esbuild: true
+    lefthook: true
+strictDepBuilds: true
+minimumReleaseAge: 1440
+trustPolicy: no-downgrade
+trustPolicyExclude:
+    - "semver"
+blockExoticSubdeps: true

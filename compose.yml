@@ -1,0 +1,74 @@
+name: ft_transcendence
+
+x-workspace: &workspace
+    image: ft_transcendence-workspace:dev
+    build:
+        context: .
+        target: development
+    init: true
+    cap_drop:
+        - ALL
+    security_opt:
+        - no-new-privileges:true
+    networks:
+        - app
+
+services:
+    frontend:
+        <<: *workspace
+        command:
+            - pnpm
+            - --filter
+            - frontend
+            - dev
+            - --host
+            - 0.0.0.0
+        ports:
+            - "127.0.0.1:5173:5173"
+        develop:
+            watch:
+                - action: sync
+                  path: ./apps/frontend
+                  target: /workspace/apps/frontend
+                  ignore:
+                      - node_modules/
+                      - package.json
+                - action: rebuild
+                  path: ./apps/frontend/package.json
+                - action: rebuild
+                  path: ./package.json
+                - action: rebuild
+                  path: ./pnpm-lock.yaml
+                - action: rebuild
+                  path: ./pnpm-workspace.yaml
+
+    backend:
+        <<: *workspace
+        command:
+            - pnpm
+            - --filter
+            - backend
+            - dev
+            - --host
+            - 0.0.0.0
+        ports:
+            - "127.0.0.1:3000:3000"
+        develop:
+            watch:
+                - action: sync
+                  path: ./apps/backend
+                  target: /workspace/apps/backend
+                  ignore:
+                      - node_modules/
+                      - package.json
+                - action: rebuild
+                  path: ./apps/backend/package.json
+                - action: rebuild
+                  path: ./package.json
+                - action: rebuild
+                  path: ./pnpm-lock.yaml
+                - action: rebuild
+                  path: ./pnpm-workspace.yaml
+
+networks:
+    app:

@@ -1,0 +1,11 @@
+.git
+.gitignore
+
+**/node_modules
+**/dist
+**/.vite
+**/.tanstack
+
+.env
+.env.*
+!.env.example

@@ -1,0 +1,5 @@
+pre-commit:
+    commands:
+        biome:
+            run: pnpm biome format --write --staged --files-ignore-unknown=true --no-errors-on-unmatched
+            stage_fixed: true
