@@ -258,7 +258,7 @@ Total claimed points: <!-- TODO: 実装完了後に合計点数を記載 -->
 | Implement WAF/ModSecurity (hardened) + HashiCorp Vault for secrets  | Cybersecurity | Major | 2 | <!-- TODO --> | 
 | Infrastructure for log management using ELK (Elasticsearch, Logstash, Kibana). | Devops | Major | 2 | <!-- TODO --> |
 | Monitoring system with Prometheus and Grafana. | Devops | Major | 2 | <!-- TODO --> | 
-| Advanced analytics dashboard with data visualization. | Deta and Analytics  | Major | 2 | ssoeno |
+| Advanced analytics dashboard with data visualization. | Data and Analytics | Major | 2 | ssoeno |
 
 
 ### Module Justifications
