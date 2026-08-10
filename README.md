@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, tamatsuu, <!-- login_name -->.*
+*This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, tamatsuu, and <login_name>.*
 
 ---
 
