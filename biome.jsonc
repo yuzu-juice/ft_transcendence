@@ -18,6 +18,7 @@
       "!!**/.turbo",
       "!!**/.vite",
       "!!**/.wrangler",
+      "!!**/.tanstack",
       "!**/routeTree.gen.ts"
     ]
   },
