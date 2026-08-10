@@ -250,7 +250,7 @@ Total claimed points: <!-- TODO: 実装完了後に合計点数を記載 -->
 | ORM (Drizzle ORM) | Web | Minor | 1 | <!-- TODO --> |
 | Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components). | Web | Minor | 1 | takitaga |
 | Implement advanced search functionality with filters, sorting, and pagination | Web | Minor | 1 | <!-- TODO --> |
-| Support for multiple languages (at least 3  languages). | Accessibility and Internationalization | Minor | 1 | ssoeno | 
+| Support for multiple languages (at least 3 languages). | Accessibility and Internationalization | Minor | 1 | ssoeno |
 | Support for additional browsers. | Accessiblity and Interationalization  | Minor | 1 | <!-- TODO --> | 
 | Implement remote authentication with OAuth 2.0 | User Management | Minor | 1 | <!-- TODO --> | 
 | Implement a complete 2FA (Two-Factor Authentication) system for the users | User Management | Minor | 1 | <!-- TODO --> | 
