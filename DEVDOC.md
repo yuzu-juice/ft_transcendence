@@ -14,7 +14,7 @@ Docker Composeを使用して起動します。
 `--watch` オプションにより、ソースコードの変更を監視してコンテナへ反映し、同期・再ビルドを行います。
 
 ```sh
-docker compose up -d --watch
+docker compose up --watch
 ```
 
 ログを確認する場合:
