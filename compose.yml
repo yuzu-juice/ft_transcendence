@@ -14,10 +14,14 @@ x-workspace: &workspace
 services:
     reverse-proxy:
         image: nginx:alpine
-        restart: unless-stopped
         volumes:
             - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        ports:
+            - "127.0.0.1:8080:80"
         depends_on:
+            - frontend
+            - backend
+        networks:
             - frontend
             - backend
 
@@ -30,8 +34,6 @@ services:
             - dev
             - --host
             - 0.0.0.0
-        ports:
-            - "127.0.0.1:5173:5173"
         develop:
             watch:
                 - action: sync
@@ -58,10 +60,6 @@ services:
             - --filter
             - backend
             - dev
-            - --host
-            - 0.0.0.0
-        ports:
-            - "127.0.0.1:3000:3000"
         develop:
             watch:
                 - action: sync
