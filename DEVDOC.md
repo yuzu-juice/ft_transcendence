@@ -33,8 +33,8 @@ docker compose down
 
 開発環境では以下の通りアクセスすることができます。
 
-フロントエンド: `http://localhost:5173`
-バックエンド: `http://localhost:3000`
+フロントエンド: `http://localhost:8080`
+バックエンド: `http://localhost:8080/api/`
 
 ## パッケージ管理
 
@@ -74,6 +74,11 @@ Dockerを介さず、ローカル環境で動作を確認することもでき�
 pnpm --filter frontend dev
 pnpm --filter backend dev
 ```
+
+この場合、以下の通りアクセスできます。
+
+フロントエンド: `http://localhost:5173`
+バックエンド: `http://localhost:3000`
 
 ## Formatter・Linter
 
