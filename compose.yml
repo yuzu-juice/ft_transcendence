@@ -56,10 +56,9 @@ services:
     backend:
         <<: *workspace
         command:
-            - pnpm
-            - --filter
-            - backend
-            - dev
+            - sh
+            - -c
+            - pnpm --filter backend db:migrate && pnpm --filter backend dev
         develop:
             watch:
                 - action: sync
