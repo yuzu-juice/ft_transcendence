@@ -1,7 +1,10 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { auth } from './auth/index.js'
 
 const app = new Hono()
+
+app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')

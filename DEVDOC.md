@@ -14,7 +14,7 @@
 以下に示す通り、一部の環境変数には設定の制約が存在します。
 
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
-- `BETTERAUTH_SECRET` : `openssl rand -base64 32`により生成された値
+- `BETTER_AUTH_SECRET` : `openssl rand -base64 32`により生成された値
 
 ## 開発環境の起動
 

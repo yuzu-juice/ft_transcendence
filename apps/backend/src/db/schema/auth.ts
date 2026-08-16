@@ -105,3 +105,5 @@ export const relations = defineRelations(
     },
   }),
 )
+
+export const betterAuthSchema = { user, session, account, verification }
