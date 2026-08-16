@@ -77,6 +77,8 @@ services:
                   path: ./pnpm-workspace.yaml
         environment:
             DATABASE_URL: ${DATABASE_URL}
+            BETTERAUTH_SECRET: ${BETTERAUTH_SECRET}
+            BETTERAUTH_USRL: ${BETTERAUTH_URL}
         depends_on:
             database:
               condition: service_healthy
