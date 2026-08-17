@@ -12,7 +12,11 @@ import { user } from './auth.js'
 
 export const taskStatusEnum = pgEnum('task_status', ['todo', 'in_progress', 'done'])
 
+export type TaskStatus = (typeof taskStatusEnum.enumValues)[number]
+
 export const taskPriorityEnum = pgEnum('task_priority', ['low', 'medium', 'high'])
+
+export type TaskPriority = (typeof taskPriorityEnum.enumValues)[number]
 
 export const task = pgTable(
   'task',

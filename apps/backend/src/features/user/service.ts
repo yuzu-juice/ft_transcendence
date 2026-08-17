@@ -1,6 +1,12 @@
 import { AppError } from '../../errors/app-error.js'
 import { userRepository } from './repository.js'
 
+export type UserSummary = {
+  id: string
+  name: string
+  image: string | null
+}
+
 export const userService = {
   list: async () => {
     return await userRepository.findAll()
