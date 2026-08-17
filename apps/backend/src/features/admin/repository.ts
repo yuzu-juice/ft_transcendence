@@ -42,7 +42,6 @@ export const adminRepository = {
     })
   },
 
-  // TODO: userRepository.findByIdと同一実装のため統合する?
   findById: async (id: string) => {
     const [user] = await db.select().from(userTable).where(eq(userTable.id, id))
     return user ?? null
