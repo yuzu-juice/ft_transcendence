@@ -1,6 +1,6 @@
-import { avatarKeyFromUrl, avatarUrl, removeAvatar, storeAvatar } from './storage.js'
-import { userRepository } from '../user/repository.js'
 import { AppError } from '../../errors/app-error.js'
+import { userRepository } from '../user/repository.js'
+import { avatarKeyFromUrl, avatarUrl, removeAvatar, storeAvatar } from './storage.js'
 
 export const avatarService = {
   update: async (userId: string, input: Uint8Array, avatarDir: string) => {

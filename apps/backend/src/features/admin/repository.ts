@@ -1,9 +1,6 @@
-import { DatabaseError } from 'pg'
+import { and, desc, eq, ilike, or, type SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/index.js'
 import { user as userTable } from '../../db/schema/auth.js'
-import { or, ilike, eq, and, sql, SQL, desc } from 'drizzle-orm'
-import { AppError } from '../../errors/app-error.js'
-import { auth } from 'hono/utils/basic-auth'
 
 export type AdminUpdateUser = {
   email?: string

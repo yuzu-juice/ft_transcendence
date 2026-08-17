@@ -2,8 +2,8 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { auth } from './auth/index.js'
 import { onError } from './middleware/error.js'
-import internal from './routes/internal.js'
 import avatar from './routes/avatar.js'
+import internal from './routes/internal.js'
 
 const app = new Hono()
 

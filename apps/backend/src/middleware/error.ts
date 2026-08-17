@@ -1,5 +1,5 @@
-import { AppError } from '../errors/app-error.js'
 import type { ErrorHandler } from 'hono'
+import { AppError } from '../errors/app-error.js'
 
 export const onError: ErrorHandler = (err, c) => {
   if (err instanceof AppError) {

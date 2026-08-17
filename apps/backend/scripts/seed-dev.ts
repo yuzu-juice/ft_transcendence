@@ -1,14 +1,11 @@
-import { auth } from '../src/auth/index.js'
-import { task, taskAssignment } from '../src/db/schema/tasks.js'
-import { db } from '../src/db/index.js'
-import { pool } from '../src/db/index.js'
-
 import { readFile } from 'node:fs/promises'
-
-import { processAvatar, storeAvatar, avatarUrl } from '../src/features/avatar/storage.js'
 import { join } from 'node:path'
-import { user } from '../src/db/schema/auth.js'
 import { eq } from 'drizzle-orm'
+import { auth } from '../src/auth/index.js'
+import { db, pool } from '../src/db/index.js'
+import { user } from '../src/db/schema/auth.js'
+import { task, taskAssignment } from '../src/db/schema/tasks.js'
+import { avatarUrl, processAvatar, storeAvatar } from '../src/features/avatar/storage.js'
 
 async function seedAvatar(filepath: string): Promise<string> {
   const avatarDir = process.env.AVATAR_DIR!

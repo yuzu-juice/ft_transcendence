@@ -1,13 +1,12 @@
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
-
-import { userService } from './service.js'
+import { bodyLimit } from 'hono/body-limit'
 
 import type { AuthEnv } from '../../middleware/auth.js'
 import { validate } from '../../middleware/validator.js'
-import { patchMeSchema } from './schema.js'
-import { bodyLimit } from 'hono/body-limit'
 import { avatarService } from '../avatar/service.js'
+import { patchMeSchema } from './schema.js'
+import { userService } from './service.js'
 
 const MAX_AVATAR_SIZE = 4 * 1024 * 1024
 

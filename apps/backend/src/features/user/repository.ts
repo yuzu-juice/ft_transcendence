@@ -1,6 +1,6 @@
+import { eq, inArray } from 'drizzle-orm'
 import { db } from '../../db/index.js'
 import { user as userTable } from '../../db/schema/auth.js'
-import { eq, inArray } from 'drizzle-orm'
 
 export const userRepository = {
   findAll: async () => {

@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
-import { requireAuth } from '../middleware/auth.js'
-import { me, users } from '../features/user/internal.js'
-import { tasks } from '../features/task/internal.js'
 import { admin } from '../features/admin/internal.js'
+import { tasks } from '../features/task/internal.js'
+import { me, users } from '../features/user/internal.js'
+import { requireAuth } from '../middleware/auth.js'
 
 const internal = new Hono()
 

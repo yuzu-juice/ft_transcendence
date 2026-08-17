@@ -1,7 +1,7 @@
-import { adminRepository, type AdminUpdateUser, type SearchUser } from './repository.js'
-import { AppError } from '../../errors/app-error.js'
 import { DatabaseError } from 'pg'
 import { auth } from '../../auth/index.js'
+import { AppError } from '../../errors/app-error.js'
+import { type AdminUpdateUser, adminRepository, type SearchUser } from './repository.js'
 
 function isUniqueViolation(err: unknown): err is DatabaseError {
   return err instanceof DatabaseError && err.code === '23505'

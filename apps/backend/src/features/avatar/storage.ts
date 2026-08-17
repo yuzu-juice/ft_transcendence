@@ -1,10 +1,8 @@
-import { readFile } from 'node:fs/promises'
+import { randomUUID } from 'node:crypto'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-
 import sharp from 'sharp'
 import { AppError } from '../../errors/app-error.js'
-import { randomUUID } from 'node:crypto'
-import { mkdir, writeFile, rm } from 'node:fs/promises'
 
 const AVATAR_SIZE = 256
 const MAX_INPUT_PIXELS = 4096 * 4096
@@ -50,7 +48,7 @@ export async function processAvatar(input: Uint8Array): Promise<Buffer> {
 
     const metadata = await image.metadata()
 
-    if (metadata.format == undefined || !ALLOWED_FORMATS.has(metadata.format)) {
+    if (metadata.format === undefined || !ALLOWED_FORMATS.has(metadata.format)) {
       throw new AppError('UNSUPPORTED_AVATAR_TYPE', 415, 'Unsupported avatar image type')
     }
 

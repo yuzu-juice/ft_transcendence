@@ -1,12 +1,11 @@
 import { Hono } from 'hono'
-
+import { type AuthEnv, requireAdmin } from '../../middleware/auth.js'
 import { validate } from '../../middleware/validator.js'
-import { requireAdmin, type AuthEnv } from '../../middleware/auth.js'
 import {
   patchAdminUserSchema,
+  patchUserRoleSchema,
   searchAdminUserSchema,
   userIdParamSchema,
-  patchUserRoleSchema,
 } from './schema.js'
 import { adminService } from './service.js'
 

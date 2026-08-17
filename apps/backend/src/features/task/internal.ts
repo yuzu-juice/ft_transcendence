@@ -1,6 +1,5 @@
 import { Hono } from 'hono'
 import type { AuthEnv } from '../../middleware/auth.js'
-import { taskService } from './service.js'
 import { validate } from '../../middleware/validator.js'
 import {
   createTaskSchema,
@@ -9,6 +8,7 @@ import {
   searchTaskSchema,
   taskIdParamSchema,
 } from './schema.js'
+import { taskService } from './service.js'
 
 export const tasks = new Hono<AuthEnv>()
 
@@ -61,7 +61,7 @@ tasks.delete('/:taskId', validate('param', taskIdParamSchema), async (c) => {
   const { taskId } = c.req.valid('param')
   const { id: userId, role } = c.get('user')!
 
-  await taskService.delete(taskId, userId, role == 'admin')
+  await taskService.delete(taskId, userId, role === 'admin')
 
   return c.body(null, 204)
 })

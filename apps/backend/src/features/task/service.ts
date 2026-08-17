@@ -1,12 +1,12 @@
 import { AppError } from '../../errors/app-error.js'
+import { userRepository } from '../user/repository.js'
 import {
-  PAGE_SIZE,
-  taskRepository,
   type CreateTask,
+  PAGE_SIZE,
   type SearchTasks,
+  taskRepository,
   type UpdateTask,
 } from './repository.js'
-import { userRepository } from '../user/repository.js'
 
 export const taskService = {
   search: async (input: SearchTasks) => {
@@ -72,7 +72,7 @@ export const taskService = {
     if (!task) {
       throw new AppError('TASK_NOT_FOUND', 404, 'Task not found')
     }
-    if (!isAdmin && task.creator?.id != userId) {
+    if (!isAdmin && task.creator?.id !== userId) {
       throw new AppError('TASK_FORBIDDEN', 403, 'You cannot modify this task')
     }
 

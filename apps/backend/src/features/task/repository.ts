@@ -1,21 +1,20 @@
-import { db } from '../../db/index.js'
-import { task as taskTable, taskAssignment as taskAssignmentTable } from '../../db/schema/tasks.js'
 import {
+  and,
+  asc,
+  desc,
   eq,
+  exists,
   gte,
   ilike,
   inArray,
-  or,
   lte,
-  exists,
-  and,
-  sql,
-  asc,
-  desc,
+  or,
   type SQL,
+  sql,
 } from 'drizzle-orm'
-
+import { db } from '../../db/index.js'
 import type { TaskPriority, TaskStatus } from '../../db/schema/tasks.js'
+import { taskAssignment as taskAssignmentTable, task as taskTable } from '../../db/schema/tasks.js'
 
 export type CreateTask = {
   title: string
