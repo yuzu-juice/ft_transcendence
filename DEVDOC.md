@@ -49,6 +49,7 @@ docker compose down
 
 パッケージの管理にはpnpm workspaceを使用しています。
 基本的にコマンドはリポジトリルートから**dockerコンテナ外で**実行してください。
+パッケージ追加後は必ず`docker compose build`の上コンテナを起動してください。
 
 依存関係のインストール:
 
@@ -74,20 +75,6 @@ Workspace全体で使用するパッケージを追加する
 ```sh
 pnpm add -Dw <package>
 ```
-
-## ローカルで直接実行する
-
-Dockerを介さず、ローカル環境で動作を確認することもできます。
-
-```sh
-pnpm --filter frontend dev
-pnpm --filter backend dev
-```
-
-この場合、以下の通りアクセスできます。
-
-フロントエンド: `http://localhost:5173`
-バックエンド: `http://localhost:3000`
 
 ## Formatter・Linter
 
@@ -143,6 +130,31 @@ httpie --session=alice :8080/api/sign-in/email email=alice@example.test password
 httpie --session=alice PUT :8080/path/to/api queryKey==queryValue
 httpie --form --session=alice PUT :8080/meavatar avatar@./avatar.png
 ```
+
+### Drizzle ORM
+
+バックエンドでは、Drizzle ORMを通じてデータベーススキーマを管理しています。
+`backend/src/db/schema`ディレクトリ以下にTypeScriptを使用してスキーマを定義しています。
+
+スキーマの追加や変更を行った際は、以下のコマンドを実行してください。
+
+```sh
+pnpm --filter backend run db:generate
+```
+
+これにより、`backend/drizzle`以下にmigrationファイルが生成されます。生成されたファイルはGitの管理下においてください。
+Docker Composeによる起動時に自動的にマイグレーションが実行されます。手動で
+
+```sh
+pnpm --filter backend run db:migrate
+```
+
+を実行する必要はありません。
+
+### OpenAPI
+
+Internal APIのリファレンスとしてOpenAPI形式のファイル（`backend/docs/openapi-internal.yaml`）を（Codexが）作成しています。
+[SwaggerEditor](https://editor.swagger.io/)等のオンラインエディタによりグラフィカルに確認することができます。
 
 ### トラブルシューティング
 
