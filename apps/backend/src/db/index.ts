@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
 import { relations } from './relations.js'
 
-const pool = new Pool({
+export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 10,
   idleTimeoutMillis: 30_000,

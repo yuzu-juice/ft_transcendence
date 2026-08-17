@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 
 import { auth } from '../src/auth/index.js'
-import { db } from '../src/db/index.js'
+import { db, pool } from '../src/db/index.js'
 import { user } from '../src/db/schema/auth.js'
 
 const email = process.env.INITIAL_ADMIN_EMAIL
@@ -48,3 +48,5 @@ await db
   .where(eq(user.id, result.user.id))
 
 console.log(`Initial admin created: ${email}`)
+
+await pool.end()
