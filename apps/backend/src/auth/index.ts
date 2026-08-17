@@ -1,5 +1,7 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { admin } from 'better-auth/plugins'
+
 import { db } from '../db/index.js'
 import { betterAuthSchema } from '../db/schema/auth.js'
 
@@ -8,15 +10,13 @@ export const auth = betterAuth({
     provider: 'pg',
     schema: betterAuthSchema,
   }),
+  plugins: [
+    admin({
+      defaultRole: 'user',
+      adminRoles: ['admin'],
+    }),
+  ],
   basePath: '/auth',
-  user: {
-    additionalFields: {
-      role: {
-        type: 'string',
-        input: false,
-      },
-    },
-  },
   emailAndPassword: {
     enabled: true,
   },

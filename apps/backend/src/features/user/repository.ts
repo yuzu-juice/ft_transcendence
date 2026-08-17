@@ -14,7 +14,18 @@ export const userRepository = {
   },
 
   findById: async (id: string) => {
-    const [user] = await db.select().from(userTable).where(eq(userTable.id, id))
+    const [user] = await db
+      .select({
+        id: userTable.id,
+        name: userTable.name,
+        email: userTable.email,
+        image: userTable.image,
+        role: userTable.role,
+        createdAt: userTable.createdAt,
+        updatedAt: userTable.updatedAt,
+      })
+      .from(userTable)
+      .where(eq(userTable.id, id))
     return user ?? null
   },
 

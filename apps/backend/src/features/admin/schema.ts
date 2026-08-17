@@ -1,9 +1,8 @@
 import { z } from 'zod'
-import { rolesEnum } from '../../db/schema/auth.js'
 
 export const searchAdminUserSchema = z.object({
   q: z.string().max(200).optional(),
-  role: z.enum(rolesEnum.enumValues).optional(),
+  role: z.enum(['admin', 'user']).optional(),
 })
 
 export type SearchAdminUserInput = z.infer<typeof searchAdminUserSchema>

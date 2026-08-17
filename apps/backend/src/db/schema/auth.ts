@@ -2,17 +2,16 @@
 
 import { pgTable, text, timestamp, boolean, index, pgEnum } from 'drizzle-orm/pg-core'
 
-export const rolesEnum = pgEnum('roles', ['user', 'admin'])
-
-export type UserRole = (typeof rolesEnum.enumValues)[number]
-
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').default(false).notNull(),
   image: text('image'),
-  role: rolesEnum().default('user').notNull(),
+  role: text('role').default('user').notNull(),
+  banned: boolean('banned').default(false).notNull(),
+  banReason: text('ban_reason'),
+  banExpires: timestamp('ban_expires'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
@@ -35,6 +34,7 @@ export const session = pgTable(
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
+    impersonatedBy: text('impersonated_by'),
   },
   (table) => [index('session_userId_idx').on(table.userId)],
 )

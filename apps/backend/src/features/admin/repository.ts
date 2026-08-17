@@ -1,6 +1,6 @@
 import { DatabaseError } from 'pg'
 import { db } from '../../db/index.js'
-import { user as userTable, type UserRole } from '../../db/schema/auth.js'
+import { user as userTable } from '../../db/schema/auth.js'
 import { or, ilike, eq, and, sql, SQL, desc } from 'drizzle-orm'
 import { AppError } from '../../errors/app-error.js'
 import { auth } from 'hono/utils/basic-auth'
@@ -12,7 +12,7 @@ export type AdminUpdateUser = {
 
 export type SearchUser = {
   q?: string
-  role?: UserRole
+  role?: 'admin' | 'user'
 }
 
 function buildSearchWhere(u: typeof userTable, input: SearchUser): SQL {
