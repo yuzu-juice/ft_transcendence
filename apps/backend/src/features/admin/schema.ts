@@ -23,3 +23,9 @@ export const patchAdminUserSchema = z
   })
 
 export type PatchAdminUserInput = z.infer<typeof patchAdminUserSchema>
+
+export const patchUserRoleSchema = z.object({
+  role: z.enum(['admin', 'user']),
+})
+
+export type PatchUserRoleInput = z.infer<typeof patchUserRoleSchema>

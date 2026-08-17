@@ -1,7 +1,7 @@
 import { adminRepository, type AdminUpdateUser, type SearchUser } from './repository.js'
 import { AppError } from '../../errors/app-error.js'
 import { DatabaseError } from 'pg'
-import type { AuthEnv } from '../../middleware/auth.js'
+import { auth } from '../../auth/index.js'
 
 function isUniqueViolation(err: unknown): err is DatabaseError {
   return err instanceof DatabaseError && err.code === '23505'
@@ -38,5 +38,53 @@ export const adminService = {
 
       throw err
     }
+  },
+
+  setRole: async (userId: string, executorId: string, role: 'admin' | 'user', headers: Headers) => {
+    if (userId === executorId) {
+      throw new AppError(
+        'ADMIN_SELF_DEMOTION_NOT_ALLOWED',
+        409,
+        'An administrator cannot demote their own account',
+      )
+    }
+
+    const user = await adminRepository.setRole(userId, role)
+
+    if (!user) {
+      throw new AppError('USER_NOT_FOUND', 404, 'User not found')
+    }
+
+    await auth.api.revokeUserSessions({
+      body: {
+        userId,
+      },
+      headers,
+    })
+
+    return user
+  },
+
+  remove: async (userId: string, executorId: string, headers: Headers) => {
+    if (userId === executorId) {
+      throw new AppError(
+        'ADMIN_SELF_DELETE_NOT_ALLOWED',
+        409,
+        'An administrator cannot delete their own account',
+      )
+    }
+
+    const user = await adminRepository.findById(userId)
+
+    if (!user) {
+      throw new AppError('USER_NOT_FOUND', 404, 'User not found')
+    }
+
+    await auth.api.removeUser({
+      body: {
+        userId,
+      },
+      headers,
+    })
   },
 }

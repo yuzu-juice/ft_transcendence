@@ -63,7 +63,7 @@ tasks.delete('/:taskId', validate('param', taskIdParamSchema), async (c) => {
 
   await taskService.delete(taskId, userId, role == 'admin')
 
-  return c.status(204)
+  return c.body(null, 204)
 })
 
 tasks.put(

@@ -56,4 +56,10 @@ export const adminRepository = {
 
     return user ?? null
   },
+
+  setRole: async (id: string, role: 'admin' | 'user') => {
+    const [user] = await db.update(userTable).set({ role }).where(eq(userTable.id, id)).returning()
+
+    return user ?? null
+  },
 }
