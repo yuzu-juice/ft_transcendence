@@ -9,6 +9,14 @@ export const auth = betterAuth({
     schema: betterAuthSchema,
   }),
   basePath: '/auth',
+  user: {
+    additionalFields: {
+      role: {
+        type: 'string',
+        input: false,
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
   },
