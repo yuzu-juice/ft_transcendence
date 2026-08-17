@@ -1,9 +1,21 @@
 import { db } from '../../db/index.js'
 import { task as taskTable, taskAssignment as taskAssignmentTable } from '../../db/schema/tasks.js'
-import { eq } from 'drizzle-orm'
+import {
+  eq,
+  gte,
+  ilike,
+  inArray,
+  or,
+  lte,
+  exists,
+  and,
+  sql,
+  asc,
+  desc,
+  type SQL,
+} from 'drizzle-orm'
 
 import type { TaskPriority, TaskStatus } from '../../db/schema/tasks.js'
-import type { DatabaseError } from 'pg'
 
 export type CreateTask = {
   title: string
@@ -21,9 +33,138 @@ export type UpdateTask = {
   dueAt?: Date | null
 }
 
+export type SearchTasksInput = {
+  q?: string
+  status?: TaskStatus[]
+  priority?: TaskPriority[]
+  dueFrom?: Date
+  dueTo?: Date
+  createdBy?: string
+  assigneeId?: string
+
+  sort: 'createdAt' | 'updatedAt' | 'dueAt' | 'status' | 'priority'
+  order: 'asc' | 'desc'
+  page: number
+}
+
+export const PAGE_SIZE = 20
+
+function buildTaskWhere(t: typeof taskTable, input: SearchTasksInput): SQL {
+  const conditions: SQL[] = []
+
+  if (input.q) {
+    const condition = or(ilike(t.title, `%${input.q}%`), ilike(t.description, `%${input.q}%`))
+
+    if (condition) {
+      conditions.push(condition)
+    }
+  }
+
+  if (input.status?.length) {
+    conditions.push(inArray(t.status, input.status))
+  }
+
+  if (input.priority?.length) {
+    conditions.push(inArray(t.priority, input.priority))
+  }
+
+  if (input.dueFrom) {
+    conditions.push(gte(t.dueAt, input.dueFrom))
+  }
+
+  if (input.dueTo) {
+    conditions.push(lte(t.dueAt, input.dueTo))
+  }
+
+  if (input.createdBy) {
+    conditions.push(eq(t.createdBy, input.createdBy))
+  }
+
+  if (input.assigneeId) {
+    conditions.push(
+      exists(
+        db
+          .select({ id: taskAssignmentTable.taskId })
+          .from(taskAssignmentTable)
+          .where(
+            and(
+              eq(taskAssignmentTable.taskId, t.id),
+              eq(taskAssignmentTable.userId, input.assigneeId),
+            ),
+          ),
+      ),
+    )
+  }
+
+  return and(...conditions) ?? sql`true`
+}
+
 export const taskRepository = {
+  search: async (input: SearchTasksInput) => {
+    const offset = (input.page - 1) * PAGE_SIZE
+
+    const [data, total] = await Promise.all([
+      db.query.task.findMany({
+        where: {
+          RAW: (t) => buildTaskWhere(t, input),
+        },
+        columns: {
+          id: true,
+          title: true,
+          description: true,
+          status: true,
+          priority: true,
+          dueAt: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+
+        with: {
+          creator: {
+            columns: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+
+          assignees: {
+            columns: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+
+        orderBy: (t) => {
+          const column = {
+            createdAt: t.createdAt,
+            updatedAt: t.updatedAt,
+            dueAt: t.dueAt,
+            status: t.status,
+            priority: t.priority,
+          }[input.sort]
+
+          const direction = input.order === 'asc' ? asc : desc
+
+          return [direction(column), direction(t.id)]
+        },
+
+        limit: PAGE_SIZE,
+        offset,
+      }),
+      db.$count(taskTable, buildTaskWhere(taskTable, input)),
+    ])
+
+    return {
+      data,
+      total,
+    }
+  },
+
   findById: async (id: string) => {
-    const row = await db.query.task.findFirst({
+    const task = await db.query.task.findFirst({
       where: {
         id,
       },
@@ -45,30 +186,17 @@ export const taskRepository = {
             image: true,
           },
         },
-        assignments: {
-          columns: {},
-          with: {
-            user: {
-              columns: {
-                id: true,
-                name: true,
-                image: true,
-              },
-            },
+        assignees: {
+          columns: {
+            id: true,
+            name: true,
+            image: true,
           },
         },
       },
     })
 
-    if (!row) {
-      return null
-    }
-
-    const { assignments, ...task } = row
-    return {
-      ...task,
-      assignees: assignments.map(({ user }) => user),
-    }
+    return task ?? null
   },
 
   create: async (input: CreateTask) => {

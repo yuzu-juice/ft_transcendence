@@ -1,8 +1,28 @@
 import { AppError } from '../../errors/app-error.js'
-import { taskRepository, type CreateTask, type UpdateTask } from './repository.js'
+import {
+  PAGE_SIZE,
+  taskRepository,
+  type CreateTask,
+  type SearchTasksInput,
+  type UpdateTask,
+} from './repository.js'
 import { userRepository } from '../user/repository.js'
 
 export const taskService = {
+  search: async (input: SearchTasksInput) => {
+    const { data, total } = await taskRepository.search(input)
+
+    return {
+      data,
+      meta: {
+        page: input.page,
+        perPage: PAGE_SIZE,
+        total,
+        totalPages: Math.ceil(total / PAGE_SIZE),
+      },
+    }
+  },
+
   get: async (taskId: string) => {
     const task = await taskRepository.findById(taskId)
 

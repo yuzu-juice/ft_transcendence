@@ -11,7 +11,10 @@ export const relations = defineRelations(schema, (r) => ({
       to: r.task.createdBy,
     }),
 
-    taskAssignments: r.many.taskAssignment(),
+    assignedTasks: r.many.task({
+      from: r.user.id.through(r.taskAssignment.userId),
+      to: r.task.id.through(r.taskAssignment.taskId),
+    }),
   },
 
   session: {
@@ -34,7 +37,10 @@ export const relations = defineRelations(schema, (r) => ({
       to: r.user.id,
     }),
 
-    assignments: r.many.taskAssignment(),
+    assignees: r.many.user({
+      from: r.task.id.through(r.taskAssignment.taskId),
+      to: r.user.id.through(r.taskAssignment.userId),
+    }),
   },
 
   taskAssignment: {

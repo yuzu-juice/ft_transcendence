@@ -6,10 +6,19 @@ import {
   createTaskSchema,
   patchTaskSchema,
   putTaskAssigneesSchema,
+  searchTaskSchema,
   taskIdParamSchema,
 } from './schema.js'
 
 export const tasks = new Hono<AuthEnv>()
+
+tasks.get('/', validate('query', searchTaskSchema), async (c) => {
+  const input = c.req.valid('query')
+
+  const tasks = await taskService.search(input)
+
+  return c.json(tasks)
+})
 
 tasks.put('/', validate('json', createTaskSchema), async (c) => {
   const { id } = c.get('user')!
