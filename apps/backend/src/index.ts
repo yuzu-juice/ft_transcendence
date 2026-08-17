@@ -1,8 +1,11 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { auth } from './auth/index.js'
+import { onError } from './middleware/error.js'
 
 const app = new Hono()
+
+app.onError(onError)
 
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
