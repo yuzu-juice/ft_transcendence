@@ -2,7 +2,7 @@ import { db } from '../../db/index.js'
 import { task as taskTable } from '../../db/schema/tasks.js'
 import { eq } from 'drizzle-orm'
 
-import type { TaskPriority } from '../../db/schema/tasks.js'
+import type { TaskPriority, TaskStatus } from '../../db/schema/tasks.js'
 
 export type CreateTask = {
   title: string
@@ -15,6 +15,7 @@ export type CreateTask = {
 export type UpdateTask = {
   title?: string
   description?: string | null
+  status?: TaskStatus
   priority?: TaskPriority | null
   dueAt?: Date | null
 }

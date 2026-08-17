@@ -35,9 +35,9 @@ tasks.patch(
   validate('json', patchTaskSchema),
   async (c) => {
     const { taskId } = c.req.valid('param')
-    const { title, description, priority, dueAt } = c.req.valid('json')
+    const { title, description, status, priority, dueAt } = c.req.valid('json')
 
-    const task = await taskService.update(taskId, { title, description, priority, dueAt })
+    const task = await taskService.update(taskId, { title, description, status, priority, dueAt })
 
     return c.json(task)
   },
