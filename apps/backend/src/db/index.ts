@@ -1,5 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
+import { relations } from './relations.js'
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -12,4 +13,7 @@ pool.on('error', (error) => {
   console.error('Unexpected database error:', error)
 })
 
-export const db = drizzle({ client: pool })
+export const db = drizzle({
+  client: pool,
+  relations,
+})

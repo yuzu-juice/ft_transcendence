@@ -55,10 +55,13 @@ services:
 
     backend:
         <<: *workspace
-        command:
-            - sh
-            - -c
-            - pnpm --filter backend db:migrate && pnpm --filter backend dev
+        command: >
+          sh -c "
+            pnpm --filter backend db:migrate &&
+            pnpm --filter backend db:bootstrap-admin &&
+            pnpm --filter backend db:seed:dev &&
+            pnpm --filter backend run dev
+          "
         develop:
             watch:
                 - action: sync
@@ -79,6 +82,8 @@ services:
             DATABASE_URL: ${DATABASE_URL}
             BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
             BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+            INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL}
+            INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD}
         depends_on:
             database:
               condition: service_healthy
@@ -98,8 +103,8 @@ services:
             test:
                 - CMD-SHELL
                 - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
-            interval: 5s
-            timeout: 5s
+            interval: 3s
+            timeout: 3s
             retries: 5
         networks:
             - database
