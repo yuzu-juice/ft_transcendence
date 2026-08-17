@@ -2,6 +2,10 @@ import { AppError } from '../../errors/app-error.js'
 import { userRepository } from './repository.js'
 
 export const userService = {
+  list: async () => {
+    return await userRepository.findAll()
+  },
+
   get: async (userId: string) => {
     const user = await userRepository.findById(userId)
 
