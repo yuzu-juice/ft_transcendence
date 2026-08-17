@@ -1,8 +1,9 @@
 import { db } from '../../db/index.js'
-import { task as taskTable } from '../../db/schema/tasks.js'
+import { task as taskTable, taskAssignment as taskAssignmentTable } from '../../db/schema/tasks.js'
 import { eq } from 'drizzle-orm'
 
 import type { TaskPriority, TaskStatus } from '../../db/schema/tasks.js'
+import type { DatabaseError } from 'pg'
 
 export type CreateTask = {
   title: string
@@ -80,6 +81,17 @@ export const taskRepository = {
     await db.update(taskTable).set(input).where(eq(taskTable.id, id))
 
     return taskRepository.findById(id)
+  },
+
+  setAssignees: async (taskId: string, userIds: string[]) => {
+    await db.transaction(async (tx) => {
+      await tx.delete(taskAssignmentTable).where(eq(taskAssignmentTable.taskId, taskId))
+
+      if (userIds.length > 0) {
+        await tx.insert(taskAssignmentTable).values(userIds.map((userId) => ({ taskId, userId })))
+      }
+    })
+    return taskRepository.findById(taskId)
   },
 
   delete: async (id: string) => {

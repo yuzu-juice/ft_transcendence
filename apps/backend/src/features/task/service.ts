@@ -1,5 +1,6 @@
 import { AppError } from '../../errors/app-error.js'
 import { taskRepository, type CreateTask, type UpdateTask } from './repository.js'
+import { userRepository } from '../user/repository.js'
 
 export const taskService = {
   get: async (taskId: string) => {
@@ -24,6 +25,25 @@ export const taskService = {
     }
 
     return task
+  },
+
+  // Each element in userIds must be unique.
+  updateAssignees: async (taskId: string, userIds: string[]) => {
+    const task = await taskRepository.findById(taskId)
+
+    if (!task) {
+      throw new AppError('TASK_NOT_FOUND', 404, 'Task not found')
+    }
+
+    const users = await userRepository.findByIds(userIds)
+
+    if (users.length !== new Set(userIds).size) {
+      throw new AppError('ASSIGNEE_NOT_FOUND', 404, 'Assignee not found')
+    }
+
+    const result = await taskRepository.setAssignees(taskId, userIds)
+
+    return result
   },
 
   delete: async (taskId: string, userId: string, isAdmin: boolean) => {

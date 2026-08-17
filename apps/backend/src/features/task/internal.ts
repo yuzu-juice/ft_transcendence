@@ -2,7 +2,12 @@ import { Hono } from 'hono'
 import type { AuthEnv } from '../../middleware/auth.js'
 import { taskService } from './service.js'
 import { validate } from '../../middleware/validator.js'
-import { createTaskSchema, patchTaskSchema, taskIdParamSchema } from './schema.js'
+import {
+  createTaskSchema,
+  patchTaskSchema,
+  putTaskAssigneesSchema,
+  taskIdParamSchema,
+} from './schema.js'
 
 export const tasks = new Hono<AuthEnv>()
 
@@ -51,5 +56,19 @@ tasks.delete('/:taskId', validate('param', taskIdParamSchema), async (c) => {
 
   return c.status(204)
 })
+
+tasks.put(
+  '/:taskId/assignees',
+  validate('param', taskIdParamSchema),
+  validate('json', putTaskAssigneesSchema),
+  async (c) => {
+    const { taskId } = c.req.valid('param')
+    const { userIds } = c.req.valid('json')
+
+    const task = await taskService.updateAssignees(taskId, userIds)
+
+    return c.json(task)
+  },
+)
 
 export type InternalTasksAppType = typeof tasks
