@@ -2,7 +2,7 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { auth } from './auth/index.js'
 import { onError } from './middleware/error.js'
-import internalApp from './route/internal.js'
+import internalApp from './routes/internal.js'
 
 const app = new Hono()
 

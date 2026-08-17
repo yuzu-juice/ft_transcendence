@@ -1,16 +1,15 @@
 import { createMiddleware } from 'hono/factory'
 import { auth } from '../auth/index.js'
 import { AppError } from '../errors/app-error.js'
-import type { MiddlewareHandler } from 'hono'
 
-type Env = {
+export type AuthEnv = {
   Variables: {
     session: typeof auth.$Infer.Session.session | null
     user: typeof auth.$Infer.Session.user | null
   }
 }
 
-export const requireAuth = createMiddleware<Env>(async (c, next) => {
+export const requireAuth = createMiddleware<AuthEnv>(async (c, next) => {
   const session = await auth.api.getSession({
     headers: c.req.raw.headers,
   })
@@ -25,7 +24,7 @@ export const requireAuth = createMiddleware<Env>(async (c, next) => {
   await next()
 })
 
-export const requireAdmin = createMiddleware<Env>(async (c, next) => {
+export const requireAdmin = createMiddleware<AuthEnv>(async (c, next) => {
   const user = c.get('user')!
 
   if (user.role !== 'admin') {
