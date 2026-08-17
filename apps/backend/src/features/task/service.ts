@@ -3,13 +3,13 @@ import {
   PAGE_SIZE,
   taskRepository,
   type CreateTask,
-  type SearchTasksInput,
+  type SearchTasks,
   type UpdateTask,
 } from './repository.js'
 import { userRepository } from '../user/repository.js'
 
 export const taskService = {
-  search: async (input: SearchTasksInput) => {
+  search: async (input: SearchTasks) => {
     const { data, total } = await taskRepository.search(input)
 
     return {

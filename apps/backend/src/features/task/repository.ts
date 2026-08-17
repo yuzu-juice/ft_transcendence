@@ -33,7 +33,7 @@ export type UpdateTask = {
   dueAt?: Date | null
 }
 
-export type SearchTasksInput = {
+export type SearchTasks = {
   q?: string
   status?: TaskStatus[]
   priority?: TaskPriority[]
@@ -49,7 +49,7 @@ export type SearchTasksInput = {
 
 export const PAGE_SIZE = 20
 
-function buildTaskWhere(t: typeof taskTable, input: SearchTasksInput): SQL {
+function buildTaskWhere(t: typeof taskTable, input: SearchTasks): SQL {
   const conditions: SQL[] = []
 
   if (input.q) {
@@ -100,7 +100,7 @@ function buildTaskWhere(t: typeof taskTable, input: SearchTasksInput): SQL {
 }
 
 export const taskRepository = {
-  search: async (input: SearchTasksInput) => {
+  search: async (input: SearchTasks) => {
     const offset = (input.page - 1) * PAGE_SIZE
 
     const [data, total] = await Promise.all([
