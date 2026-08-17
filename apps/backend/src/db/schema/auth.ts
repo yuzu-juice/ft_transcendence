@@ -4,6 +4,8 @@ import { pgTable, text, timestamp, boolean, index, pgEnum } from 'drizzle-orm/pg
 
 export const rolesEnum = pgEnum('roles', ['user', 'admin'])
 
+export type UserRole = (typeof rolesEnum.enumValues)[number]
+
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
