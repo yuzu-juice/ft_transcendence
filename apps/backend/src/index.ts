@@ -2,7 +2,8 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { auth } from './auth/index.js'
 import { onError } from './middleware/error.js'
-import internalApp from './routes/internal.js'
+import internal from './routes/internal.js'
+import avatar from './routes/avatar.js'
 
 const app = new Hono()
 
@@ -22,7 +23,8 @@ app.notFound((c) => {
 
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
-app.route('/internal', internalApp)
+app.route('/internal', internal)
+app.route('/avatar', avatar)
 
 serve(
   {

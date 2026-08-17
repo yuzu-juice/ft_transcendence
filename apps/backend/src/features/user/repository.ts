@@ -42,8 +42,29 @@ export const userRepository = {
       .where(inArray(userTable.id, ids))
   },
 
+  findImageById: async (id: string) => {
+    const user = await db.query.user.findFirst({
+      where: {
+        id,
+      },
+      columns: {
+        image: true,
+      },
+    })
+
+    return user?.image
+  },
+
   update: async (id: string, name: string) => {
     const [user] = await db.update(userTable).set({ name }).where(eq(userTable.id, id)).returning()
+    return user ?? null
+  },
+
+  updateImage: async (id: string, image: string | null) => {
+    const [user] = await db.update(userTable).set({ image }).where(eq(userTable.id, id)).returning({
+      image: userTable.image,
+    })
+
     return user ?? null
   },
 }

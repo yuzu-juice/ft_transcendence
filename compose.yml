@@ -84,6 +84,9 @@ services:
             BETTER_AUTH_URL: ${BETTER_AUTH_URL}
             INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL}
             INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD}
+            AVATAR_DIR: /data/avatars
+        volumes:
+            - avatar-data:/data/avatars
         depends_on:
             database:
               condition: service_healthy
@@ -116,3 +119,4 @@ networks:
 
 volumes:
     postgres-data:
+    avatar-data:

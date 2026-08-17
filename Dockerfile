@@ -5,8 +5,8 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable pnpm \
 	&& corepack install -g pnpm@11.20.0 \
-	&& mkdir -p /workspace /pnpm/store \
-	&& chown -R node:node /workspace /pnpm
+	&& mkdir -p /workspace /pnpm/store /data/avatars \
+	&& chown -R node:node /workspace /pnpm /data/avatars
 
 WORKDIR /workspace
 
