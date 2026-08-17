@@ -8,6 +8,18 @@ const app = new Hono()
 
 app.onError(onError)
 
+app.notFound((c) => {
+  return c.json(
+    {
+      error: {
+        code: 'ROUTE_NOT_FOUND',
+        message: 'Route not found',
+      },
+    },
+    404,
+  )
+})
+
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
 app.route('/internal', internalApp)
