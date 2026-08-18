@@ -5,7 +5,7 @@ import { auth } from '../src/auth/index.js'
 import { db, pool } from '../src/db/index.js'
 import { user } from '../src/db/schema/auth.js'
 import { task, taskAssignment } from '../src/db/schema/tasks.js'
-import { avatarUrl, processAvatar, storeAvatar } from '../src/features/avatar/storage.js'
+import { avatarUrl, storeAvatar } from '../src/features/avatar/storage.js'
 
 async function seedAvatar(filepath: string): Promise<string> {
   const avatarDir = process.env.AVATAR_DIR!
@@ -16,9 +16,7 @@ async function seedAvatar(filepath: string): Promise<string> {
 
   const image = await readFile(filepath)
 
-  const processed = await processAvatar(image)
-
-  const key = await storeAvatar(processed, avatarDir)
+  const key = await storeAvatar(image, avatarDir)
 
   return avatarUrl(key)
 }

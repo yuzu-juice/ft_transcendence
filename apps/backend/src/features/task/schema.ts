@@ -59,7 +59,7 @@ export type PatchTaskInput = z.infer<typeof patchTaskSchema>
 
 export const putTaskAssigneesSchema = z.object({
   userIds: z.array(z.string()).refine((items) => new Set(items).size === items.length, {
-    message: 'userID must contain unique values',
+    message: 'userIds must contain unique values',
   }),
 })
 

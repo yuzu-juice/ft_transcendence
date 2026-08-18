@@ -18,7 +18,7 @@ const existingAdmin = await db.query.user.findFirst({
 })
 
 if (existingAdmin) {
-  console.log('Admin already exists. Skippinhg.')
+  console.log('Admin already exists. Skipping.')
   process.exit(0)
 }
 

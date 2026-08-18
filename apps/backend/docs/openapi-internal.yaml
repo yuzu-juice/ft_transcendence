@@ -1038,7 +1038,7 @@ components:
       properties:
         email:
           type: string
-          description: Better Auth email value; the current validator does not enforce email format.
+          description: Better Auth email value
         name:
           type: string
           minLength: 1

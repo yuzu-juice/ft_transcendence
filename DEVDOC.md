@@ -108,7 +108,7 @@ docker volume rm ft_transcendence_postgres-data
 
 ### アカウントへのログイン
 
-`/api/sign-in/email`にアカウントの`email`と`password`をパラメータにとって`GET`リクエストすることでセッションを開始することができます
+`/api/auth/sign-in/email`にアカウントの`email`と`password`をパラメータにとって`GET`リクエストすることでセッションを開始することができます
 
 - `--session=<session name>`を使用することで、自動的にCookie等を解析しセッションを管理してくれます
 - `http://localhost`を省略し、単に`:8080`とポート番号からURLを記述することができます
