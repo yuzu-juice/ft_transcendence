@@ -128,7 +128,7 @@ httpie --session=alice :8080/api/auth/sign-in/email email=alice@example.test pas
 
 ```sh
 httpie --session=alice PUT :8080/path/to/api queryKey==queryValue
-httpie --form --session=alice PUT :8080/meavatar avatar@./avatar.png
+httpie --form --session=alice PUT :8080/api/internal/me/avatar avatar@./avatar.png
 ```
 
 ### Drizzle ORM

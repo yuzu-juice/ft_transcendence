@@ -1,6 +1,7 @@
 import { DatabaseError } from 'pg'
 import { auth } from '../../auth/index.js'
 import { AppError } from '../../errors/app-error.js'
+import { avatarKeyFromUrl, removeAvatar } from '../avatar/storage.js'
 import { type AdminUpdateUser, adminRepository, type SearchUser } from './repository.js'
 
 function isUniqueViolation(err: unknown): err is DatabaseError {
@@ -65,7 +66,7 @@ export const adminService = {
     return user
   },
 
-  remove: async (userId: string, executorId: string, headers: Headers) => {
+  remove: async (userId: string, executorId: string, avatarDir: string, headers: Headers) => {
     if (userId === executorId) {
       throw new AppError(
         'ADMIN_SELF_DELETE_NOT_ALLOWED',
@@ -86,5 +87,13 @@ export const adminService = {
       },
       headers,
     })
+
+    const imageKey = avatarKeyFromUrl(user.image!)
+
+    if (imageKey !== null) {
+      await removeAvatar(imageKey, avatarDir).catch((error) => {
+        console.error('Failed to remove avatar', error)
+      })
+    }
   },
 }

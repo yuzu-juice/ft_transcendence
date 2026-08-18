@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { env } from 'hono/adapter'
 import { type AuthEnv, requireAdmin } from '../../middleware/auth.js'
 import { validate } from '../../middleware/validator.js'
 import {
@@ -46,8 +47,9 @@ admin.patch(
 admin.delete('/users/:userId', validate('param', userIdParamSchema), async (c) => {
   const { userId } = c.req.valid('param')
   const { id: executorId } = c.get('user')!
+  const { AVATAR_DIR } = env<{ AVATAR_DIR: string }>(c)
 
-  await adminService.remove(userId, executorId, c.req.raw.headers)
+  await adminService.remove(userId, executorId, AVATAR_DIR, c.req.raw.headers)
 
   return c.body(null, 204)
 })
