@@ -1,17 +1,29 @@
 import { z } from 'zod'
 import { taskPriorityEnum, taskStatusEnum } from '../../db/schema/tasks.js'
 
+const statusSchema = z.enum(taskStatusEnum.enumValues)
+const prioritySchema = z.enum(taskPriorityEnum.enumValues)
+
+const queryArray = <T extends z.ZodType>(schema: T) =>
+  z.preprocess((value) => {
+    if (value === undefined) {
+      return undefined
+    }
+
+    return Array.isArray(value) ? value : [value]
+  }, z.array(schema).optional())
+
 export const searchTaskSchema = z.object({
   q: z.string().max(200).optional(),
-  status: z.array(z.enum(taskStatusEnum.enumValues)).optional(),
-  priority: z.array(z.enum(taskPriorityEnum.enumValues)).optional(),
+  status: queryArray(statusSchema),
+  priority: queryArray(prioritySchema),
   dueFrom: z.coerce.date().optional(),
   dueTo: z.coerce.date().optional(),
   createdBy: z.string().optional(),
   assigneeId: z.string().optional(),
   sort: z.enum(['createdAt', 'updatedAt', 'dueAt', 'status', 'priority']).default('createdAt'),
   order: z.enum(['asc', 'desc']).default('desc'),
-  page: z.int().default(1),
+  page: z.coerce.number().int().min(1).default(1),
 })
 
 export type SearchTaskInput = z.infer<typeof searchTaskSchema>

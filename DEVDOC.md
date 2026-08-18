@@ -116,7 +116,7 @@ docker volume rm ft_transcendence_postgres-data
 - `Origin:http://localhost:8080`のように`Origin`を含めない場合、Better Authによるセキュリティ設定のためアクセスが拒否されることがあります
 
 ```sh
-httpie --session=alice :8080/api/sign-in/email email=alice@example.test password=password123 Origin:http://localhost:8080
+httpie --session=alice :8080/api/auth/sign-in/email email=alice@example.test password=password123 Origin:http://localhost:8080
 ```
 
 ### httpieの使い方

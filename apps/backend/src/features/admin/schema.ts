@@ -13,9 +13,11 @@ export const userIdParamSchema = z.object({
 
 export type UserIdParamInput = z.infer<typeof userIdParamSchema>
 
+const adminEmailSchema = z.string().trim().toLowerCase().pipe(z.email())
+
 export const patchAdminUserSchema = z
   .object({
-    email: z.string().optional(),
+    email: adminEmailSchema.optional(),
     name: z.string().min(1).max(100).optional(),
   })
   .refine((data) => Object.values(data).some((val) => val !== undefined), {
