@@ -20,7 +20,7 @@ tasks.get('/', validate('query', searchTaskSchema), async (c) => {
   return c.json(tasks)
 })
 
-tasks.put('/', validate('json', createTaskSchema), async (c) => {
+tasks.post('/', validate('json', createTaskSchema), async (c) => {
   const { id } = c.get('user')!
   const { title, description, priority, dueAt } = c.req.valid('json')
 
@@ -32,7 +32,7 @@ tasks.put('/', validate('json', createTaskSchema), async (c) => {
     dueAt: dueAt ?? null,
   })
 
-  return c.json(task)
+  return c.json(task, 201)
 })
 
 tasks.get('/:taskId', validate('param', taskIdParamSchema), async (c) => {

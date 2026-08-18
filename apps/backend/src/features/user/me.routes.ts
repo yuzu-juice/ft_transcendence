@@ -98,12 +98,3 @@ me.delete('/avatar', async (c) => {
 })
 
 export type InternalMeAppType = typeof me
-
-export const users = new Hono<AuthEnv>()
-
-users.get('/', async (c) => {
-  const result = await userService.list()
-  return c.json(result)
-})
-
-export type InternalUserAppType = typeof users

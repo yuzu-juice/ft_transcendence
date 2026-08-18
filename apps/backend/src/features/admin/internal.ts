@@ -17,9 +17,9 @@ admin.use(requireAdmin)
 admin.get('/users', validate('query', searchAdminUserSchema), async (c) => {
   const input = c.req.valid('query')
 
-  const tasks = await adminService.search(input)
+  const users = await adminService.search(input)
 
-  return c.json(tasks)
+  return c.json(users)
 })
 
 admin.get('/users/:userId', validate('param', userIdParamSchema), async (c) => {
@@ -69,4 +69,4 @@ admin.patch(
   },
 )
 
-export type InternalTasksAppType = typeof admin
+export type InternalAdminAppType = typeof admin

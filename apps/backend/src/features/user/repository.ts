@@ -56,7 +56,15 @@ export const userRepository = {
   },
 
   update: async (id: string, name: string) => {
-    const [user] = await db.update(userTable).set({ name }).where(eq(userTable.id, id)).returning()
+    const [user] = await db.update(userTable).set({ name }).where(eq(userTable.id, id)).returning({
+      id: userTable.id,
+      name: userTable.name,
+      email: userTable.email,
+      image: userTable.image,
+      role: userTable.role,
+      createdAt: userTable.createdAt,
+      updatedAt: userTable.updatedAt,
+    })
     return user ?? null
   },
 
