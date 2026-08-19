@@ -422,7 +422,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     patch:
       tags: [Admin users]
-      summary: Update a user's email or name
+      summary: Update a user's name
       operationId: updateAdminUser
       description: Requires an authenticated user with the `admin` role.
       security:
@@ -455,12 +455,6 @@ paths:
               examples:
                 userNotFound:
                   $ref: '#/components/examples/UserNotFound'
-        '409':
-          description: Email address is already in use
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
         '500':
           $ref: '#/components/responses/InternalServerError'
     delete:
@@ -1034,11 +1028,8 @@ components:
     PatchAdminUserRequest:
       type: object
       additionalProperties: false
-      minProperties: 1
+      required: [name]
       properties:
-        email:
-          type: string
-          description: Better Auth email value
         name:
           type: string
           minLength: 1

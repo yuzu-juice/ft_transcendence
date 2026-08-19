@@ -1,11 +1,20 @@
-import { DatabaseError } from 'pg'
+import { APIError } from 'better-auth'
 import { auth } from '../../auth/index.js'
 import { AppError } from '../../errors/app-error.js'
 import { avatarKeyFromUrl, removeAvatar } from '../avatar/storage.js'
-import { type AdminUpdateUser, adminRepository, type SearchUser } from './repository.js'
+import { adminRepository, type SearchUser } from './repository.js'
 
-function isUniqueViolation(err: unknown): err is DatabaseError {
-  return err instanceof DatabaseError && err.code === '23505'
+function handleBetterAuthError(error: unknown) {
+  if (error instanceof APIError) {
+    switch (error.status) {
+      case 'NOT_FOUND': {
+        throw new AppError('USER_NOT_FOUND', 404, 'User not found')
+      }
+      default:
+        throw error
+    }
+  }
+  throw error
 }
 
 export const adminService = {
@@ -23,21 +32,21 @@ export const adminService = {
     return user
   },
 
-  update: async (userId: string, input: AdminUpdateUser) => {
+  setName: async (userId: string, name: string, headers: Headers) => {
     try {
-      const user = await adminRepository.update(userId, input)
-
-      if (!user) {
-        throw new AppError('USER_NOT_FOUND', 404, 'User not found')
-      }
+      const user = await auth.api.adminUpdateUser({
+        body: {
+          userId,
+          data: {
+            name,
+          },
+        },
+        headers,
+      })
 
       return user
-    } catch (err) {
-      if (isUniqueViolation(err)) {
-        throw new AppError('EMAIL_ALREADY_EXISTS', 409, 'Email address is already in use')
-      }
-
-      throw err
+    } catch (error) {
+      handleBetterAuthError(error)
     }
   },
 
@@ -50,20 +59,25 @@ export const adminService = {
       )
     }
 
-    const user = await adminRepository.setRole(userId, role)
+    try {
+      const user = await auth.api.setRole({
+        body: {
+          userId,
+          role,
+        },
+        headers,
+      })
+      await auth.api.revokeUserSessions({
+        body: {
+          userId,
+        },
+        headers,
+      })
 
-    if (!user) {
-      throw new AppError('USER_NOT_FOUND', 404, 'User not found')
+      return user
+    } catch (error) {
+      handleBetterAuthError(error)
     }
-
-    await auth.api.revokeUserSessions({
-      body: {
-        userId,
-      },
-      headers,
-    })
-
-    return user
   },
 
   remove: async (userId: string, executorId: string, avatarDir: string, headers: Headers) => {

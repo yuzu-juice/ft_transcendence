@@ -2,11 +2,6 @@ import { and, desc, eq, ilike, or, type SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/index.js'
 import { user as userTable } from '../../db/schema/auth.js'
 
-export type AdminUpdateUser = {
-  email?: string
-  name?: string
-}
-
 export type SearchUser = {
   q?: string
   role?: 'admin' | 'user'
@@ -44,18 +39,6 @@ export const adminRepository = {
 
   findById: async (id: string) => {
     const [user] = await db.select().from(userTable).where(eq(userTable.id, id))
-    return user ?? null
-  },
-
-  update: async (id: string, input: AdminUpdateUser) => {
-    const [user] = await db.update(userTable).set(input).where(eq(userTable.id, id)).returning()
-
-    return user ?? null
-  },
-
-  setRole: async (id: string, role: 'admin' | 'user') => {
-    const [user] = await db.update(userTable).set({ role }).where(eq(userTable.id, id)).returning()
-
     return user ?? null
   },
 }

@@ -36,9 +36,9 @@ admin.patch(
   validate('json', patchAdminUserSchema),
   async (c) => {
     const { userId } = c.req.valid('param')
-    const input = c.req.valid('json')
+    const { name } = c.req.valid('json')
 
-    const user = await adminService.update(userId, input)
+    const user = await adminService.setName(userId, name, c.req.raw.headers)
 
     return c.json(user)
   },
