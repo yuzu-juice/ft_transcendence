@@ -5,6 +5,7 @@ import { auth } from './auth/index.js'
 import { onError } from './middleware/error.js'
 import avatar from './routes/avatar.js'
 import internal from './routes/internal.js'
+import publicApi from './routes/public.js'
 
 const healthResponseSchema = z.object({
   ok: z.boolean().openapi({ example: true }),
@@ -64,6 +65,7 @@ app.get('/docs', swaggerUI({ url: '/openapi.json' }))
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
 app.route('/internal', internal)
+app.route('/', publicApi)
 app.route('/avatar', avatar)
 
 serve(
