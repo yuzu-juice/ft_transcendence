@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.1.1",
+    "@hono/swagger-ui": "^0.6.1",
+    "@hono/zod-openapi": "^1.6.0",
     "@hono/zod-validator": "^0.9.0",
     "better-auth": "1.7.0-rc.6",
     "drizzle-orm": "1.0.0-rc.4",
