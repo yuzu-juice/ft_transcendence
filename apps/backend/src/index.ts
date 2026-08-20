@@ -60,7 +60,7 @@ app.doc('/openapi.json', {
   },
 })
 
-app.get('/docs', swaggerUI({ url: '/openapi.json' }))
+app.get('/docs', swaggerUI({ url: '/api/openapi.json' }))
 
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 

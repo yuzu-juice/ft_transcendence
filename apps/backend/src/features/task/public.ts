@@ -1,6 +1,13 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import type { ApiKeyAuthEnv } from '../../middleware/api-key-auth.js'
-import { createTaskSchema, searchTaskSchema, taskIdParamSchema } from './schema.js'
+import {
+  createTaskSchema,
+  listTaskSchema,
+  publicTaskSchema,
+  publicTaskPageSchema,
+  patchTaskSchema,
+  taskIdParamSchema,
+} from './public_schema.js'
 import { taskService } from './service.js'
 
 const errorResponseSchema = z
@@ -13,14 +20,11 @@ const errorResponseSchema = z
   })
   .openapi('PublicTaskErrorResponse')
 
-const publicTaskSchema = z.any().openapi('PublicTask')
-const publicTaskPageSchema = z.any().openapi('PublicTaskPage')
-
-const searchTasksRoute = createRoute({
+const listTasksRoute = createRoute({
   method: 'get',
   path: '/',
   request: {
-    query: searchTaskSchema,
+    query: listTaskSchema,
   },
   responses: {
     200: {
@@ -88,12 +92,20 @@ const createTaskRoute = createRoute({
         },
       },
     },
+    500: {
+      description: 'Internal server error',
+      content: {
+        'application/json': {
+          schema: errorResponseSchema,
+        },
+      },
+    },
   },
 })
 
 const getTaskRoute = createRoute({
   method: 'get',
-  path: '/:taskId',
+  path: '/{taskId}',
   request: {
     params: taskIdParamSchema,
   },
@@ -133,15 +145,15 @@ const getTaskRoute = createRoute({
   },
 })
 
-const putTaskRoute = createRoute({
-  method: 'put',
-  path: '/:taskId',
+const patchTaskRoute = createRoute({
+  method: 'patch',
+  path: '/{taskId}',
   request: {
     params: taskIdParamSchema,
     body: {
       content: {
         'application/json': {
-          schema: createTaskSchema,
+          schema: patchTaskSchema,
         },
       },
       required: true,
@@ -185,7 +197,7 @@ const putTaskRoute = createRoute({
 
 const deleteTaskRoute = createRoute({
   method: 'delete',
-  path: '/:taskId',
+  path: '/{taskId}',
   request: {
     params: taskIdParamSchema,
   },
@@ -230,25 +242,36 @@ const deleteTaskRoute = createRoute({
 
 export const publicTasks = new OpenAPIHono<ApiKeyAuthEnv>()
 
-publicTasks.openapi(searchTasksRoute, async (c) => {
-  const input = c.req.valid('query')
+publicTasks.openapi(listTasksRoute, async (c) => {
+  const { page } = c.req.valid('query')
 
-  const tasks = await taskService.search(input)
+  const result = await taskService.search({
+    page,
+    sort: 'createdAt',
+    order: 'desc',
+  })
 
-  return c.json(tasks, 200)
+  return c.json(result.data, 200)
 })
 
 publicTasks.openapi(createTaskRoute, async (c) => {
-  const { id } = c.get('user')
+  const { userId } = c.get('apiKey')!
   const { title, description, priority, dueAt } = c.req.valid('json')
 
   const task = await taskService.create({
     title,
     description: description ?? null,
     priority: priority ?? null,
-    createdBy: id,
+    createdBy: userId,
     dueAt: dueAt ?? null,
   })
+
+  if (!task) {
+    return c.json(
+      { error: { code: 'INTERNAL_ERROR', message: 'Failed to create task' } } as never,
+      500,
+    )
+  }
 
   return c.json(task, 201)
 })
@@ -261,23 +284,20 @@ publicTasks.openapi(getTaskRoute, async (c) => {
   return c.json(task, 200)
 })
 
-publicTasks.openapi(putTaskRoute, async (c) => {
+publicTasks.openapi(patchTaskRoute, async (c) => {
   const { taskId } = c.req.valid('param')
-  const { title, description, priority, dueAt } = c.req.valid('json')
+  const body = c.req.valid('json')
+  const input = Object.fromEntries(Object.entries(body).filter(([_, value]) => value !== undefined))
 
-  const task = await taskService.update(taskId, {
-    title,
-    description: description ?? null,
-    priority: priority ?? null,
-    dueAt: dueAt ?? null,
-  })
+  const task = await taskService.update(taskId, input)
 
   return c.json(task, 200)
 })
 
 publicTasks.openapi(deleteTaskRoute, async (c) => {
   const { taskId } = c.req.valid('param')
-  const { id: userId, role } = c.get('user')
+  const { userId } = c.get('apiKey')!
+  const { role } = c.get('user')!
 
   await taskService.delete(taskId, userId, role === 'admin')
 
