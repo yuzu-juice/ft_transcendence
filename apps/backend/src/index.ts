@@ -9,7 +9,11 @@ app.get('/', (c) => {
 
 serve(
   {
-    fetch: app.fetch,
+    fetch: (req) => {
+      const url = new URL(req.url)
+      url.protocol = req.headers.get('x-forwarded-proto') ?? url.protocol
+      return app.fetch(new Request(url, req))
+    },
     port: 3000,
   },
   (info) => {
