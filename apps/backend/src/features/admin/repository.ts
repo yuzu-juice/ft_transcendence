@@ -32,7 +32,7 @@ export const adminRepository = {
         RAW: (u) => buildSearchWhere(u, input),
       },
       orderBy: (t) => {
-        return [desc(t.role), desc(t.id)]
+        return [desc(t.id)]
       },
     })
   },
