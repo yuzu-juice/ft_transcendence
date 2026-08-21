@@ -1,5 +1,4 @@
 import { serve } from '@hono/node-server'
-import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { auth } from './auth/index.js'
 import { onError } from './middleware/error.js'
@@ -51,16 +50,6 @@ app.openapi(healthRoute, (c) => {
     timestamp: new Date().toISOString(),
   })
 })
-
-app.doc('/openapi.json', {
-  openapi: '3.1.0',
-  info: {
-    title: 'Transcendence API',
-    version: '1.0.0',
-  },
-})
-
-app.get('/docs', swaggerUI({ url: '/api/openapi.json' }))
 
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
