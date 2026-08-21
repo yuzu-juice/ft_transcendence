@@ -16,6 +16,7 @@ export type ApiKeyAuthEnv = {
   }
 }
 
+// Authorizationヘッダーの中身（例："Bearer abc123..."）からキー部分だけを取り出す
 function extractBearerToken(value: string | undefined): string | null {
   if (!value) {
     return null

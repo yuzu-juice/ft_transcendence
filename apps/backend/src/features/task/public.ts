@@ -294,12 +294,14 @@ publicTasks.openapi(patchTaskRoute, async (c) => {
   return c.json(task, 200)
 })
 
+// Public APIでは、isAdmin = false固定　APIキーの持ち主＝タスクの作成者だけが削除可能とする。
+// APIキーの持ち主が、自分の作成したタスクを削除する → できる
+// APIキーの持ち主が、他人の作成したタスクを削除しようとする → 403エラーで拒否（adminという抜け道が無いので）
 publicTasks.openapi(deleteTaskRoute, async (c) => {
   const { taskId } = c.req.valid('param')
   const { userId } = c.get('apiKey')!
-  const { role } = c.get('user')!
 
-  await taskService.delete(taskId, userId, role === 'admin')
+  await taskService.delete(taskId, userId, false)
 
   return c.body(null, 204)
 })
