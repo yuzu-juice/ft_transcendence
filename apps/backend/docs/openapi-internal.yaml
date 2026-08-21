@@ -1,0 +1,1043 @@
+openapi: 3.1.0
+info:
+  title: Transcendence Internal API
+  version: 0.1.0
+  description: |
+    Internal API used by the frontend. These endpoints are intentionally kept
+    separate from the future public API specification.
+
+    The backend process receives routes without the `/api` prefix, while the
+    reverse proxy exposes the routes below under `/api`.
+servers:
+  - url: /
+    description: Current host (the reverse proxy exposes the API below /api)
+tags:
+  - name: Me
+    description: Operations for the currently authenticated user
+  - name: Users
+    description: Authenticated user directory
+  - name: Tasks
+    description: Task operations
+  - name: Admin users
+    description: Administrator-only user management
+  - name: Avatars
+    description: Public avatar image retrieval
+paths:
+  /api/internal/me:
+    get:
+      tags: [Me]
+      summary: Get the current user
+      operationId: getCurrentUser
+      security:
+        - betterAuthSession: []
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags: [Me]
+      summary: Update the current user's name
+      operationId: updateCurrentUser
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchMeRequest'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '404':
+          description: "The authenticated user no longer exists (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/me/avatar:
+    put:
+      tags: [Me]
+      summary: Upload or replace the current user's avatar
+      operationId: updateCurrentUserAvatar
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        description: The `avatar` image must be JPEG, PNG, or WebP and no larger than 4 MiB.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AvatarUploadRequest'
+      responses:
+        '200':
+          description: Stored avatar URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarUploadResponse'
+        '400':
+          description: Avatar field is missing or the uploaded file is not a valid image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '404':
+          description: "The authenticated user no longer exists (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '413':
+          $ref: '#/components/responses/AvatarTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedAvatarType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Me]
+      summary: Remove the current user's avatar
+      operationId: deleteCurrentUserAvatar
+      security:
+        - betterAuthSession: []
+      responses:
+        '204':
+          description: Avatar removed, or no avatar was set
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '404':
+          description: "The authenticated user no longer exists (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/users:
+    get:
+      tags: [Users]
+      summary: List users
+      operationId: listUsers
+      security:
+        - betterAuthSession: []
+      responses:
+        '200':
+          description: Users visible to authenticated clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSummary'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/tasks:
+    get:
+      tags: [Tasks]
+      summary: Search tasks
+      operationId: searchTasks
+      security:
+        - betterAuthSession: []
+      parameters:
+        - $ref: '#/components/parameters/SearchQuery'
+        - $ref: '#/components/parameters/TaskStatusQuery'
+        - $ref: '#/components/parameters/TaskPriorityQuery'
+        - $ref: '#/components/parameters/DueFromQuery'
+        - $ref: '#/components/parameters/DueToQuery'
+        - $ref: '#/components/parameters/CreatedByQuery'
+        - $ref: '#/components/parameters/AssigneeIdQuery'
+        - $ref: '#/components/parameters/TaskSortQuery'
+        - $ref: '#/components/parameters/TaskOrderQuery'
+        - $ref: '#/components/parameters/PageQuery'
+      responses:
+        '200':
+          description: Paginated task results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskPage'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Tasks]
+      summary: Create a task
+      operationId: createTask
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '201':
+          description: Created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/tasks/{taskId}:
+    parameters:
+      - $ref: '#/components/parameters/TaskId'
+    get:
+      tags: [Tasks]
+      summary: Get a task
+      operationId: getTask
+      security:
+        - betterAuthSession: []
+      responses:
+        '200':
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '404':
+          description: "Task not found (error.code: TASK_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                taskNotFound:
+                  $ref: '#/components/examples/TaskNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags: [Tasks]
+      summary: Update a task
+      operationId: updateTask
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchTaskRequest'
+      responses:
+        '200':
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '404':
+          description: "Task not found (error.code: TASK_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                taskNotFound:
+                  $ref: '#/components/examples/TaskNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Tasks]
+      summary: Delete a task
+      operationId: deleteTask
+      security:
+        - betterAuthSession: []
+      responses:
+        '204':
+          description: Task deleted
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '403':
+          description: Only the task creator or an administrator can delete this task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: "Task not found (error.code: TASK_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                taskNotFound:
+                  $ref: '#/components/examples/TaskNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/tasks/{taskId}/assignees:
+    parameters:
+      - $ref: '#/components/parameters/TaskId'
+    put:
+      tags: [Tasks]
+      summary: Replace task assignees
+      operationId: replaceTaskAssignees
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutTaskAssigneesRequest'
+      responses:
+        '200':
+          description: Task with its new assignee list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '404':
+          description: Task or one of the requested assignees was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                taskNotFound:
+                  $ref: '#/components/examples/TaskNotFound'
+                assigneeNotFound:
+                  $ref: '#/components/examples/AssigneeNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/admin/users:
+    get:
+      tags: [Admin users]
+      summary: Search users as an administrator
+      operationId: searchAdminUsers
+      description: Requires an authenticated user with the `admin` role.
+      security:
+        - betterAuthSession: []
+      parameters:
+        - $ref: '#/components/parameters/AdminUserSearchQuery'
+        - $ref: '#/components/parameters/AdminUserRoleQuery'
+      responses:
+        '200':
+          description: Matching users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminUser'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '403':
+          $ref: '#/components/responses/AdminRequired'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/admin/users/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      tags: [Admin users]
+      summary: Get a user as an administrator
+      operationId: getAdminUser
+      description: Requires an authenticated user with the `admin` role.
+      security:
+        - betterAuthSession: []
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '403':
+          $ref: '#/components/responses/AdminRequired'
+        '404':
+          description: "User not found (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags: [Admin users]
+      summary: Update a user's name
+      operationId: updateAdminUser
+      description: Requires an authenticated user with the `admin` role.
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchAdminUserRequest'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '403':
+          $ref: '#/components/responses/AdminRequired'
+        '404':
+          description: "User not found (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Admin users]
+      summary: Delete a user
+      operationId: deleteAdminUser
+      description: Requires an authenticated user with the `admin` role. An administrator cannot delete their own account.
+      security:
+        - betterAuthSession: []
+      responses:
+        '204':
+          description: User deleted
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '403':
+          $ref: '#/components/responses/AdminRequired'
+        '404':
+          description: "User not found (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '409':
+          description: An administrator cannot delete their own account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/internal/admin/users/{userId}/role:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    patch:
+      tags: [Admin users]
+      summary: Change a user's role
+      operationId: setAdminUserRole
+      description: Requires an authenticated user with the `admin` role. An administrator cannot demote their own account.
+      security:
+        - betterAuthSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchUserRoleRequest'
+      responses:
+        '200':
+          description: User with the new role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationRequired'
+        '403':
+          $ref: '#/components/responses/AdminRequired'
+        '404':
+          description: "User not found (error.code: USER_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                userNotFound:
+                  $ref: '#/components/examples/UserNotFound'
+        '409':
+          description: An administrator cannot demote their own account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/avatar/{avatarKey}:
+    get:
+      tags: [Avatars]
+      summary: Get an avatar image
+      operationId: getAvatar
+      security: []
+      parameters:
+        - name: avatarKey
+          in: path
+          required: true
+          description: UUID identifying the stored avatar
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Avatar image, normalized to WebP
+          headers:
+            Cache-Control:
+              description: Long-lived immutable cache policy
+              schema:
+                type: string
+            X-Content-Type-Options:
+              description: Prevents MIME sniffing
+              schema:
+                type: string
+                example: nosniff
+          content:
+            image/webp:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          description: "Avatar not found (error.code: AVATAR_NOT_FOUND)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                avatarNotFound:
+                  $ref: '#/components/examples/AvatarNotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  examples:
+    UserNotFound:
+      summary: User not found
+      value:
+        error:
+          code: USER_NOT_FOUND
+          message: User not found
+    TaskNotFound:
+      summary: Task not found
+      value:
+        error:
+          code: TASK_NOT_FOUND
+          message: Task not found
+    AssigneeNotFound:
+      summary: Assignee not found
+      value:
+        error:
+          code: ASSIGNEE_NOT_FOUND
+          message: Assignee not found
+    AvatarNotFound:
+      summary: Avatar not found
+      value:
+        error:
+          code: AVATAR_NOT_FOUND
+          message: Avatar not found
+  securitySchemes:
+    betterAuthSession:
+      type: apiKey
+      in: cookie
+      name: better-auth.session_token
+      description: Session cookie issued by Better Auth.
+  parameters:
+    SearchQuery:
+      name: q
+      in: query
+      description: Case-insensitive search in task title and description
+      required: false
+      schema:
+        type: string
+        maxLength: 200
+    TaskStatusQuery:
+      name: status
+      in: query
+      description: Filter by one or more task statuses
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/TaskStatus'
+    TaskPriorityQuery:
+      name: priority
+      in: query
+      description: Filter by one or more task priorities
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/TaskPriority'
+    DueFromQuery:
+      name: dueFrom
+      in: query
+      description: Include tasks due at or after this timestamp
+      required: false
+      schema:
+        type: string
+        format: date-time
+    DueToQuery:
+      name: dueTo
+      in: query
+      description: Include tasks due at or before this timestamp
+      required: false
+      schema:
+        type: string
+        format: date-time
+    CreatedByQuery:
+      name: createdBy
+      in: query
+      required: false
+      schema:
+        type: string
+    AssigneeIdQuery:
+      name: assigneeId
+      in: query
+      required: false
+      schema:
+        type: string
+    TaskSortQuery:
+      name: sort
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [createdAt, updatedAt, dueAt, status, priority]
+        default: createdAt
+    TaskOrderQuery:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: desc
+    PageQuery:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+    AdminUserSearchQuery:
+      name: q
+      in: query
+      description: Case-insensitive search in user name and email
+      required: false
+      schema:
+        type: string
+        maxLength: 200
+    AdminUserRoleQuery:
+      name: role
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/UserRole'
+    TaskId:
+      name: taskId
+      in: path
+      required: true
+      description: Task UUID
+      schema:
+        type: string
+        format: uuid
+    UserId:
+      name: userId
+      in: path
+      required: true
+      description: Better Auth user identifier
+      schema:
+        type: string
+  responses:
+    AuthenticationRequired:
+      description: Authentication is required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    AdminRequired:
+      description: Administrator privileges are required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    AvatarTooLarge:
+      description: Avatar exceeds the supported size limit
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnsupportedAvatarType:
+      description: Avatar format is not JPEG, PNG, or WebP
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Unexpected server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          description: Machine-readable application error code
+          example: VALIDATION_ERROR
+        message:
+          type: string
+          example: Invalid request
+        details:
+          description: Additional error details. Validation errors include fieldErrors and formErrors.
+          oneOf:
+            - $ref: '#/components/schemas/ValidationDetails'
+            - {}
+    ValidationDetails:
+      type: object
+      properties:
+        fieldErrors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        formErrors:
+          type: array
+          items:
+            type: string
+    UserRole:
+      type: string
+      enum: [admin, user]
+    UserImage:
+      type: [string, 'null']
+      description: Avatar URL or another image URL stored by Better Auth
+    UserSummary:
+      type: object
+      required: [id, name, image]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image:
+          $ref: '#/components/schemas/UserImage'
+    UserDetail:
+      type: object
+      required: [id, name, email, image, role, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        image:
+          $ref: '#/components/schemas/UserImage'
+        role:
+          $ref: '#/components/schemas/UserRole'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    AdminUser:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - emailVerified
+        - image
+        - role
+        - banned
+        - banReason
+        - banExpires
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        image:
+          $ref: '#/components/schemas/UserImage'
+        role:
+          $ref: '#/components/schemas/UserRole'
+        banned:
+          type: boolean
+        banReason:
+          type: [string, 'null']
+        banExpires:
+          type: [string, 'null']
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    TaskStatus:
+      type: string
+      enum: [todo, in_progress, done]
+    TaskPriority:
+      type: string
+      enum: [low, medium, high]
+    TaskUser:
+      type: object
+      required: [id, name, image]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image:
+          $ref: '#/components/schemas/UserImage'
+    Task:
+      type: object
+      required: [id, title, description, status, priority, dueAt, createdAt, updatedAt, creator, assignees]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: [string, 'null']
+          maxLength: 2000
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        priority:
+          oneOf:
+            - $ref: '#/components/schemas/TaskPriority'
+            - type: 'null'
+        dueAt:
+          type: [string, 'null']
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        creator:
+          oneOf:
+            - $ref: '#/components/schemas/TaskUser'
+            - type: 'null'
+        assignees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskUser'
+    TaskPage:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        meta:
+          type: object
+          required: [page, perPage, total, totalPages]
+          properties:
+            page:
+              type: integer
+            perPage:
+              type: integer
+              example: 20
+            total:
+              type: integer
+            totalPages:
+              type: integer
+    PatchMeRequest:
+      type: object
+      additionalProperties: false
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+    AvatarUploadRequest:
+      type: object
+      additionalProperties: false
+      required: [avatar]
+      properties:
+        avatar:
+          type: string
+          format: binary
+          maxLength: 4194304
+    AvatarUploadResponse:
+      type: object
+      required: [image]
+      properties:
+        image:
+          type: string
+          description: Public URL of the normalized avatar
+          example: /api/avatar/550e8400-e29b-41d4-a716-446655440000
+    CreateTaskRequest:
+      type: object
+      additionalProperties: false
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: [string, 'null']
+          maxLength: 2000
+        priority:
+          oneOf:
+            - $ref: '#/components/schemas/TaskPriority'
+            - type: 'null'
+        dueAt:
+          type: [string, 'null']
+          format: date-time
+    PatchTaskRequest:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: [string, 'null']
+          maxLength: 2000
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        priority:
+          oneOf:
+            - $ref: '#/components/schemas/TaskPriority'
+            - type: 'null'
+        dueAt:
+          type: [string, 'null']
+          format: date-time
+    PutTaskAssigneesRequest:
+      type: object
+      additionalProperties: false
+      required: [userIds]
+      properties:
+        userIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+    PatchAdminUserRequest:
+      type: object
+      additionalProperties: false
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+    PatchUserRoleRequest:
+      type: object
+      additionalProperties: false
+      required: [role]
+      properties:
+        role:
+          $ref: '#/components/schemas/UserRole'

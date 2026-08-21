@@ -1,11 +1,30 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { auth } from './auth/index.js'
+import { onError } from './middleware/error.js'
+import avatar from './routes/avatar.js'
+import internal from './routes/internal.js'
 
 const app = new Hono()
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.onError(onError)
+
+app.notFound((c) => {
+  return c.json(
+    {
+      error: {
+        code: 'ROUTE_NOT_FOUND',
+        message: 'Route not found',
+      },
+    },
+    404,
+  )
 })
+
+app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
+
+app.route('/internal', internal)
+app.route('/avatar', avatar)
 
 serve(
   {
