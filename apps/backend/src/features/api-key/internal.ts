@@ -160,15 +160,7 @@ apiKeys.openapi(deleteApiKeyRoute, async (c) => {
   const { id: userId } = c.get('user')!
   const { apiKeyId } = c.req.valid('param')
 
-  try {
-    await apiKeyService.remove(apiKeyId, userId)
-  } catch (error) {
-    if (error instanceof AppError) {
-      throw error
-    }
-
-    throw error
-  }
+  await apiKeyService.remove(apiKeyId, userId)
 
   return c.body(null, 204)
 })
