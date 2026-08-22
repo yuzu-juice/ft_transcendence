@@ -54,7 +54,7 @@ app.openapi(healthRoute, (c) => {
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
 app.route('/internal', internal)
-app.route('/', publicApi)
+app.route('/v1', publicApi)
 app.route('/avatar', avatar)
 
 serve(
