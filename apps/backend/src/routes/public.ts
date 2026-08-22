@@ -26,10 +26,8 @@ publicApi.doc('/docs/openapi', {
     description: 'Public API for API key based access',
   },
   servers: [
-    {
-      url: '/',
-      description: 'Current host (the reverse proxy exposes the API below /api)',
-    },
+    { url: '/v1', description: 'Direct backend access (no reverse proxy)' },
+    { url: '/api/v1', description: 'Behind reverse proxy (nginx exposes the API under /api)' },
   ],
 })
 
