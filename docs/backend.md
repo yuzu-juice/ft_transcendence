@@ -9,11 +9,11 @@ backend は Hono、Drizzle ORM、Better Auth、PostgreSQL で構成されてい�
 
 開発環境では `http://localhost:8080` の Nginx が frontend と backend のリバースプロキシになります。Nginx の `location /api/` は `/api` を取り除いて backend に転送します。
 
-| 外部から見える URL | backend が受け取るパス | 用途 | 認証 |
-| --- | --- | --- | --- |
-| `/api/auth/*` | `/auth/*` | Better Auth のサインアップ、ログイン、セッションなど | Better Auth が処理 |
-| `/api/internal/*` | `/internal/*` | 現在の frontend 向け internal API | `requireAuth` 必須 |
-| `/api/avatar/:avatarKey` | `/avatar/:avatarKey` | WebP avatar の配信 | 公開 |
+| 外部から見える URL       | backend が受け取るパス | 用途                                                 | 認証               |
+| ------------------------ | ---------------------- | ---------------------------------------------------- | ------------------ |
+| `/api/auth/*`            | `/auth/*`              | Better Auth のサインアップ、ログイン、セッションなど | Better Auth が処理 |
+| `/api/internal/*`        | `/internal/*`          | 現在の frontend 向け internal API                    | `requireAuth` 必須 |
+| `/api/avatar/:avatarKey` | `/avatar/:avatarKey`   | WebP avatar の配信                                   | 公開               |
 
 Hono の route には `/api` を記述しません。例えば `internal.route('/tasks', tasks)` に追加した `tasks.get('/')` は、外部からは `GET /api/internal/tasks` になります。
 
@@ -109,30 +109,30 @@ Drizzle の query を repository に閉じ込めます。Service や route か�
 
 ```ts
 // src/features/project/internal.ts
-import { Hono } from 'hono'
-import type { AuthEnv } from '../../middleware/auth.js'
-import { validate } from '../../middleware/validator.js'
-import { createProjectSchema } from './schema.js'
-import { projectService } from './service.js'
+import { Hono } from "hono";
+import type { AuthEnv } from "../../middleware/auth.js";
+import { validate } from "../../middleware/validator.js";
+import { createProjectSchema } from "./schema.js";
+import { projectService } from "./service.js";
 
-export const projects = new Hono<AuthEnv>()
+export const projects = new Hono<AuthEnv>();
 
-projects.post('/', validate('json', createProjectSchema), async (c) => {
-  const { id: userId } = c.get('user')!
-  const input = c.req.valid('json')
+projects.post("/", validate("json", createProjectSchema), async (c) => {
+  const { id: userId } = c.get("user")!;
+  const input = c.req.valid("json");
 
-  const project = await projectService.create(userId, input)
-  return c.json(project, 201)
-})
+  const project = await projectService.create(userId, input);
+  return c.json(project, 201);
+});
 ```
 
 route group に mount します。
 
 ```ts
 // src/routes/internal.ts
-import { projects } from '../features/project/internal.js'
+import { projects } from "../features/project/internal.js";
 
-internal.route('/projects', projects)
+internal.route("/projects", projects);
 ```
 
 この group 全体にはすでに `internal.use(requireAuth)` が設定されているため、internal API では route ごとに `requireAuth` を重ねて書きません。
@@ -147,8 +147,8 @@ internal.route('/projects', projects)
 `requireAdmin` は `requireAuth` の後で使う前提です。admin route group のように、認証済みの group に対して追加してください。
 
 ```ts
-const admin = new Hono<AuthEnv>()
-admin.use(requireAdmin)
+const admin = new Hono<AuthEnv>();
+admin.use(requireAdmin);
 ```
 
 admin middleware を standalone route に付ける場合は、必ず `requireAuth` を先に付けてください。Better Auth の `role` は user テーブルの値で、現在の有効な admin role は `admin` です。
@@ -158,10 +158,10 @@ admin middleware を standalone route に付ける場合は、必ず `requireAut
 `validate()` は `@hono/zod-validator` の薄い wrapper です。失敗時は `VALIDATION_ERROR` / `400` として、`details.fieldErrors` と `details.formErrors` を返します。
 
 ```ts
-projects.get('/', validate('query', searchProjectSchema), async (c) => {
-  const input = c.req.valid('query')
-  return c.json(await projectService.search(input))
-})
+projects.get("/", validate("query", searchProjectSchema), async (c) => {
+  const input = c.req.valid("query");
+  return c.json(await projectService.search(input));
+});
 ```
 
 外部から文字列で渡される query / param は、UUID、数値、日付、enum、配列などを必ず schema で検証してください。query の同じキーが複数回指定される場合の扱いは、task の `queryArray()` の実装を参考にします。
@@ -183,7 +183,7 @@ projects.get('/', validate('query', searchProjectSchema), async (c) => {
 既知の業務エラーは次のように throw します。
 
 ```ts
-throw new AppError('PROJECT_NOT_FOUND', 404, 'Project not found')
+throw new AppError("PROJECT_NOT_FOUND", 404, "Project not found");
 ```
 
 未知の例外は `INTERNAL_SERVER_ERROR` / `500` に変換されます。内部の stack trace や DB エラーを response にそのまま返さないでください。意図的に route で直接 response を返す場合（multipart の missing field、avatar の `413` など）も、同じ `error.code` / `error.message` 形式に揃えます。
@@ -213,22 +213,22 @@ middleware の順番には注意が必要です。
 アプリケーションのテーブルは `src/db/schema/<name>.ts` に定義します。追加した schema は必ず `src/db/schema/index.ts` から export してください。Drizzle Kit はこの index を起点に全 schema を読み込みます。
 
 ```ts
-import { index, pgTable, text, uuid } from 'drizzle-orm/pg-core'
+import { index, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 export const project = pgTable(
-  'project',
+  "project",
   {
-    id: uuid('id').defaultRandom().primaryKey(),
-    name: text('name').notNull(),
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: text("name").notNull(),
   },
-  (table) => [index('project_name_index').on(table.name)],
-)
+  (table) => [index("project_name_index").on(table.name)],
+);
 ```
 
 外部キーを追加するときは、参照先と削除時の挙動を明示します。
 
 ```ts
-ownerId: text('owner_id').references(() => user.id, { onDelete: 'cascade' })
+ownerId: text("owner_id").references(() => user.id, { onDelete: "cascade" });
 ```
 
 現在使っている Drizzle の機能は、`pgTable`、`pgEnum`、`references`、index、composite primary key、`$onUpdate`、relations、relational query、`returning()`、`$count`、transaction です。task の `taskAssignment` は `(taskId, userId)` の composite primary key を持つ中間テーブルです。
@@ -247,7 +247,7 @@ const projects = await db.query.project.findMany({
       columns: { id: true, name: true },
     },
   },
-})
+});
 ```
 
 relation を取得する必要がない list API では、`columns` で返却列を絞って N+1 query と過剰なデータ取得を避けてください。
@@ -277,7 +277,7 @@ pnpm --filter backend db:generate
 const rows = await db
   .select({ id: project.id, name: project.name })
   .from(project)
-  .where(eq(project.id, id))
+  .where(eq(project.id, id));
 ```
 
 検索条件が組み立て式の場合は、task repository のように `and`、`or`、`eq`、`inArray`、`gte`、`lte`、`ilike`、`exists` を使って `SQL` 条件を作ります。値を文字列連結した SQL を作らず、Drizzle の expression または parameterized `sql` を使用してください。
@@ -285,7 +285,7 @@ const rows = await db
 更新・作成した entity を返す場合は `returning()` を使えます。
 
 ```ts
-const [row] = await db.insert(project).values(input).returning()
+const [row] = await db.insert(project).values(input).returning();
 ```
 
 複数テーブルを一貫して更新する場合は transaction を使います。task の担当者更新は、既存の中間テーブルを削除してから新しい担当者を insert する処理全体を `db.transaction()` で囲んでいます。
@@ -402,6 +402,8 @@ avatar は別の `avatar-data` volume に保存されます。DB だけを消す
 ## 9. API 仕様と確認方法
 
 internal API の仕様は `apps/backend/docs/openapi-internal.yaml` にあります。endpoint の追加、request / response、status code、error code、認証要件を変更したら、この OpenAPI も更新してください。仕様書の server からは `/api` が見える一方、Hono の実装は `/api` なしである点に注意してください。
+
+Public API の Swagger UI は `http://localhost:8080/api/v1/docs` で確認できます（OpenAPI JSON は `http://localhost:8080/api/v1/docs/openapi`）。
 
 Swagger Editor などで OpenAPI を開くと、認証済み API の request / response を確認できます。実装確認では HTTPie を推奨します。
 

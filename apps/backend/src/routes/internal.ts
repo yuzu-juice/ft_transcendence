@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { admin } from '../features/admin/internal.js'
+import { apiKeys } from '../features/api-key/internal.js'
 import { tasks } from '../features/task/internal.js'
 import { me } from '../features/user/me.routes.js'
 import { users } from '../features/user/users.routes.js'
@@ -13,5 +14,6 @@ internal.route('/me', me)
 internal.route('/users', users)
 internal.route('/tasks', tasks)
 internal.route('/admin', admin)
+internal.route('/api-keys', apiKeys)
 
 export default internal
