@@ -286,8 +286,14 @@ publicTasks.openapi(getTaskRoute, async (c) => {
 
 publicTasks.openapi(patchTaskRoute, async (c) => {
   const { taskId } = c.req.valid('param')
+  const { userId } = c.get('apiKey')!
   const body = c.req.valid('json')
   const input = Object.fromEntries(Object.entries(body).filter(([_, value]) => value !== undefined))
+
+  const existing = await taskService.get(taskId)
+  if (existing.creator?.id !== userId) {
+    return c.json({ error: { code: 'TASK_NOT_FOUND', message: 'Task not found' } } as never, 404)
+  }
 
   const task = await taskService.update(taskId, input)
 
