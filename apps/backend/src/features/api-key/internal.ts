@@ -102,7 +102,7 @@ const listApiKeysRoute = createRoute({
 
 const deleteApiKeyRoute = createRoute({
   method: 'delete',
-  path: '/:apiKeyId',
+  path: '/{apiKeyId}',
   request: {
     params: apiKeyIdParamSchema,
   },
