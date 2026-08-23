@@ -1,6 +1,5 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import type { AuthEnv } from '../../middleware/auth.js'
-import { AppError } from '../../errors/app-error.js'
 import { apiKeyService } from './service.js'
 import { apiKeyIdParamSchema, createApiKeyBodySchema } from './schema.js'
 

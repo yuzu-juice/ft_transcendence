@@ -1,11 +1,11 @@
-import { index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { index, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 import { user } from './auth.js'
 
 export const apiKey = pgTable(
   'api_key',
   {
     id: uuid('id').defaultRandom().primaryKey(),
-    name: text('name').notNull(),
+    name: varchar('name', { length: 100 }).notNull(),
     keyHash: text('key_hash').notNull().unique(),
     keyPrefix: text('key_prefix').notNull(),
     userId: text('user_id')

@@ -2,6 +2,7 @@ import { createMiddleware } from 'hono/factory'
 import { AppError } from '../errors/app-error.js'
 import { apiKeyService } from '../features/api-key/service.js'
 import { userRepository } from '../features/user/repository.js'
+import { bearerAuth } from 'hono/bearer-auth'
 
 export type ApiKeyAuthEnv = {
   Variables: {
@@ -16,28 +17,10 @@ export type ApiKeyAuthEnv = {
   }
 }
 
-// Authorizationヘッダーの中身（例："Bearer abc123..."）からキー部分だけを取り出す
-function extractBearerToken(value: string | undefined): string | null {
-  if (!value) {
-    return null
-  }
-
-  const [scheme, token] = value.split(' ')
-
-  if (!scheme || !token || scheme.toLowerCase() !== 'bearer') {
-    return null
-  }
-
-  return token
-}
-
-export const requireApiKey = createMiddleware<ApiKeyAuthEnv>(async (c, next) => {
-  const token = extractBearerToken(c.req.header('authorization'))
-
-  if (!token) {
-    throw new AppError('API_KEY_REQUIRED', 401, 'API key is required')
-  }
-
+const verifyApiKeyToken = async (
+  token: string,
+  c: { set: (key: 'apiKey' | 'user', value: unknown) => void },
+) => {
   const authenticated = await apiKeyService.authenticate(token)
   const user = await userRepository.findById(authenticated.userId)
 
@@ -55,5 +38,19 @@ export const requireApiKey = createMiddleware<ApiKeyAuthEnv>(async (c, next) => 
     role: user.role,
   })
 
-  await next()
+  return true
+}
+
+// optional verifyToken: (token: string, c: Context) => boolean | Promise<boolean>
+const bearerApiKeyAuth = bearerAuth<ApiKeyAuthEnv>({
+  verifyToken: verifyApiKeyToken,
+})
+
+export const requireApiKey = createMiddleware<ApiKeyAuthEnv>(async (c, next) => {
+  const authorization = c.req.header('authorization')
+  if (!authorization) {
+    throw new AppError('AUTH_REQUIRED', 401, 'Authentication required')
+  }
+
+  return bearerApiKeyAuth(c, next)
 })
