@@ -34,7 +34,7 @@ publicApi.doc('/docs/openapi', {
 // '/docs'というURLにブラウザでアクセスされたら、Swagger UIのHTML画面を返す
 // ブラウザ側がOpenAPIの中身をどこに取りに行くかを指定するオプションであり
 // nginxを経由するので、/api/込みの絶対パスを指定。
-publicApi.get('/docs', swaggerUI({ url: '/api/v1/docs/openapi' }))
+publicApi.get('/docs', swaggerUI({ url: './docs/openapi' }))
 
 // Honoのパスマッチングでは
 // /tasks/*という書き方だけだと、/tasksの末尾に何も付かない場合にマッチしないことがある
