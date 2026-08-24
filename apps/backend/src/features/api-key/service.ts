@@ -7,11 +7,13 @@ function hashApiKey(value: string): string {
 }
 
 function generateApiKeyValue(): string {
-  return `ft_${randomBytes(24).toString('base64url')}`
+  const prefix = randomBytes(7).toString('base64url').slice(0, 9)
+  const secret = randomBytes(24).toString('base64url')
+  return `ft_${prefix}_${secret}`
 }
 
 function apiKeyPrefix(value: string): string {
-  return value.slice(0, 12)
+  return value.slice(3, 12)
 }
 
 export const apiKeyService = {
