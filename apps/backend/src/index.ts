@@ -1,11 +1,33 @@
 import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
 import { auth } from './auth/index.js'
 import { onError } from './middleware/error.js'
 import avatar from './routes/avatar.js'
 import internal from './routes/internal.js'
+import publicApi from './routes/public.js'
 
-const app = new Hono()
+const healthResponseSchema = z.object({
+  ok: z.boolean().openapi({ example: true }),
+  service: z.string().openapi({ example: 'backend' }),
+  timestamp: z.string().datetime().openapi({ example: '2026-08-19T00:00:00.000Z' }),
+})
+
+const healthRoute = createRoute({
+  method: 'get',
+  path: '/health',
+  responses: {
+    200: {
+      description: 'Health check result',
+      content: {
+        'application/json': {
+          schema: healthResponseSchema,
+        },
+      },
+    },
+  },
+})
+
+const app = new OpenAPIHono()
 
 app.onError(onError)
 
@@ -21,9 +43,18 @@ app.notFound((c) => {
   )
 })
 
+app.openapi(healthRoute, (c) => {
+  return c.json({
+    ok: true,
+    service: 'backend',
+    timestamp: new Date().toISOString(),
+  })
+})
+
 app.on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
 
 app.route('/internal', internal)
+app.route('/v1', publicApi)
 app.route('/avatar', avatar)
 
 serve(

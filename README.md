@@ -72,7 +72,7 @@ docker compose up --build
 The application will be available at:
 - Frontend: `https://localhost:5173`
 - Backend API: `https://localhost:3000`
-- API Documentation (Swagger UI): `https://localhost:3000/api/docs`
+- API Documentation (Swagger UI): `http://localhost:8080/api/v1/docs`
 
 ---
 
@@ -210,7 +210,7 @@ The application will be available at:
 | Update a task | `PATCH /api/tasks/:id` — partial update (only sent fields are changed) |
 | Delete a task | `DELETE /api/tasks/:id` — deletes the task and returns 204 |
 | Rate limiting | Uses `hono-rate-limiter`; 60 requests per minute per API key <!-- TODO: rate limitは後日要検討 --> |
-| API documentation | `GET /api/docs` — Swagger UI for browsing and testing endpoints in the browser |
+| API documentation | `GET /api/v1/docs` — Swagger UI for browsing and testing endpoints in the browser |
 
 #### UI and Accessibility
 
@@ -267,7 +267,7 @@ Total claimed points: <!-- TODO: 実装完了後に合計点数を記載 -->
 
 **Public API**
 <!-- TODO: 実装後に具体的なエンドポイントを記載 -->
-Provides a secured REST API for external access to task data. Endpoints are documented via Swagger UI at `/api/docs`. Rate limiting is applied per API key using `hono-rate-limiter`.
+Provides a secured REST API for external access to task data. Endpoints are documented via Swagger UI at `/api/v1/docs`. Rate limiting is applied per API key using `hono-rate-limiter`.
 
 **Advanced permissions system**
 <!-- TODO: 実装後に具体的な権限の違いを記載 -->
