@@ -62,7 +62,11 @@ export const apiKeyService = {
       throw new AppError('API_KEY_INVALID', 401, 'Invalid API key')
     }
 
-    await apiKeyRepository.touchLastUsedAt(apiKey.id)
+    // lastUsedAt は最大60秒遅れの近似値
+    // 監査要件が厳密でなければ通常は問題ない
+    if (!apiKey.lastUsedAt || Date.now() - apiKey.lastUsedAt.getTime() > 60_000) {
+      await apiKeyRepository.touchLastUsedAt(apiKey.id)
+    }
 
     return {
       userId: apiKey.userId,
