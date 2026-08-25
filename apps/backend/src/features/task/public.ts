@@ -23,6 +23,7 @@ const errorResponseSchema = z
 const listTasksRoute = createRoute({
   method: 'get',
   path: '/',
+  security: [{ Bearer: [] }],
   request: {
     query: listTaskSchema,
   },
@@ -57,6 +58,7 @@ const listTasksRoute = createRoute({
 const createTaskRoute = createRoute({
   method: 'post',
   path: '/',
+  security: [{ Bearer: [] }],
   request: {
     body: {
       content: {
@@ -106,6 +108,7 @@ const createTaskRoute = createRoute({
 const getTaskRoute = createRoute({
   method: 'get',
   path: '/{taskId}',
+  security: [{ Bearer: [] }],
   request: {
     params: taskIdParamSchema,
   },
@@ -148,6 +151,7 @@ const getTaskRoute = createRoute({
 const patchTaskRoute = createRoute({
   method: 'patch',
   path: '/{taskId}',
+  security: [{ Bearer: [] }],
   request: {
     params: taskIdParamSchema,
     body: {
@@ -198,6 +202,7 @@ const patchTaskRoute = createRoute({
 const deleteTaskRoute = createRoute({
   method: 'delete',
   path: '/{taskId}',
+  security: [{ Bearer: [] }],
   request: {
     params: taskIdParamSchema,
   },

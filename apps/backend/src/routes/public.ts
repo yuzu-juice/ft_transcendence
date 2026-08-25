@@ -29,6 +29,13 @@ publicApi.doc('/docs/openapi', {
     { url: '/v1', description: 'Direct backend access (no reverse proxy)' },
     { url: '/api/v1', description: 'Behind reverse proxy (nginx exposes the API under /api)' },
   ],
+  security: [{ Bearer: [] }],
+})
+
+publicApi.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
+  type: 'http',
+  scheme: 'bearer',
+  description: 'Public API key issued via the internal API',
 })
 
 // '/docs'というURLにブラウザでアクセスされたら、Swagger UIのHTML画面を返す
