@@ -1,8 +1,6 @@
 import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { publicTasks } from '../features/task/public.js'
-import { requireApiKey } from '../middleware/api-key-auth.js'
-import { apiKeyRateLimiter } from '../middleware/rate-limit.js'
 
 const publicApi = new OpenAPIHono()
 
