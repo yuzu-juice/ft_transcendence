@@ -9,6 +9,8 @@ import {
   taskIdParamSchema,
 } from './public_schema.js'
 import { taskService } from './service.js'
+import { requireApiKey } from '../../middleware/api-key-auth.js'
+import { apiKeyRateLimiter } from '../../middleware/rate-limit.js'
 
 const errorResponseSchema = z
   .object({
@@ -246,6 +248,8 @@ const deleteTaskRoute = createRoute({
 })
 
 export const publicTasks = new OpenAPIHono<ApiKeyAuthEnv>()
+publicTasks.use('*', requireApiKey)
+publicTasks.use('*', apiKeyRateLimiter)
 
 publicTasks.openapi(listTasksRoute, async (c) => {
   const { page } = c.req.valid('query')
