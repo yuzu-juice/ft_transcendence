@@ -2,6 +2,7 @@ import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { publicTasks } from '../features/task/public.js'
 import { requireApiKey } from '../middleware/api-key-auth.js'
+import { apiKeyRateLimiter } from '../middleware/rate-limit.js'
 
 const publicApi = new OpenAPIHono()
 
@@ -46,7 +47,9 @@ publicApi.get('/docs', swaggerUI({ url: './docs/openapi' }))
 // Honoのパスマッチングでは
 // /tasks/*という書き方だけだと、/tasksの末尾に何も付かない場合にマッチしないことがある
 publicApi.use('/tasks', requireApiKey)
+publicApi.use('/tasks', apiKeyRateLimiter)
 publicApi.use('/tasks/*', requireApiKey)
+publicApi.use('/tasks/*', apiKeyRateLimiter)
 
 publicApi.route('/tasks', publicTasks)
 
