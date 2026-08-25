@@ -47,7 +47,6 @@ publicApi.get('/docs', swaggerUI({ url: './docs/openapi' }))
 // Honoのパスマッチングでは
 // /tasks/*という書き方だけだと、/tasksの末尾に何も付かない場合にマッチしないことがある
 publicApi.use('/tasks', requireApiKey)
-publicApi.use('/tasks', apiKeyRateLimiter)
 publicApi.use('/tasks/*', requireApiKey)
 publicApi.use('/tasks/*', apiKeyRateLimiter)
 
