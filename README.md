@@ -209,7 +209,7 @@ The application will be available at:
 | Create a task | `POST /api/tasks` — accepts title, description, priority, and due date |
 | Update a task | `PATCH /api/tasks/:id` — partial update (only sent fields are changed) |
 | Delete a task | `DELETE /api/tasks/:id` — deletes the task and returns 204 |
-| Rate limiting | Uses `hono-rate-limiter`; 60 requests per minute per API key <!-- TODO: rate limitは後日要検討 --> |
+| Rate limiting | Uses `hono-rate-limiter`; 30 requests per minute per API key |
 | API documentation | `GET /api/v1/docs` — Swagger UI for browsing and testing endpoints in the browser |
 
 #### UI and Accessibility

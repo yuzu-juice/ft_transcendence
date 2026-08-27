@@ -1,7 +1,6 @@
 import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { publicTasks } from '../features/task/public.js'
-import { requireApiKey } from '../middleware/api-key-auth.js'
 
 const publicApi = new OpenAPIHono()
 
@@ -42,11 +41,6 @@ publicApi.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
 // ブラウザ側がOpenAPIの中身をどこに取りに行くかを指定するオプションであり
 // nginxを経由するので、/api/込みの絶対パスを指定。
 publicApi.get('/docs', swaggerUI({ url: './docs/openapi' }))
-
-// Honoのパスマッチングでは
-// /tasks/*という書き方だけだと、/tasksの末尾に何も付かない場合にマッチしないことがある
-publicApi.use('/tasks', requireApiKey)
-publicApi.use('/tasks/*', requireApiKey)
 
 publicApi.route('/tasks', publicTasks)
 

@@ -19,6 +19,7 @@
     "better-auth": "1.7.0-rc.6",
     "drizzle-orm": "1.0.0-rc.4",
     "hono": "^4.13.2",
+    "hono-rate-limiter": "^0.5.3",
     "pg": "^8.23.0",
     "sharp": "^0.35.3",
     "zod": "^4.4.3"
