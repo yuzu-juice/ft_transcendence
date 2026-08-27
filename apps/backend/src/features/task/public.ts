@@ -7,7 +7,7 @@ import {
   publicTaskPageSchema,
   patchTaskSchema,
   taskIdParamSchema,
-} from './public_schema.js'
+} from './public-schema.js'
 import { taskService } from './service.js'
 import { requireApiKey } from '../../middleware/api-key-auth.js'
 import { apiKeyRateLimiter } from '../../middleware/rate-limit.js'
