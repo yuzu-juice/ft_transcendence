@@ -145,7 +145,7 @@ The application will be available at:
 | description | text, nullable | Up to 2000 characters |
 | status | text | `todo` / `in_progress` / `done` |
 | priority | text, nullable | `low` / `medium` / `high` |
-| dueDate | timestamp, nullable | |
+| dueAt | timestamp, nullable | |
 | createdBy | text (FK → user.id) | |
 | createdAt | timestamp | |
 | updatedAt | timestamp | |
