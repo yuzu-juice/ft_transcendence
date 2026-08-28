@@ -3,9 +3,7 @@ import { Hono } from 'hono'
 import type { AuthEnv } from '../../middleware/auth.js'
 import { userService } from './service.js'
 
-export const users = new Hono<AuthEnv>()
-
-users.get('/', async (c) => {
+export const users = new Hono<AuthEnv>().get('/', async (c) => {
   const result = await userService.list()
   return c.json(result)
 })

@@ -137,29 +137,26 @@ const deleteApiKeyRoute = createRoute({
 })
 
 export const apiKeys = new OpenAPIHono<AuthEnv>()
+  .openapi(createApiKeyRoute, async (c) => {
+    const { id: userId } = c.get('user')!
+    const { name } = c.req.valid('json')
 
-apiKeys.openapi(createApiKeyRoute, async (c) => {
-  const { id: userId } = c.get('user')!
-  const { name } = c.req.valid('json')
+    const apiKey = await apiKeyService.create(userId, name)
 
-  const apiKey = await apiKeyService.create(userId, name)
+    return c.json(apiKey, 201)
+  })
+  .openapi(listApiKeysRoute, async (c) => {
+    const { id: userId } = c.get('user')!
 
-  return c.json(apiKey, 201)
-})
+    const apiKeyList = await apiKeyService.listByUserId(userId)
 
-apiKeys.openapi(listApiKeysRoute, async (c) => {
-  const { id: userId } = c.get('user')!
+    return c.json(apiKeyList, 200)
+  })
+  .openapi(deleteApiKeyRoute, async (c) => {
+    const { id: userId } = c.get('user')!
+    const { apiKeyId } = c.req.valid('param')
 
-  const apiKeyList = await apiKeyService.listByUserId(userId)
+    await apiKeyService.remove(apiKeyId, userId)
 
-  return c.json(apiKeyList, 200)
-})
-
-apiKeys.openapi(deleteApiKeyRoute, async (c) => {
-  const { id: userId } = c.get('user')!
-  const { apiKeyId } = c.req.valid('param')
-
-  await apiKeyService.remove(apiKeyId, userId)
-
-  return c.body(null, 204)
-})
+    return c.body(null, 204)
+  })
