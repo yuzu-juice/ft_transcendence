@@ -230,7 +230,7 @@ export const taskRepository = {
 
   // Analytics
   getAnalyticsSummary: async () => {
-    const statusCounts = await db
+    const statusCountsPromise = db
       .select({
         status: taskTable.status,
         count: count(),
@@ -238,7 +238,7 @@ export const taskRepository = {
       .from(taskTable)
       .groupBy(taskTable.status)
 
-    const priorityCounts = await db
+    const priorityCountsPromise = db
       .select({
         priority: taskTable.priority,
         count: count(),
@@ -246,16 +246,23 @@ export const taskRepository = {
       .from(taskTable)
       .groupBy(taskTable.priority)
 
-    const [overdueCount] = await db
+    const overdueCountPromise = db
       .select({ count: count() })
       .from(taskTable)
       .where(and(lt(taskTable.dueAt, new Date()), ne(taskTable.status, 'done')))
 
-    const totalTasksCount = await db.$count(taskTable)
+    const totalTasksCountPromise = db.$count(taskTable)
+
+    const [statusCounts, priorityCounts, overdueCount, totalTasksCount] = await Promise.all([
+      statusCountsPromise,
+      priorityCountsPromise,
+      overdueCountPromise,
+      totalTasksCountPromise,
+    ])
     return {
       statusCounts,
       priorityCounts,
-      overdueCount: overdueCount?.count ?? 0,
+      overdueCount: overdueCount[0]?.count ?? 0,
       totalTasksCount,
     }
   },
