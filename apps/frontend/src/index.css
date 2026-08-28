@@ -1,1 +1,56 @@
 @import "tailwindcss";
+@import "otsukimi-ui/tokens.css";
+
+@theme inline {
+  /* colors */
+  --color-bg-base: var(--otsukimi-color-bg-base);
+  --color-bg-surface: var(--otsukimi-color-bg-surface);
+
+  --color-brand-primary: var(--otsukimi-color-brand-primary);
+  --color-brand-primary-soft: var(--otsukimi-color-brand-primary-soft);
+  --color-brand-primary-deep: var(--otsukimi-color-brand-primary-deep);
+
+  --color-accent: var(--otsukimi-color-accent-default);
+  --color-accent-soft: var(--otsukimi-color-accent-soft);
+
+  --color-text-primary: var(--otsukimi-color-text-primary);
+  --color-text-secondary: var(--otsukimi-color-text-secondary);
+
+  --color-border: var(--otsukimi-color-border-default);
+
+  --color-highlight: var(--otsukimi-color-highlight-default);
+  --color-highlight-soft: var(--otsukimi-color-highlight-soft);
+
+  --color-secondary: var(--otsukimi-color-secondary);
+
+  /* radius */
+  --radius-xs: var(--otsukimi-radius-xs);
+  --radius-sm: var(--otsukimi-radius-sm);
+  --radius-md: var(--otsukimi-radius-md);
+  --radius-lg: var(--otsukimi-radius-lg);
+  --radius-full: var(--otsukimi-radius-full);
+
+  /* spacing */
+  --spacing-oui-1: var(--otsukimi-spacing-1);
+  --spacing-oui-2: var(--otsukimi-spacing-2);
+  --spacing-oui-3: var(--otsukimi-spacing-3);
+  --spacing-oui-4: var(--otsukimi-spacing-4);
+  --spacing-oui-5: var(--otsukimi-spacing-5);
+  --spacing-oui-6: var(--otsukimi-spacing-6);
+
+  /* fonts */
+  --font-body: var(--otsukimi-font-body-family);
+  --font-heading: var(--otsukimi-font-heading-family);
+
+  /* shadows */
+  --shadow-sm: var(--otsukimi-shadow-sm);
+  --shadow-md: var(--otsukimi-shadow-md);
+  --shadow-lg: var(--otsukimi-shadow-lg);
+}
+
+body {
+  margin: 0;
+  background: var(--otsukimi-color-bg-base);
+  color: var(--otsukimi-color-text-primary);
+  font-family: var(--otsukimi-font-body-family);
+}

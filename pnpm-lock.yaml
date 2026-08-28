@@ -69,6 +69,12 @@ importers:
 
   apps/frontend:
     dependencies:
+      '@fontsource/line-seed-jp':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/zen-maru-gothic':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
@@ -87,6 +93,9 @@ importers:
       '@tanstack/react-router-devtools':
         specifier: ^1.167.1
         version: 1.167.1(@tanstack/react-router@1.170.23(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/router-core@1.171.19)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      otsukimi-ui:
+        specifier: ^1.2.0
+        version: 1.2.0(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -649,6 +658,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/line-seed-jp@5.3.0':
+    resolution: {integrity: sha512-RbHAvvH3Ihsf0DMh8WS+Vc4OnUvy7rjW3Bn8Gvzqc8Cgh/7Nl3azzanf/DFkDlXhr7zC4BJY6aO98rO541nFoQ==}
+
+  '@fontsource/zen-maru-gothic@5.3.0':
+    resolution: {integrity: sha512-BuigfmzszMR3AOyAMSocQZ9bEq9o5sGCMOC/laI4TMpba1/KB1jxsdNFXWMUz02wVPd4vAVuMhsV00AQizFj3w==}
 
   '@hono/node-server@2.1.1':
     resolution: {integrity: sha512-ELuehkj5VCBdgEw9zs+ivkKwyzzUCSQuE96YmiPvn1ECBoZCczbFXJLeEGMTYjphP6gydh4pHMqEYPVMYUVgQg==}
@@ -1967,6 +1982,11 @@ packages:
   openapi3-ts@4.6.1:
     resolution: {integrity: sha512-XW9MOldkhoICNeXVzzmXzmOW5G73ppOEGmh7fLCqHjgfdEYCGGN+00MlVCeUZgovjjfC56j9tvtDt1zGabNjjA==}
 
+  otsukimi-ui@1.2.0:
+    resolution: {integrity: sha512-XfQb+gN6bVzug2mKTsISOdIQSTYpfSnm5HmVvy3ne6WYzXERDRhVu4oQNkF3PkC8HhZ1NTYgcKjIq6ynNJ40Hg==}
+    peerDependencies:
+      react: ^19.0.0
+
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
@@ -2616,6 +2636,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.2':
     optional: true
+
+  '@fontsource/line-seed-jp@5.3.0': {}
+
+  '@fontsource/zen-maru-gothic@5.3.0': {}
 
   '@hono/node-server@2.1.1(hono@4.13.2)':
     dependencies:
@@ -3519,6 +3543,10 @@ snapshots:
   openapi3-ts@4.6.1:
     dependencies:
       yaml: 2.9.0
+
+  otsukimi-ui@1.2.0(react@19.2.8):
+    dependencies:
+      react: 19.2.8
 
   pathe@2.0.3: {}
 

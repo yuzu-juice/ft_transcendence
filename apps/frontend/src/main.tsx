@@ -4,6 +4,11 @@ import ReactDOM from 'react-dom/client'
 import { routeTree } from './routeTree.gen'
 import './index.css'
 
+import '@fontsource/line-seed-jp/400.css'
+import '@fontsource/line-seed-jp/700.css'
+import '@fontsource/zen-maru-gothic/400.css'
+import '@fontsource/zen-maru-gothic/700.css'
+
 const router = createRouter({
   routeTree,
 })
