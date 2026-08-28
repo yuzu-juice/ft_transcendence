@@ -78,4 +78,43 @@ export const taskService = {
 
     await taskRepository.delete(taskId)
   },
+
+  getAnalyticsSummary: async () => {
+    const { totalTasksCount, statusCounts, priorityCounts, overdueCount } =
+      await taskRepository.getAnalyticsSummary()
+
+    const byStatus = {
+      todo: 0,
+      in_progress: 0,
+      done: 0,
+    }
+    for (const { status, count } of statusCounts) {
+      byStatus[status] = count
+    }
+
+    const byPriority = {
+      low: 0,
+      medium: 0,
+      high: 0,
+      unset: 0,
+    }
+
+    for (const row of priorityCounts) {
+      if (row.priority === null) {
+        byPriority.unset = row.count
+      } else {
+        byPriority[row.priority] = row.count
+      }
+    }
+
+    const completionRate = totalTasksCount === 0 ? 0 : byStatus.done / totalTasksCount
+
+    return {
+      totalTasksCount,
+      byStatus,
+      byPriority,
+      overdueCount,
+      completionRate,
+    }
+  },
 }

@@ -5,6 +5,7 @@ import { tasks } from '../features/task/tasks.routes.js'
 import { me } from '../features/user/me.routes.js'
 import { users } from '../features/user/users.routes.js'
 import { requireAuth } from '../middleware/auth.js'
+import { analytics } from '../features/task/analytics.routes.js'
 
 const internal = new Hono()
 
@@ -15,5 +16,6 @@ internal.route('/users', users)
 internal.route('/tasks', tasks)
 internal.route('/admin', admin)
 internal.route('/api-keys', apiKeys)
+internal.route('/analytics', analytics)
 
 export default internal

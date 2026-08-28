@@ -4,11 +4,14 @@ import {
   desc,
   eq,
   exists,
-  gte,
+  gte, // greater than or equal
   ilike,
   inArray,
-  lte,
+  lte, // less than or equal
   or,
+  count,
+  lt, // less than
+  ne, // not equal
   type SQL,
   sql,
 } from 'drizzle-orm'
@@ -223,5 +226,37 @@ export const taskRepository = {
 
   delete: async (id: string) => {
     await db.delete(taskTable).where(eq(taskTable.id, id))
+  },
+
+  // Analytics
+  getAnalyticsSummary: async () => {
+    const statusCounts = await db
+      .select({
+        status: taskTable.status,
+        count: count(),
+      })
+      .from(taskTable)
+      .groupBy(taskTable.status)
+
+    const priorityCounts = await db
+      .select({
+        priority: taskTable.priority,
+        count: count(),
+      })
+      .from(taskTable)
+      .groupBy(taskTable.priority)
+
+    const [overdueCount] = await db
+      .select({ count: count() })
+      .from(taskTable)
+      .where(and(lt(taskTable.dueAt, new Date()), ne(taskTable.status, 'done')))
+
+    const totalTasksCount = await db.$count(taskTable)
+    return {
+      statusCounts,
+      priorityCounts,
+      overdueCount: overdueCount?.count ?? 0,
+      totalTasksCount,
+    }
   },
 }
