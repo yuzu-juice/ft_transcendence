@@ -75,6 +75,9 @@ importers:
       '@fontsource/zen-maru-gothic':
         specifier: ^5.3.0
         version: 5.3.0
+      '@ft/backend':
+        specifier: workspace:*
+        version: link:../backend
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
@@ -93,6 +96,9 @@ importers:
       '@tanstack/react-router-devtools':
         specifier: ^1.167.1
         version: 1.167.1(@tanstack/react-router@1.170.23(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/router-core@1.171.19)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      hono:
+        specifier: ^4.13.2
+        version: 4.13.2
       otsukimi-ui:
         specifier: ^1.2.0
         version: 1.2.0(react@19.2.8)
