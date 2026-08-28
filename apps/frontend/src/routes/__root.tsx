@@ -1,7 +1,13 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import type { authClient } from '@/lib/auth/client'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
-export const Route = createRootRoute({
+// RouterContextを拡張してBetter Authの提供するsessionの情報を渡せるようにする
+export interface RouterContext {
+  session: typeof authClient.$Infer.Session | null
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <Outlet />

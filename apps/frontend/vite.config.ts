@@ -10,6 +10,7 @@ export default defineConfig({
     tanstackRouter({
       target: 'react',
       autoCodeSplitting: true,
+      tmpDir: path.resolve(__dirname, './src/.tanstack/tmp'),
     }),
     react(),
     tailwindcss(),
