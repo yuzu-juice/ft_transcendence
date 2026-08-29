@@ -1,5 +1,4 @@
 import { Modal } from '@/components/ui/Modal'
-import { useForm } from '@tanstack/react-form'
 import { Button, Divider } from 'otsukimi-ui'
 import { AvatarUploadSchema } from '../schema'
 import { useMutation } from '@tanstack/react-query'
@@ -21,14 +20,18 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
 
   const editForm = useAppForm({
     defaultValues: {
-      avatar: null as unknown as File | null,
+      avatar: null as File | null,
     },
     validators: {
       onBlur: AvatarUploadSchema,
       onSubmit: AvatarUploadSchema,
     },
     onSubmit: async ({ value }) => {
-      await avatarUploadMutation.mutateAsync(value) // TODO fix
+      if (!value.avatar) return
+
+      await avatarUploadMutation.mutateAsync({
+        avatar: value.avatar,
+      })
       await refetch()
       toast.success('アバター画像を更新しました') // TODO toastがmodalの裏に隠れてしまう問題を修正
       onOpenChange(false)
