@@ -1,8 +1,8 @@
 import { CustomLink } from '@/components/ui/CustomLink'
 import { AuthLayout } from './AuthLayout'
-import { useNavigate, useRouter } from '@tanstack/react-router'
+import { Link, useNavigate, useRouter } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
-import { useAppForm } from '@/components/form/form'
+import { getFormErrorMessage, useAppForm } from '@/components/form/form'
 import { SignUpSchema } from '../schema'
 import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
 import { Button } from 'otsukimi-ui'
@@ -22,6 +22,7 @@ export const SignUpForm = () => {
       email: '',
       password: '',
       confirmPassword: '',
+      agreement: false,
     },
     validators: {
       onBlur: SignUpSchema,
@@ -95,6 +96,33 @@ export const SignUpForm = () => {
               autoComplete="new-password"
               placeholder="確認用パスワード"
             />
+          )}
+        </form.AppField>
+
+        <form.AppField name="agreement">
+          {(field) => (
+            <div className="flex flex-col gap-1">
+              <div className="flex items-start gap-2">
+                <field.CheckboxField />
+
+                <span className="text-sm">
+                  <Link to="/terms" className="underline">
+                    利用規約
+                  </Link>
+                  ・
+                  <Link to="/privacy" className="underline">
+                    プライバシーポリシー
+                  </Link>
+                  に同意する
+                </span>
+              </div>
+
+              {field.state.meta.errors[0] && (
+                <p className="text-sm text-red-600">
+                  {getFormErrorMessage(field.state.meta.errors[0])}
+                </p>
+              )}
+            </div>
           )}
         </form.AppField>
 

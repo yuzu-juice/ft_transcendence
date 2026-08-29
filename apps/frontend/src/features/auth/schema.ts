@@ -16,10 +16,15 @@ export const SignUpSchema = z
     email: z.email('有効なメールアドレスを入力してください'),
     password: z.string().min(8, 'パスワードは8文字以上で入力してください'),
     confirmPassword: z.string().min(1, '確認用パスワードを入力してください'),
+    agreement: z.boolean(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: '確認用パスワードが一致しません',
     path: ['confirmPassword'],
+  })
+  .refine((data) => data.agreement === true, {
+    message: '利用規約・プライバシーポリシーへの同意が必須です',
+    path: ['agreement'],
   })
 
 export type SignUpInput = z.infer<typeof SignUpSchema>
