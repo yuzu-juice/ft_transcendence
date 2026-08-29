@@ -2,7 +2,7 @@
 
 import { authClient } from '@/lib/auth/client'
 import { UserAvatar } from './UserAvatar'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 export const Header = () => {
   const { data: session } = authClient.useSession()
@@ -11,7 +11,7 @@ export const Header = () => {
     <header className="w-full h-14 bg-white shadow-md flex items-center px-6">
       <h1 className="text-brand-primary text-2xl font-bold">LunaPhase</h1>
       <div className="flex-1" />
-      {session && (
+      {session ? (
         <UserAvatar
           userId={session?.user.id}
           avatarUrl={session?.user.image}
@@ -23,6 +23,10 @@ export const Header = () => {
             })
           }
         />
+      ) : (
+        <Link to="/sign-in" className="text-sm text-blue-700">
+          サインイン
+        </Link>
       )}
     </header>
   )

@@ -6,7 +6,7 @@ export const Route = createFileRoute('/sign-up')({
   beforeLoad: ({ context }) => {
     if (context.session) {
       throw redirect({
-        to: '/',
+        to: '/mypage',
       })
     }
   },

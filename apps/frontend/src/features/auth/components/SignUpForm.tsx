@@ -36,7 +36,7 @@ export const SignUpForm = () => {
         await router.invalidate()
         toast.info('サインアップしました')
         await navigate({
-          to: '/',
+          to: '/mypage',
         })
       } catch {}
     },
