@@ -1,6 +1,6 @@
 import { authClient } from '@/lib/auth/client'
 import { mutationOptions } from '@tanstack/react-query'
-import type { SignInInput } from './schema'
+import type { SignInInput, SignUpInput } from './schema'
 
 export class BetterAuthError extends Error {
   readonly code?: string
@@ -33,7 +33,25 @@ export const signInMutationOptions = mutationOptions({
       password,
     })
     if (error) {
-      throw new BetterAuthError(error.message, error.code)
+      throw new BetterAuthError(error.message, error.code, error.status)
+    }
+    return data
+  },
+  meta: {
+    suppressErrorToast: true,
+  },
+})
+
+export const signUpMutationOptions = mutationOptions({
+  mutationKey: ['auth', 'sign-up'],
+  mutationFn: async ({ name, email, password }: SignUpInput) => {
+    const { data, error } = await authClient.signUp.email({
+      name,
+      email: email.trim(),
+      password,
+    })
+    if (error) {
+      throw new BetterAuthError(error.message, error.code, error.status)
     }
     return data
   },
