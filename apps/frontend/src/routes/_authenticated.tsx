@@ -1,3 +1,4 @@
+import { CommonLayout } from '@/components/layout/CommonLayout'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 // Tanstack RouterのPath less routeという機能を用いている
@@ -17,5 +18,11 @@ export const Route = createFileRoute('/_authenticated')({
     }
   },
 
-  component: Outlet,
+  component: () => {
+    return (
+      <CommonLayout>
+        <Outlet />
+      </CommonLayout>
+    )
+  },
 })
