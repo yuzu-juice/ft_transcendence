@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { SignInForm } from '@/features/auth/components/SignInForm'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/sign-in')({
-  component: SignIn,
+  // すでにログイン済みの場合リダイレクトする
+  beforeLoad: ({ context }) => {
+    if (context.session) {
+      throw redirect({
+        to: '/',
+      })
+    }
+  },
+  component: SignInForm,
 })
-
-function SignIn() {
-  return <div className="p-2">Hello from SignIn!</div>
-}

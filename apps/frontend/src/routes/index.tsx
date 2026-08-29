@@ -1,17 +1,40 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { CustomLink } from '@/components/ui/CustomLink'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
+
+import { authClient } from '@/lib/auth/client'
+import { Button } from 'otsukimi-ui'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/')({
   component: Index,
 })
 
 function Index() {
+  const router = useRouter()
+  const { data: session, refetch } = authClient.useSession()
+
+  const handleSignOut = async () => {
+    await authClient.signOut()
+    toast.info('サインアウトしました')
+    await refetch()
+    await router.invalidate()
+  }
+
   return (
     <main className="min-h-screen w-full flex items-center justify-center">
-      <section className="flex flex-col gap-2.5 text-center">
+      <section className="flex flex-col gap-2.5 justify-center text-center">
         <h1 className="text-6xl font-bold bg-[linear-gradient(90deg,#ff6262_0%,#ff9e84_28%,#ffe47a_52%,#bada55_72%,#16c7c8_100%)] bg-clip-text text-transparent">
           LunaPhase
         </h1>
         <p className="text-xl">ちょー簡単に操作できるプロジェクト管理アプリ</p>
+        {/* 一時的に配置している仮のログイン・ログアウトボタン */}
+        {!session ? (
+          <CustomLink to="/sign-in" className="text-lg">
+            ログイン
+          </CustomLink>
+        ) : (
+          <Button onClick={handleSignOut}>ログアウト</Button>
+        )}
       </section>
     </main>
   )
