@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
+    "build:watch": "tsc --watch --preserveWatchOutput",
     "start": "node dist/index.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -33,7 +34,12 @@
   },
   "exports": {
     "./app": {
-      "types": "./src/routes/internal.ts"
+      "types": "./dist/routes/internal.d.ts",
+      "import": "./dist/routes/internal.js"
+    },
+    "./client": {
+      "types": "./dist/rpc-client.d.ts",
+      "import": "./dist/rpc-client.js"
     }
   }
 }
