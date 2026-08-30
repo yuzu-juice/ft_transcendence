@@ -56,9 +56,9 @@ export const getErrorMessage = async (error: unknown) => {
     return '予期しないエラーが発生しました'
   }
 
-  // APIの返すerror.codeを参照しエラーメッセージを表示する
-  if (typeof error.code === 'string') {
-    const message = getApiErrorMessage(error.code)
+  // APIの返すerror.detail.data.error.codeを参照しエラーメッセージを表示する
+  if (typeof error.detail?.data?.error?.code === 'string') {
+    const message = getApiErrorMessage(error.detail.data.error.code)
     if (message) {
       return message
     }

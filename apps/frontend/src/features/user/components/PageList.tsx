@@ -1,8 +1,11 @@
 import { authClient } from '@/lib/auth/client'
-import { Link } from '@tanstack/react-router'
-import { Card } from 'otsukimi-ui'
+import { Link, type LinkOptions, type RegisteredRouter } from '@tanstack/react-router'
 
-const pages = [
+const pages: {
+  path: LinkOptions<RegisteredRouter>['to']
+  name: string
+  admin: boolean
+}[] = [
   {
     path: '/tasks',
     name: 'タスク',

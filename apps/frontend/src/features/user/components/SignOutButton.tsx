@@ -9,7 +9,12 @@ export const SignOutButton = () => {
   const { refetch } = authClient.useSession()
 
   const handleSignOut = async () => {
-    await authClient.signOut()
+    const { error } = await authClient.signOut()
+    if (error) {
+      toast.error('サインアウトに失敗しました')
+      return
+    }
+
     await refetch()
     await router.invalidate({ sync: true })
 
