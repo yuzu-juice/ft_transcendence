@@ -21,7 +21,7 @@ export const SignOutButton = () => {
     toast.info('サインアウトしました')
 
     await navigate({
-      to: '/',
+      to: '/sign-in',
     })
   }
   return (

@@ -5,7 +5,7 @@
   "scripts": {
     "rpc:build": "pnpm --filter @ft/backend build",
     "rpc:watch": "pnpm --filter @ft/backend build:watch",
-    "compose:dev": "docker compose --ansi always up --watch --build",
+    "compose:dev": "docker compose --ansi always up --watch",
     "dev": "pnpm rpc:build && concurrently -k -s first -n rpc,docker -c cyan,magenta \"pnpm rpc:watch\" \"pnpm compose:dev\"",
     "check": "biome check .",
     "lint": "biome lint .",
