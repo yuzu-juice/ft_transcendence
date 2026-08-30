@@ -23,7 +23,7 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
       name: name,
     },
     validators: {
-      onBlur: ProfileUpdateSchema,
+      onChange: ProfileUpdateSchema,
       onSubmit: ProfileUpdateSchema,
     },
     onSubmit: async ({ value }) => {
@@ -38,7 +38,7 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
     <Modal open={open} title="プロフィール編集" onOpenChange={onOpenChange}>
       <form
         noValidate
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-6"
         onSubmit={(event) => {
           event.preventDefault()
           event.stopPropagation()
@@ -46,7 +46,7 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
         }}
       >
         <form.AppField name="name">
-          {(field) => <field.TextField label="ユーザ名" type="text" />}
+          {(field) => <field.TextField label="ユーザ名" type="text" className="!w-full" />}
         </form.AppField>
 
         <form.Subscribe selector={(state) => state.isSubmitting}>

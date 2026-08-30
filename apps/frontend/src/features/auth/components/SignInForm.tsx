@@ -22,7 +22,7 @@ export const SignInForm = () => {
       password: '',
     },
     validators: {
-      onBlur: SignInSchema,
+      onChange: SignInSchema,
       onSubmit: SignInSchema,
     },
     onSubmit: async ({ value }) => {

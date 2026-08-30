@@ -1,5 +1,6 @@
 import { authClient } from '@/lib/auth/client'
 import { Link } from '@tanstack/react-router'
+import { Card } from 'otsukimi-ui'
 
 const pages = [
   {
@@ -25,7 +26,7 @@ export const PageList = () => {
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-lg font-heading font-bold">コンテンツ一覧</h3>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         {pages.map((page) => {
           if (page.admin && session && session.user.role !== 'admin') {
             return null
@@ -34,7 +35,7 @@ export const PageList = () => {
             <Link
               to={page.path}
               key={page.path}
-              className="bg-white p-4 flex items-center border-2 border-brand-primary rounded-sm shadow-sm"
+              className="bg-white rounded-sm shadow-md px-4 py-6 text-center font-bold hover:-translate-y-0.5 transition-all duration-300"
             >
               {page.name}
             </Link>

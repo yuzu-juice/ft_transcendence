@@ -47,7 +47,7 @@ function App() {
         }}
       />
       {/* toaster用 */}
-      <Toaster richColors />
+      <Toaster richColors position="top-center" />
     </>
   )
 }

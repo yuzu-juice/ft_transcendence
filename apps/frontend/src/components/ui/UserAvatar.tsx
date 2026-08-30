@@ -1,5 +1,4 @@
 import Avatar from 'boring-avatars'
-import { Button } from 'otsukimi-ui'
 import type { ComponentPropsWithoutRef, MouseEventHandler } from 'react'
 
 interface UserAvatarProps {
@@ -30,8 +29,13 @@ export const UserAvatar = ({
   }
 
   return (
-    <Button type="button" onClick={onClick} {...buttonProps}>
+    <button
+      type="button"
+      className="hover:-translate-y-0.5  transition-all duration-300 cursor-pointer hover:shadow-sm"
+      onClick={onClick}
+      {...buttonProps}
+    >
       {avatar}
-    </Button>
+    </button>
   )
 }

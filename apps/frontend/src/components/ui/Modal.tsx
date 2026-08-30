@@ -38,7 +38,7 @@ export const Modal = ({
     <dialog
       ref={dialogRef}
       aria-labelledby={titleId}
-      className="fixed inset-0 m-auto max-h-[75vh] w-[75vw] overflow-hidden rounded-xl bg-white p-0 shadow-xl backdrop:bg-black/40"
+      className="fixed inset-0 m-auto max-h-[75vh] w-[75vw] max-w-2xl overflow-hidden rounded-xl bg-white p-0 shadow-xl backdrop:bg-black/40"
       onCancel={(event) => {
         event.preventDefault()
         if (dismissible) {
@@ -67,7 +67,8 @@ export const Modal = ({
               onClick={() => {
                 onOpenChange(false)
               }}
-              className="rounded-md p-2 hover:bg-black/5"
+              variant="transparent"
+              className="rounded-md !min-w-fit p-2 hover:bg-black/5"
             >
               ×
             </Button>

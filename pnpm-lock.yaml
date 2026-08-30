@@ -106,8 +106,8 @@ importers:
         specifier: ^4.13.2
         version: 4.13.2
       otsukimi-ui:
-        specifier: ^1.2.0
-        version: 1.2.0(react@19.2.8)
+        specifier: ^1.2.1
+        version: 1.2.1(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -2006,8 +2006,8 @@ packages:
   openapi3-ts@4.6.1:
     resolution: {integrity: sha512-XW9MOldkhoICNeXVzzmXzmOW5G73ppOEGmh7fLCqHjgfdEYCGGN+00MlVCeUZgovjjfC56j9tvtDt1zGabNjjA==}
 
-  otsukimi-ui@1.2.0:
-    resolution: {integrity: sha512-XfQb+gN6bVzug2mKTsISOdIQSTYpfSnm5HmVvy3ne6WYzXERDRhVu4oQNkF3PkC8HhZ1NTYgcKjIq6ynNJ40Hg==}
+  otsukimi-ui@1.2.1:
+    resolution: {integrity: sha512-VJcOT3HXwt2RJHUu/EXDbIe0x36uqez2lLtUluQsmDMGyZlxObzmdVsEI0JTqEWN+U1b2nlBpRkK5ixUa2qbnQ==}
     peerDependencies:
       react: ^19.0.0
 
@@ -3583,7 +3583,7 @@ snapshots:
     dependencies:
       yaml: 2.9.0
 
-  otsukimi-ui@1.2.0(react@19.2.8):
+  otsukimi-ui@1.2.1(react@19.2.8):
     dependencies:
       react: 19.2.8
 

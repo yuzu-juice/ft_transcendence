@@ -25,7 +25,7 @@ export const SignUpForm = () => {
       agreement: false,
     },
     validators: {
-      onBlur: SignUpSchema,
+      onChange: SignUpSchema,
       onSubmit: SignUpSchema,
     },
     onSubmit: async ({ value }) => {

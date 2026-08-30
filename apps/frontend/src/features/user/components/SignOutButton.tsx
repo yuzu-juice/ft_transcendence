@@ -1,7 +1,6 @@
 import { useNavigate, useRouter } from '@tanstack/react-router'
 
 import { authClient } from '@/lib/auth/client'
-import { Button } from 'otsukimi-ui'
 import { toast } from 'sonner'
 
 export const SignOutButton = () => {
@@ -22,13 +21,16 @@ export const SignOutButton = () => {
   }
   return (
     <div className="flex flex-col gap-4">
-      <Button
-        type="button"
-        onClick={handleSignOut}
-        className="bg-red-500 text-white p-2 rounded-sm"
-      >
-        サインアウト
-      </Button>
+      <h3 className="text-lg font-heading font-bold">アカウント</h3>
+      <div className="grid md:grid-cols-3 gap-4">
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="bg-linear-to-r from-rose-400 to-rose-500 duration-300 font-bold text-white px-4 py-6 shadow-lg shadow-brand-primary rounded-sm cursor-pointer hover:-translate-y-0.5 transition-all"
+        >
+          サインアウト
+        </button>
+      </div>
     </div>
   )
 }

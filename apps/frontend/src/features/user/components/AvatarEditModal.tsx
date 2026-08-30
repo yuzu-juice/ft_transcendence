@@ -23,11 +23,13 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
       avatar: null as File | null,
     },
     validators: {
-      onBlur: AvatarUploadSchema,
+      onChange: AvatarUploadSchema,
       onSubmit: AvatarUploadSchema,
     },
     onSubmit: async ({ value }) => {
-      if (!value.avatar) return
+      if (!value.avatar) {
+        return
+      }
 
       await avatarUploadMutation.mutateAsync({
         avatar: value.avatar,
@@ -49,12 +51,12 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
 
   return (
     <Modal open={open} title="アバター編集" onOpenChange={onOpenChange}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <h3 className="text-md font-bold">画像を更新</h3>
           <form
             noValidate
-            className="flex flex-row gap-12"
+            className="flex flex-col gap-8"
             onSubmit={(event) => {
               event.preventDefault()
               event.stopPropagation()
@@ -106,7 +108,7 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
           >
             <deleteForm.Subscribe selector={(state) => state.isSubmitting}>
               {(isSubmitting) => (
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                <Button type="submit" variant="moon" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? '削除しています...' : '画像を削除する'}
                 </Button>
               )}

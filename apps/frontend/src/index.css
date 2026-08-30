@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "otsukimi-ui/styles.css";
 @import "otsukimi-ui/tokens.css";
 
 @theme inline {

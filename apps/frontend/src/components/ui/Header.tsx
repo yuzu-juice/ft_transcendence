@@ -9,7 +9,9 @@ export const Header = () => {
   const navigate = useNavigate()
   return (
     <header className="w-full h-14 bg-white shadow-md flex items-center px-6">
-      <h1 className="text-brand-primary text-2xl font-bold">LunaPhase</h1>
+      <h1 className="text-brand-primary text-2xl font-bold">
+        <Link to="/mypage">LunaPhase</Link>
+      </h1>
       <div className="flex-1" />
       {session ? (
         <UserAvatar
