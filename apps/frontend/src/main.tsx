@@ -16,6 +16,8 @@ import '@fontsource/zen-maru-gothic/400.css'
 import '@fontsource/zen-maru-gothic/700.css'
 import { authClient } from './lib/auth/client'
 
+import '@/lib/i18n/config'
+
 const router = createRouter({
   routeTree,
   context: {

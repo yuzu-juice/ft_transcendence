@@ -1,0 +1,22 @@
+{
+  "app": {
+    "title": "ft_transcendence"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "loading": "Loading privacy policy...",
+      "error": "Failed to load privacy policy."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "loading": "Loading terms of service...",
+      "error": "Failed to load terms of service."
+    }
+  }
+}
