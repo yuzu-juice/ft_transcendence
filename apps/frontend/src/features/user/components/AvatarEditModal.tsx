@@ -50,7 +50,13 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
   })
 
   return (
-    <Modal open={open} title="アバター編集" onOpenChange={onOpenChange}>
+    <Modal
+      open={open}
+      title="アバター編集"
+      onOpenChange={onOpenChange}
+      showCloseButton={true}
+      dismissible={true}
+    >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <h3 className="text-md font-bold">画像を更新</h3>

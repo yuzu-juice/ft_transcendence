@@ -6,8 +6,8 @@ interface ModalProps {
   title: string
   children: ReactNode
   onOpenChange: (open: boolean) => void
-  showCloseButton?: boolean // 閉じるボタンを表示するか
-  dismissible?: boolean // Escapeや背景クリックによる閉じる操作を許可するか
+  showCloseButton: boolean // 閉じるボタンを表示するか
+  dismissible: boolean // Escapeや背景クリックによる閉じる操作を許可するか
 }
 
 export const Modal = ({
@@ -15,8 +15,8 @@ export const Modal = ({
   title,
   children,
   onOpenChange,
-  showCloseButton = true,
-  dismissible = true,
+  showCloseButton,
+  dismissible,
 }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const titleId = useId()

@@ -35,7 +35,13 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
   })
 
   return (
-    <Modal open={open} title="プロフィール編集" onOpenChange={onOpenChange}>
+    <Modal
+      open={open}
+      title="プロフィール編集"
+      onOpenChange={onOpenChange}
+      showCloseButton={true}
+      dismissible={true}
+    >
       <form
         noValidate
         className="flex flex-col gap-6"
