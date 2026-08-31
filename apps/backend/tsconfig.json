@@ -9,7 +9,12 @@
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+
+    "declaration": true,
+    "declarationMap": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.cache/backend.tsbuildinfo"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

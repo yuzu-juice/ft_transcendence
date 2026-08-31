@@ -11,6 +11,15 @@ x-workspace: &workspace
     security_opt:
         - no-new-privileges:true
 
+x-backend-environment: &backend-environment
+  DATABASE_URL: ${DATABASE_URL}
+  BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+  BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+  INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL}
+  INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD}
+  AVATAR_DIR: /data/avatars
+  FORCE_COLOR: "1"
+
 services:
     reverse-proxy:
         image: nginx:alpine
@@ -27,23 +36,36 @@ services:
 
     frontend:
         <<: *workspace
+        environment:
+          FORCE_COLOR: "1"
         command:
             - pnpm
             - --filter
-            - frontend
+            - "@ft/frontend"
             - dev
             - --host
             - 0.0.0.0
+        volumes:
+            - ./apps/frontend/src:/workspace/apps/frontend/src
+            - ./apps/backend/dist:/workspace/apps/backend/dist:ro
+        depends_on:
+          backend:
+            condition: service_healthy
         develop:
             watch:
                 - action: sync
                   path: ./apps/frontend
                   target: /workspace/apps/frontend
+                  initial_sync: true
                   ignore:
                       - node_modules/
                       - package.json
+                      - src/
+                      - dist/
                 - action: rebuild
                   path: ./apps/frontend/package.json
+                - action: rebuild
+                  path: ./apps/backend/package.json
                 - action: rebuild
                   path: ./package.json
                 - action: rebuild
@@ -53,46 +75,71 @@ services:
         networks:
             - frontend
 
+    backend-init:
+      <<: *workspace
+      command:
+        - sh
+        - -ec
+        - |
+          pnpm --filter @ft/backend db:migrate
+          pnpm --filter @ft/backend db:bootstrap-admin
+          pnpm --filter @ft/backend db:seed:dev
+      environment:
+        <<: *backend-environment
+      volumes:
+        - avatar-data:/data/avatars
+      depends_on:
+        database:
+          condition: service_healthy
+      networks:
+        - backend
+        - database
+
     backend:
-        <<: *workspace
-        command: >
-          sh -c "
-            pnpm --filter backend db:migrate &&
-            pnpm --filter backend db:bootstrap-admin &&
-            pnpm --filter backend db:seed:dev &&
-            pnpm --filter backend run dev
-          "
-        develop:
-            watch:
-                - action: sync
-                  path: ./apps/backend
-                  target: /workspace/apps/backend
-                  ignore:
-                      - node_modules/
-                      - package.json
-                - action: rebuild
-                  path: ./apps/backend/package.json
-                - action: rebuild
-                  path: ./package.json
-                - action: rebuild
-                  path: ./pnpm-lock.yaml
-                - action: rebuild
-                  path: ./pnpm-workspace.yaml
-        environment:
-            DATABASE_URL: ${DATABASE_URL}
-            BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
-            BETTER_AUTH_URL: ${BETTER_AUTH_URL}
-            INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL}
-            INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD}
-            AVATAR_DIR: /data/avatars
-        volumes:
-            - avatar-data:/data/avatars
-        depends_on:
-            database:
-              condition: service_healthy
-        networks:
-            - backend
-            - database
+      <<: *workspace
+      command:
+        - pnpm
+        - --filter
+        - "@ft/backend"
+        - dev
+      environment:
+        <<: *backend-environment
+      volumes:
+        - avatar-data:/data/avatars
+      depends_on:
+        backend-init:
+          condition: service_completed_successfully
+      healthcheck:
+        test:
+          - CMD
+          - node
+          - -e
+          - "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 5s
+      develop:
+        watch:
+          - action: sync
+            path: ./apps/backend
+            target: /workspace/apps/backend
+            initial_sync: true
+            ignore:
+              - node_modules/
+              - dist/
+              - package.json
+          - action: rebuild
+            path: ./apps/backend/package.json
+          - action: rebuild
+            path: ./package.json
+          - action: rebuild
+            path: ./pnpm-lock.yaml
+          - action: rebuild
+            path: ./pnpm-workspace.yaml
+      networks:
+        - backend
+        - database
 
     database:
         image: postgres:18
@@ -108,7 +155,8 @@ services:
                 - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
             interval: 3s
             timeout: 3s
-            retries: 5
+            retries: 10
+            start_period: 3s
         networks:
             - database
 

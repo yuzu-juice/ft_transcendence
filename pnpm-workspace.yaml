@@ -1,12 +1,14 @@
 packages:
-    - "apps/*"
-    - "packages/*"
+  - "apps/*"
+  - "packages/*"
 allowBuilds:
-    esbuild: true
-    lefthook: true
+  esbuild: true
+  lefthook: true
 strictDepBuilds: true
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
 trustPolicyExclude:
-    - "semver"
+  - "semver"
 blockExoticSubdeps: true
+minimumReleaseAgeExclude:
+  - otsukimi-ui@1.2.1

@@ -8,14 +8,14 @@ import { requireAuth } from '../middleware/auth.js'
 import { analytics } from '../features/task/analytics.routes.js'
 
 const internal = new Hono()
-
-internal.use(requireAuth)
-
-internal.route('/me', me)
-internal.route('/users', users)
-internal.route('/tasks', tasks)
-internal.route('/admin', admin)
-internal.route('/api-keys', apiKeys)
-internal.route('/analytics', analytics)
+  .use(requireAuth)
+  .route('/me', me)
+  .route('/users', users)
+  .route('/tasks', tasks)
+  .route('/admin', admin)
+  .route('/api-keys', apiKeys)
+  .route('/analytics', analytics)
 
 export default internal
+
+export type InternalAppType = typeof internal

@@ -1,9 +1,10 @@
 {
-  "name": "backend",
+  "name": "@ft/backend",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
+    "build:watch": "tsc --watch --preserveWatchOutput",
     "start": "node dist/index.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -30,5 +31,15 @@
     "drizzle-kit": "1.0.0-rc.4",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
+  },
+  "exports": {
+    "./app": {
+      "types": "./dist/routes/internal.d.ts",
+      "import": "./dist/routes/internal.js"
+    },
+    "./client": {
+      "types": "./dist/rpc-client.d.ts",
+      "import": "./dist/rpc-client.js"
+    }
   }
 }

@@ -19,12 +19,11 @@
 
 ## 開発環境の起動
 
-Docker Composeを使用して起動します。
-`--watch` オプションにより、ソースコードの変更を監視してコンテナへ反映し、同期・再ビルドを行います。
-
 ```sh
-docker compose up --watch
+pnpm dev
 ```
+
+内部的にはDocker Composeを使用して起動します。ソースコードの変更を監視してコンテナへ反映し、同期・再ビルドを行います。
 
 ログを確認する場合:
 
@@ -32,7 +31,7 @@ docker compose up --watch
 docker compose logs -f
 ```
 
-開発環境を停止する場合:
+開発環境を停止する場合（`pnpm dev`を実行しているプロセスを`Ctrl + C`するだけでなく以下のコマンドの実行も必須）:
 
 ```sh
 docker compose down

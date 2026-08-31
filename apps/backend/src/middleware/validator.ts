@@ -14,6 +14,11 @@ const validationHook = (result: any) => {
   }
 }
 
-export const validate = <T extends z.ZodType>(target: 'json' | 'query' | 'param', schema: T) => {
+type ValidationTarget = 'json' | 'query' | 'param'
+
+export const validate = <const Target extends ValidationTarget, Schema extends z.ZodType>(
+  target: Target,
+  schema: Schema,
+) => {
   return zValidator(target, schema, validationHook)
 }
