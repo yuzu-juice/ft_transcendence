@@ -30,10 +30,10 @@ export const Footer = () => {
               key={language.code}
               type="button"
               aria-pressed={isCurrentLanguage}
-              className={`cursor-pointer px-2 py-1 transition duration-300 hover:bg-brand-primary-soft ${
+              className={`cursor-pointer px-2 py-1 transition duration-300 ${
                 isCurrentLanguage
                   ? 'bg-brand-primary text-white'
-                  : 'bg-bg-surface text-text-primary'
+                  : 'bg-bg-surface text-text-primary hover:bg-brand-primary-soft'
               }`}
               onClick={() => void i18n.changeLanguage(language.code)}
             >
