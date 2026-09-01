@@ -23,7 +23,7 @@ function RouteComponent() {
               <h2 className="mt-8 mb-3 text-xl font-heading font-bold" {...props} />
             ),
             h3: ({ node, ...props }) => (
-              <h3 className="mt-6 mb-2 text-lg font-heading font-semibold" {...props} />
+              <h3 className="mt-6 mb-2 text-lg font-heading font-bold" {...props} />
             ),
           }}
         >
