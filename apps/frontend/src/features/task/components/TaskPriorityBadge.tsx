@@ -1,8 +1,10 @@
-interface TaskPriorityBatchProps {
-  priority: 'low' | 'medium' | 'high'
+import type { Task } from '../api'
+
+interface TaskPriorityBadgeProps {
+  priority: Task['priority']
 }
 
-const PriorityToColor = (priority: 'low' | 'medium' | 'high') => {
+const PriorityToColor = (priority: Task['priority']) => {
   switch (priority) {
     case 'low':
       return 'bg-blue-100'
@@ -13,7 +15,7 @@ const PriorityToColor = (priority: 'low' | 'medium' | 'high') => {
   }
 }
 
-export const TaskPriorityBatch = ({ priority }: TaskPriorityBatchProps) => {
+export const TaskPriorityBadge = ({ priority }: TaskPriorityBadgeProps) => {
   return (
     <div className={`${PriorityToColor(priority)} w-fit px-2 py-0.5 rounded-md`}>{priority}</div>
   )

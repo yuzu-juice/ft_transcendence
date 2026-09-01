@@ -1,8 +1,10 @@
-interface TaskStatusBatchProps {
-  status: 'todo' | 'in_progress' | 'done'
+import type { Task } from '../api'
+
+interface TaskStatusBadgeProps {
+  status: Task['status']
 }
 
-const StatusToColor = (status: 'todo' | 'in_progress' | 'done') => {
+const StatusToColor = (status: Task['status']) => {
   switch (status) {
     case 'todo':
       return 'bg-fuchsia-100'
@@ -13,6 +15,6 @@ const StatusToColor = (status: 'todo' | 'in_progress' | 'done') => {
   }
 }
 
-export const TaskStatusBatch = ({ status }: TaskStatusBatchProps) => {
+export const TaskStatusBadge = ({ status }: TaskStatusBadgeProps) => {
   return <div className={`${StatusToColor(status)} w-fit px-2 py-0.5 rounded-md`}>{status}</div>
 }

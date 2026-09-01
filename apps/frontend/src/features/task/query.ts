@@ -4,25 +4,27 @@ import { taskApi } from './api'
 const taskQueryKeys = {
   all: () => ['tasks'] as const,
 
-  get: (taskId: string) => [...taskQueryKeys.all(), taskId],
+  list: () => [...taskQueryKeys.all(), 'list'],
+
+  detail: (taskId: string) => [...taskQueryKeys.all(), 'detail', taskId],
   // TODO: 検索パラメータを明示的にkeyに持つように実装する
 }
 
 // TODO: 検索UI実装までの一時的なもの
 export const taskQueries = {
-  all: () =>
+  list: () =>
     queryOptions({
-      queryKey: taskQueryKeys.all(),
-      queryFn: async () => taskApi.all(),
+      queryKey: taskQueryKeys.list(),
+      queryFn: async () => taskApi.list(),
       meta: {
         suppressErrorToast: true,
       },
     }),
 
-  get: (taskId: string) =>
+  detail: (taskId: string) =>
     queryOptions({
-      queryKey: taskQueryKeys.get(taskId),
-      queryFn: async () => taskApi.get(taskId),
+      queryKey: taskQueryKeys.detail(taskId),
+      queryFn: async () => taskApi.detail(taskId),
       meta: {
         suppressErrorToast: true,
       },
