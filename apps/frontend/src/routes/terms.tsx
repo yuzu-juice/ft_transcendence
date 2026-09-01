@@ -1,79 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLegalMarkdown } from '../features/legal/useLegalMarkdown'
 
 export const Route = createFileRoute('/terms')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { t, i18n } = useTranslation()
-  const [content, setContent] = useState<string>('')
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    let isMounted = true
-
-    const load = async () => {
-      setIsLoading(true)
-      setIsError(false)
-      setContent('')
-
-      const language = i18n.resolvedLanguage ?? i18n.language
-      const langCode = language.split('-')[0]
-      const paths = Array.from(
-        new Set([
-          `/legal/${langCode}/terms-of-service.md`,
-          '/legal/ja/terms-of-service.md',
-          '/legal/en/terms-of-service.md',
-        ]),
-      )
-
-      try {
-        let loadedText: string | null = null
-
-        for (const path of paths) {
-          const response = await fetch(path)
-          if (response.ok) {
-            const text = await response.text()
-            const contentType = response.headers.get('content-type') ?? ''
-            const isHtmlFallback =
-              contentType.includes('text/html') ||
-              text.trimStart().toLowerCase().startsWith('<!doctype html')
-
-            if (!isHtmlFallback) {
-              loadedText = text
-              break
-            }
-          }
-        }
-
-        if (!loadedText) {
-          throw new Error('Failed to load terms of service')
-        }
-
-        if (isMounted) {
-          setContent(loadedText)
-          setIsError(false)
-        }
-      } catch {
-        if (isMounted) {
-          setIsError(true)
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    void load()
-
-    return () => {
-      isMounted = false
-    }
-  }, [i18n.language, i18n.resolvedLanguage])
+  const { t } = useTranslation()
+  const { content, isLoading, isError } = useLegalMarkdown({ kind: 'terms' })
 
   if (isLoading) {
     return <div className="mx-auto w-full max-w-4xl p-6">{t('legal.terms.loading')}</div>
