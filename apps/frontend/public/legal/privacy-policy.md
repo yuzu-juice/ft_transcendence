@@ -108,6 +108,6 @@ We may update this Privacy Policy from time to time. The date at the top of this
 
 ## 10. Contact
 
-This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, and <!-- login4 -->.
+This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, and contributors.
 
 If you have any questions about this Privacy Policy, please open an issue in our [GitHub repository](https://github.com/yuzu-juice/ft_transcendence).
