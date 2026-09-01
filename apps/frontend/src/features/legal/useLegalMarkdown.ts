@@ -4,15 +4,19 @@ import enPrivacyPolicy from '../../content/legal/en/privacy-policy.md?raw'
 import enTermsOfService from '../../content/legal/en/terms-of-service.md?raw'
 import jaPrivacyPolicy from '../../content/legal/ja/privacy-policy.md?raw'
 import jaTermsOfService from '../../content/legal/ja/terms-of-service.md?raw'
+import zhPrivacyPolicy from '../../content/legal/zh/privacy-policy.md?raw'
+import zhTermsOfService from '../../content/legal/zh/terms-of-service.md?raw'
 
 const legalMarkdown = {
   terms: {
     en: enTermsOfService,
     ja: jaTermsOfService,
+    zh: zhTermsOfService,
   },
   privacy: {
     en: enPrivacyPolicy,
     ja: jaPrivacyPolicy,
+    zh: zhPrivacyPolicy,
   },
 } as const
 

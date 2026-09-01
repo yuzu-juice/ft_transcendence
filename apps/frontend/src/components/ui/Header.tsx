@@ -13,7 +13,7 @@ export const Header = () => {
         <Link to="/mypage">LunaPhase</Link>
       </h1>
       <div className="flex-1" />
-      {session ? (
+      {session?.user ? (
         <UserAvatar
           userId={session?.user.id}
           avatarUrl={session?.user.image}

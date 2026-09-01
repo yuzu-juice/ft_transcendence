@@ -58,7 +58,7 @@ You agree not to:
 The Application provides a public REST API for interacting with task data. API access requires a valid API key. You agree to:
 
 - Keep your API key confidential and not share it with unauthorized parties
-- Respect the rate limits imposed on API requests (60 requests per minute per API key) <!-- TODO:rate limitsについては後ほど確認 -->
+- Respect the rate limits imposed on API requests (30 requests per minute per API key)
 - Use the API only for lawful purposes consistent with these Terms
 
 We reserve the right to revoke API keys that are misused.

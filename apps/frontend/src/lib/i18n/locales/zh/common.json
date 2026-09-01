@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "ft_transcendence"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "取消",
+    "back": "返回"
+  },
+  "legal": {
+    "privacy": {
+      "title": "隐私政策"
+    },
+    "terms": {
+      "title": "服务条款"
+    }
+  }
+}
