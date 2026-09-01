@@ -100,6 +100,6 @@
 
 ## 9. 联系方式
 
-本应用由 takitaga、ssoeno、genomoto 和 <!-- login_name --> 作为 42 Tokyo 课程的一部分共同开发。
+本应用由 takitaga、ssoeno、genomoto 以及其他贡献者作为 42 Tokyo 课程的一部分共同开发。
 
 如果您对本条款有任何疑问，请在我们的 [GitHub 仓库](https://github.com/yuzu-juice/ft_transcendence) 中提交 Issue。
