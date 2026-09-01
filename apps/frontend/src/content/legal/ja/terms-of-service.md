@@ -110,6 +110,6 @@ APIキーが不正に使用された場合、当方は当該APIキーを無効�
 
 ## 9. お問い合わせ
 
-本アプリケーションは、42 Tokyoのカリキュラムの一環として、takitaga、ssoeno、genomoto、および <!-- login_name --> によって開発されました。
+本アプリケーションは、42 Tokyoのカリキュラムの一環として、takitaga、ssoeno、genomoto、およびその他の貢献者によって開発されました。
 
 本規約に関するご質問は、[GitHubリポジトリ](https://github.com/yuzu-juice/ft_transcendence) でIssueを作成してお問い合わせください。
