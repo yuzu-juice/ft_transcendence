@@ -9,9 +9,8 @@ interface TaskListItemProps {
   onModalOpen: () => void
 }
 
-// 締め切りを過ぎている場合色つける
-
 export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
+  // レスポンシブUIを考慮し、タイトルの文字数・担当者の数の表示には限度を設けている
   const visibleTitle = task.title.slice(0, 30)
   const remainingTitle = task.title.length - visibleTitle.length
   const visibleAssignees = task.assignees.slice(0, 2)
