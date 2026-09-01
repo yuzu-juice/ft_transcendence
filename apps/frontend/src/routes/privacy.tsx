@@ -16,6 +16,10 @@ function RouteComponent() {
     let isMounted = true
 
     const load = async () => {
+      setIsLoading(true)
+      setIsError(false)
+      setContent('')
+
       const language = i18n.resolvedLanguage ?? i18n.language
       const langCode = language.split('-')[0]
 
