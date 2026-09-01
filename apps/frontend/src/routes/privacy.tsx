@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useLegalMarkdown } from '../features/legal/useLegalMarkdown'
 
 export const Route = createFileRoute('/privacy')({
@@ -13,7 +15,9 @@ function RouteComponent() {
   return (
     <main className="mx-auto w-full max-w-4xl p-6">
       <h1 className="mb-4 text-2xl font-heading font-bold">{t('legal.privacy.title')}</h1>
-      <pre className="whitespace-pre-wrap break-words font-sans text-sm leading-7">{content}</pre>
+      <article className="text-sm leading-7">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      </article>
     </main>
   )
 }
