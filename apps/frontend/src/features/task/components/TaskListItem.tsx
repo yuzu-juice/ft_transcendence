@@ -16,6 +16,13 @@ export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
   const visibleAssignees = task.assignees.slice(0, 2)
   const remainingAssignees = task.assignees.length - visibleAssignees.length
 
+  const isOverdue = (dueAt: string) => {
+    const now = new Date()
+    const due = new Date(dueAt)
+
+    return now > due
+  }
+
   return (
     <tr key={task.id} className="border-b border-brand-primary-soft">
       <td className="px-4 py-3 whitespace-nowrap font-bold">
@@ -26,7 +33,9 @@ export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
       <td className="px-4 py-3 hidden sm:table-cell">
         {task.priority ? <TaskPriorityBatch priority={task.priority} /> : ''}
       </td>
-      <td className="px-4 py-3 whitespace-nowrap">
+      <td
+        className={`px-4 py-3 whitespace-nowrap ${task.dueAt && isOverdue(task.dueAt) && 'text-pink-600'}`}
+      >
         {task.dueAt ? new Date(task.dueAt).toLocaleDateString() : ''}
       </td>
       <td className="px-4 py-3 hidden sm:table-cell">

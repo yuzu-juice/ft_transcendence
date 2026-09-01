@@ -14,6 +14,7 @@ export const TaskPage = () => {
 
   const query = useQuery(taskQueries.all())
 
+  // 仮の実装 ページの移動を行ってもTaskListの内容は変更されない
   const [page, setPage] = useState(1)
 
   return (
@@ -26,11 +27,13 @@ export const TaskPage = () => {
       ) : (
         <div className="flex flex-col gap-6 items-center">
           <TaskList tasks={query.data.data} />
-          <Pagenation
-            current={page}
-            totalPages={query.data.meta.totalPages}
-            onPageChange={setPage}
-          />
+          {query.data.meta.total !== 0 && (
+            <Pagenation
+              current={page}
+              totalPages={query.data.meta.totalPages}
+              onPageChange={setPage}
+            />
+          )}
         </div>
       )}
     </div>

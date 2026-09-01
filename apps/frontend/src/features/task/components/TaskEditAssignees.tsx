@@ -7,7 +7,7 @@ interface TaskEditAssigneesProps {
 }
 
 // TODO: タスク担当者編集UI
-export const TaskEditAssignees = ({ task, onBack }: TaskEditAssigneesProps) => {
+export const TaskEditAssignees = ({ onBack }: TaskEditAssigneesProps) => {
   return (
     <>
       <Button type="button" onClick={() => onBack()} variant="transparent">

@@ -7,7 +7,7 @@ interface TaskEditInfoProps {
 }
 
 // TODO: タスク編集UI
-export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
+export const TaskEditInfo = ({ onBack }: TaskEditInfoProps) => {
   return (
     <>
       <Button type="button" onClick={() => onBack()} variant="transparent">

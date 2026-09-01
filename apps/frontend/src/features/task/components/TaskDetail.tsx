@@ -55,7 +55,7 @@ const TaskDetailDueAt = ({ dueAt }: { dueAt: Date }) => {
     } else if (diff === 0) {
       const now = new Date()
       if (now > dueAt) {
-        return `${-getHourDiff()}時間前`
+        return `${getHourDiff()}時間前`
       } else {
         return `${-getHourDiff()}時間後`
       }
@@ -151,6 +151,7 @@ export const TaskDetail = ({ task, onEdit }: TaskDetailProps) => {
         <Button type="button" onClick={() => onEdit('edit-assignees')}>
           担当者を編集
         </Button>
+        {/* TODO: 削除ボタンとそのMutationを実装 */}
         <Button type="button" onClick={() => {}} variant="transparent">
           タスクを削除
         </Button>
