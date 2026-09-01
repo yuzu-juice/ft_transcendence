@@ -16,9 +16,12 @@ function RouteComponent() {
     let isMounted = true
 
     const load = async () => {
+      setIsLoading(true)
+      setIsError(false)
+      setContent('')
+
       const language = i18n.resolvedLanguage ?? i18n.language
       const langCode = language.split('-')[0]
-
       const paths = [
         `/legal/${langCode}/terms-of-service.md`,
         '/legal/ja/terms-of-service.md',
