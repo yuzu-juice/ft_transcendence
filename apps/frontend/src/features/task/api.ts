@@ -1,5 +1,5 @@
 import { client } from '@/lib/api/client'
-import { parseResponse } from 'hono/client'
+import { parseResponse, type InferResponseType } from 'hono/client'
 
 export const taskApi = {
   all: () => parseResponse(client.tasks.$get({ query: {} })),
@@ -13,3 +13,5 @@ export const taskApi = {
       }),
     ),
 }
+
+export type Task = InferResponseType<typeof client.tasks.$get, 200>['data'][number]

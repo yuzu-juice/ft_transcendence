@@ -1,22 +1,27 @@
-import { client } from '@/lib/api/client'
-import { type InferResponseType } from 'hono'
-
 import { TaskStatusBatch } from './TaskStatusBatch'
 import { TaskPriorityBatch } from './TaskPriorityBatch'
 import { UserAvatar } from '@/components/ui/UserAvatar'
+import type { Task } from '../api'
 
 interface TaskListItemProps {
-  task: InferResponseType<typeof client.tasks.$get, 200>['data'][number]
+  task: Task
   onModalOpen: () => void
 }
 
+// 締め切りを過ぎている場合色つける
+
 export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
+  const visibleTitle = task.title.slice(0, 30)
+  const remainingTitle = task.title.length - visibleTitle.length
   const visibleAssignees = task.assignees.slice(0, 2)
   const remainingAssignees = task.assignees.length - visibleAssignees.length
 
   return (
     <tr key={task.id} className="border-b border-brand-primary-soft">
-      <td className="px-4 py-3 whitespace-nowrap font-bold">{task.title}</td>
+      <td className="px-4 py-3 whitespace-nowrap font-bold">
+        {visibleTitle}
+        {remainingTitle > 0 ? '...' : ''}
+      </td>
       <td className="px-4 py-3 whitespace-nowrap">{<TaskStatusBatch status={task.status} />}</td>
       <td className="px-4 py-3 hidden sm:table-cell">
         {task.priority ? <TaskPriorityBatch priority={task.priority} /> : ''}

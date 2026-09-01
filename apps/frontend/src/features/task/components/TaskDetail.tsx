@@ -1,15 +1,13 @@
-import { useQuery } from '@tanstack/react-query'
-import { taskQueries } from '../query'
-import { Loading } from '@/components/ui/Loading'
 import type { ReactNode } from 'react'
 import { TaskPriorityBatch } from './TaskPriorityBatch'
 import { TaskStatusBatch } from './TaskStatusBatch'
 import { UserAvatar } from '@/components/ui/UserAvatar'
-import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { Button } from 'otsukimi-ui'
+import type { Task } from '../api'
 
 interface TaskDetailProps {
-  taskId: string
-  onEdit: () => void
+  task: Task
+  onEdit: (page: 'edit' | 'edit-assignees') => void
 }
 
 const TaskDetailListItem = ({ children }: { children: ReactNode }) => {
@@ -54,7 +52,7 @@ const TaskDetailDueAt = ({ dueAt }: { dueAt: Date }) => {
 
     if (diff > 0) {
       return `${diff}日後`
-    } else if (diff == 0) {
+    } else if (diff === 0) {
       const now = new Date()
       if (now > dueAt) {
         return `${-getHourDiff()}時間前`
@@ -73,86 +71,89 @@ const TaskDetailDueAt = ({ dueAt }: { dueAt: Date }) => {
   )
 }
 
-export const TaskDetail = ({ taskId, onEdit }: TaskDetailProps) => {
-  const { data, error, isSuccess, isPending } = useQuery(taskQueries.get(taskId))
-
-  if (isPending) {
-    return <Loading />
-  }
-
-  if (!isSuccess) {
-    return <ErrorMessage error={error} />
-  }
-
+export const TaskDetail = ({ task, onEdit }: TaskDetailProps) => {
   return (
-    <div className="flex flex-col gap-6">
-      <TaskDetailListItem>
-        <TaskDetailHeading title="タイトル" />
-        {data.title}
-      </TaskDetailListItem>
-      <TaskDetailListItem>
-        <TaskDetailHeading title="概要" />
-        {data.description}
-      </TaskDetailListItem>
-      <div className="flex flex-wrap gap-5">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6">
         <TaskDetailListItem>
-          <TaskDetailHeading title="ステータス" />
-          <TaskStatusBatch status={data.status} />
+          <TaskDetailHeading title="タイトル" />
+          {task.title}
         </TaskDetailListItem>
         <TaskDetailListItem>
-          <TaskDetailHeading title="優先度" />
-          {data.priority ? <TaskPriorityBatch priority={data.priority} /> : '未設定'}
+          <TaskDetailHeading title="概要" />
+          {task.description}
         </TaskDetailListItem>
-      </div>
-      <TaskDetailListItem>
-        <TaskDetailHeading title="締切" />
-        {data.dueAt ? <TaskDetailDueAt dueAt={new Date(data.dueAt)} /> : '未設定'}
-      </TaskDetailListItem>
-      <TaskDetailListItem>
-        <TaskDetailHeading title="担当者" />
-        <div className="flex flex-row flex-wrap gap-5">
-          {data.assignees.length > 0
-            ? data.assignees.map((assignee) => (
-                <div className="flex flex-row gap-1.5 flex-nowrap items-center">
-                  <UserAvatar
-                    key={assignee.id}
-                    userId={assignee.id}
-                    avatarUrl={assignee.image}
-                    alt={`${assignee.name}のアバター`}
-                    className="size-8 rounded-xs"
-                  />
-                  {assignee.name}
-                </div>
-              ))
-            : '未設定'}
+        <div className="flex flex-wrap gap-5">
+          <TaskDetailListItem>
+            <TaskDetailHeading title="ステータス" />
+            <TaskStatusBatch status={task.status} />
+          </TaskDetailListItem>
+          <TaskDetailListItem>
+            <TaskDetailHeading title="優先度" />
+            {task.priority ? <TaskPriorityBatch priority={task.priority} /> : '未設定'}
+          </TaskDetailListItem>
         </div>
-      </TaskDetailListItem>
-      <TaskDetailListItem>
-        <TaskDetailHeading title="作成者" />
-        {data.creator ? (
-          <div className="flex flex-row gap-1.5 flex-nowrap items-center">
-            <UserAvatar
-              key={data.creator.id}
-              userId={data.creator.id}
-              avatarUrl={data.creator.image}
-              alt={`${data.creator.name}のアバター`}
-              className="size-8 rounded-xs"
-            />
-            {data.creator.name}
+        <TaskDetailListItem>
+          <TaskDetailHeading title="締切" />
+          {task.dueAt ? <TaskDetailDueAt dueAt={new Date(task.dueAt)} /> : '未設定'}
+        </TaskDetailListItem>
+        <TaskDetailListItem>
+          <TaskDetailHeading title="担当者" />
+          <div className="flex flex-row flex-wrap gap-5">
+            {task.assignees.length > 0
+              ? task.assignees.map((assignee) => (
+                  <div key={assignee.id} className="flex flex-row gap-1.5 flex-nowrap items-center">
+                    <UserAvatar
+                      key={assignee.id}
+                      userId={assignee.id}
+                      avatarUrl={assignee.image}
+                      alt={`${assignee.name}のアバター`}
+                      className="size-8 rounded-xs"
+                    />
+                    {assignee.name}
+                  </div>
+                ))
+              : '未設定'}
           </div>
-        ) : (
-          '削除されたユーザ'
-        )}
-      </TaskDetailListItem>
-      <div className="flex flex-wrap gap-5">
-        <TaskDetailListItem>
-          <TaskDetailHeading title="作成日時" />
-          {new Date(data.createdAt).toLocaleString()}
         </TaskDetailListItem>
         <TaskDetailListItem>
-          <TaskDetailHeading title="最終更新日時" />
-          {new Date(data.updatedAt).toLocaleString()}
+          <TaskDetailHeading title="作成者" />
+          {task.creator ? (
+            <div className="flex flex-row gap-1.5 flex-nowrap items-center">
+              <UserAvatar
+                key={task.creator.id}
+                userId={task.creator.id}
+                avatarUrl={task.creator.image}
+                alt={`${task.creator.name}のアバター`}
+                className="size-8 rounded-xs"
+              />
+              {task.creator.name}
+            </div>
+          ) : (
+            '削除されたユーザ'
+          )}
         </TaskDetailListItem>
+        <div className="flex flex-wrap gap-5">
+          <TaskDetailListItem>
+            <TaskDetailHeading title="作成日時" />
+            {new Date(task.createdAt).toLocaleString()}
+          </TaskDetailListItem>
+          <TaskDetailListItem>
+            <TaskDetailHeading title="最終更新日時" />
+            {new Date(task.updatedAt).toLocaleString()}
+          </TaskDetailListItem>
+        </div>
+      </div>
+      <div className="flex flex-row flex-wrap gap-4">
+        <Button type="button" onClick={() => onEdit('edit')}>
+          タスク情報を編集
+        </Button>
+        <Button type="button" onClick={() => onEdit('edit-assignees')}>
+          担当者を編集
+        </Button>
+        <Button type="button" onClick={() => {}} variant="transparent">
+          タスクを削除
+        </Button>
       </div>
     </div>
   )
