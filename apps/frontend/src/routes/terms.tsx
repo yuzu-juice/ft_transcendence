@@ -16,7 +16,12 @@ function RouteComponent() {
     <main className="mx-auto w-full max-w-4xl p-6">
       <h1 className="mb-4 text-2xl font-heading font-bold">{t('legal.terms.title')}</h1>
       <article className="text-sm leading-7">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{ h1: () => null }}
+        >
+          {content}
+        </ReactMarkdown>
       </article>
     </main>
   )
