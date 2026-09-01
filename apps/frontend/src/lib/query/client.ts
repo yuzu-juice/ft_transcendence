@@ -14,7 +14,7 @@ export const queryClient = new QueryClient({
         return
       }
 
-      toast.error(await getErrorMessage(error))
+      toast.error(getErrorMessage(error))
     },
   }),
 
@@ -25,7 +25,7 @@ export const queryClient = new QueryClient({
         return
       }
 
-      toast.error(await getErrorMessage(error))
+      toast.error(getErrorMessage(error))
     },
   }),
 
