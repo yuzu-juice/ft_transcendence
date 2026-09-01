@@ -8,15 +8,7 @@ export const Route = createFileRoute('/terms')({
 
 function RouteComponent() {
   const { t } = useTranslation()
-  const { content, isLoading, isError } = useLegalMarkdown({ kind: 'terms' })
-
-  if (isLoading) {
-    return <div className="mx-auto w-full max-w-4xl p-6">{t('legal.terms.loading')}</div>
-  }
-
-  if (isError) {
-    return <div className="mx-auto w-full max-w-4xl p-6">{t('legal.terms.error')}</div>
-  }
+  const { content } = useLegalMarkdown({ kind: 'terms' })
 
   return (
     <main className="mx-auto w-full max-w-4xl p-6">
