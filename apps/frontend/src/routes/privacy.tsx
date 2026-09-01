@@ -8,15 +8,7 @@ export const Route = createFileRoute('/privacy')({
 
 function RouteComponent() {
   const { t } = useTranslation()
-  const { content, isLoading, isError } = useLegalMarkdown({ kind: 'privacy' })
-
-  if (isLoading) {
-    return <div className="mx-auto w-full max-w-4xl p-6">{t('legal.privacy.loading')}</div>
-  }
-
-  if (isError) {
-    return <div className="mx-auto w-full max-w-4xl p-6">{t('legal.privacy.error')}</div>
-  }
+  const { content } = useLegalMarkdown({ kind: 'privacy' })
 
   return (
     <main className="mx-auto w-full max-w-4xl p-6">
