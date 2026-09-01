@@ -27,7 +27,6 @@ export function useLegalMarkdown({ kind }: UseLegalMarkdownOptions) {
   const { i18n } = useTranslation()
   const language = i18n.resolvedLanguage ?? i18n.language
   const langCode = language.split('-')[0] as LegalMarkdownLanguage
-  const content = legalMarkdown[kind][langCode] ?? legalMarkdown[kind].ja
 
-  return { content, isLoading: false, isError: false }
+  return legalMarkdown[kind][langCode] ?? legalMarkdown[kind].ja
 }

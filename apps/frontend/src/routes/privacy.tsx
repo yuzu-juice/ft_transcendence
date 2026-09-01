@@ -8,7 +8,7 @@ export const Route = createFileRoute('/privacy')({
 
 function RouteComponent() {
   const { t } = useTranslation()
-  const { content } = useLegalMarkdown({ kind: 'privacy' })
+  const content = useLegalMarkdown({ kind: 'privacy' })
 
   return (
     <main className="mx-auto w-full max-w-4xl p-6">

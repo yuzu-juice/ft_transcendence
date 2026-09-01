@@ -8,7 +8,7 @@ export const Route = createFileRoute('/terms')({
 
 function RouteComponent() {
   const { t } = useTranslation()
-  const { content } = useLegalMarkdown({ kind: 'terms' })
+  const content = useLegalMarkdown({ kind: 'terms' })
 
   return (
     <main className="mx-auto w-full max-w-4xl p-6">

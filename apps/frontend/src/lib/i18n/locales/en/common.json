@@ -9,14 +9,10 @@
   },
   "legal": {
     "privacy": {
-      "title": "Privacy Policy",
-      "loading": "Loading privacy policy...",
-      "error": "Failed to load privacy policy."
+      "title": "Privacy Policy"
     },
     "terms": {
-      "title": "Terms of Service",
-      "loading": "Loading terms of service...",
-      "error": "Failed to load terms of service."
+      "title": "Terms of Service"
     }
   }
 }

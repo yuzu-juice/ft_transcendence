@@ -24,7 +24,7 @@ void i18n.use(initReactI18next).init({
     escapeValue: false,
   },
   react: {
-    useSuspense: false, // 翻訳リソースはローカルにあるため、サスペンスは不要
+    useSuspense: false, // 翻訳リソースはローカルにあるため、suspenseは不要
   },
 })
 
