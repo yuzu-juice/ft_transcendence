@@ -90,6 +90,10 @@ pnpm lint # Lintのみ
 一部のエディタにおいて、Biomeの公式プラグインが提供されているものがありますので、ご自身の環境に合わせて導入してください。詳細は[Biome公式の拡張機能 | Biome](https://biomejs.dev/ja/editors/first-party-extensions/)をご覧ください。
 本環境では`lefthook`を使用することで、`git commit`時に自動的にBiomeが実行されます。
 
+## フロントエンド
+
+i18n対応では辞書ファイルを先に作成済みとし、実際の接続（`config.ts`への辞書登録や画面側での`translation key`適用）は新規画面実装のタイミングで行います。
+
 ## バックエンド
 
 Docker Composeを使用してはじめて起動する際には、初期adminユーザの作成、およびダミーのユーザ・タスクの作成（以下、シード値の作成）が自動で実施されます。
