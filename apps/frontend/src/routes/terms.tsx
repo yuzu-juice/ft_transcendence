@@ -18,7 +18,14 @@ function RouteComponent() {
       <article className="text-sm leading-7">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
-          components={{ h1: () => null }}
+          components={{
+            h2: ({ node, ...props }) => (
+              <h2 className="mt-8 mb-3 text-xl font-heading font-bold" {...props} />
+            ),
+            h3: ({ node, ...props }) => (
+              <h3 className="mt-6 mb-2 text-lg font-heading font-semibold" {...props} />
+            ),
+          }}
         >
           {content}
         </ReactMarkdown>
