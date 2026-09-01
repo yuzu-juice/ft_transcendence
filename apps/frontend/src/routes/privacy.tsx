@@ -19,11 +19,13 @@ function RouteComponent() {
       const language = i18n.resolvedLanguage ?? i18n.language
       const langCode = language.split('-')[0]
 
-      const paths = [
-        `/legal/${langCode}/privacy-policy.md`,
-        '/legal/ja/privacy-policy.md',
-        '/legal/en/privacy-policy.md',
-      ]
+      const paths = Array.from(
+        new Set([
+          `/legal/${langCode}/privacy-policy.md`,
+          '/legal/ja/privacy-policy.md',
+          '/legal/en/privacy-policy.md',
+        ]),
+      )
 
       try {
         let loadedText: string | null = null
