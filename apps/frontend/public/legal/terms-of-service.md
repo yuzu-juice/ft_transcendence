@@ -88,6 +88,6 @@ To the fullest extent permitted by law, the creators of this Application shall n
 
 ## 9. Contact
 
-This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, and <!-- login_name -->.
+This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, and contributors.
 
 If you have questions about these Terms, please open an issue in our [GitHub repository](https://github.com/yuzu-juice/ft_transcendence).
