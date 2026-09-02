@@ -45,7 +45,7 @@ function getHttpErrorMessage(status: number) {
   }
 }
 
-export const getErrorMessage = async (error: unknown) => {
+export const getErrorMessage = (error: unknown) => {
   if (import.meta.env.DEV) {
     console.error(error)
   }
