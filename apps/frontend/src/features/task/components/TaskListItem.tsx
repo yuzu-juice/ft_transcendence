@@ -10,17 +10,19 @@ interface TaskListItemProps {
 }
 
 export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
-  // レスポンシブUIを考慮し、タイトルの文字数・担当者の数の表示には限度を設けている
-  const visibleTitle = task.title.slice(0, 30)
-  const remainingTitle = task.title.length - visibleTitle.length
+  // レスポンシブUIを考慮し、担当者の数の表示には限度を設けている
   const visibleAssignees = task.assignees.slice(0, 2)
   const remainingAssignees = task.assignees.length - visibleAssignees.length
 
   return (
     <tr key={task.id} className="border-b border-brand-primary-soft">
-      <td className="px-4 py-3 whitespace-nowrap font-bold">
-        {visibleTitle}
-        {remainingTitle > 0 ? '...' : ''}
+      <td className="px-4 py-3 font-bold">
+        <div
+          className="max-w-48 truncate md:max-w-64 lg:max-w-80 xl:max-w-md 2xl:max-w-lg"
+          title={task.title}
+        >
+          {task.title}
+        </div>
       </td>
       <td className="px-4 py-3 whitespace-nowrap">{<TaskStatusBadge status={task.status} />}</td>
       <td className="px-4 py-3 hidden sm:table-cell">
