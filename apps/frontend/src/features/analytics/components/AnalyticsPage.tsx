@@ -1,0 +1,106 @@
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { Loading } from '@/components/ui/Loading'
+import { useQuery } from '@tanstack/react-query'
+import { Button, Card } from 'otsukimi-ui'
+import { analyticsQueries } from '../query'
+
+type SummaryItemProps = {
+  label: string
+  value: string
+}
+
+const SummaryItem = ({ label, value }: SummaryItemProps) => {
+  return (
+    <Card>
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-gray-500">{label}</p>
+        <p className="text-2xl font-bold">{value}</p>
+      </div>
+    </Card>
+  )
+}
+
+type BreakdownItemProps = {
+  label: string
+  count: number
+  total: number
+}
+
+const BreakdownItem = ({ label, count, total }: BreakdownItemProps) => {
+  const ratio = total === 0 ? 0 : (count / total) * 100
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between text-sm">
+        <span className="font-semibold">{label}</span>
+        <span className="text-gray-600">{count}件</span>
+      </div>
+      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-full bg-brand-primary-soft" style={{ width: `${ratio}%` }} />
+      </div>
+    </div>
+  )
+}
+
+export const AnalyticsPage = () => {
+  const query = useQuery(analyticsQueries.summary())
+
+  if (query.isPending) {
+    return <Loading />
+  }
+
+  if (!query.isSuccess) {
+    return (
+      <div className="flex flex-col gap-4">
+        <ErrorMessage error={query.error} />
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            disabled={query.isFetching}
+            onClick={() => {
+              query.refetch()
+            }}
+          >
+            {query.isFetching ? '再読み込み中...' : '再試行'}
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  const { totalTasksCount, byStatus, byPriority, overdueCount, completionRate } = query.data
+  const completionRateText = `${Math.round(completionRate * 100)}%`
+
+  return (
+    <div className="flex flex-col gap-6">
+      <h2 className="text-2xl font-heading font-bold">アナリティクスダッシュボード</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <SummaryItem label="総タスク数" value={`${totalTasksCount}件`} />
+        <SummaryItem label="完了率" value={completionRateText} />
+        <SummaryItem label="期限超過" value={`${overdueCount}件`} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card>
+          <div className="flex flex-col gap-4">
+            <h3 className="text-lg font-heading font-bold">ステータス内訳</h3>
+            <BreakdownItem label="未着手" count={byStatus.todo} total={totalTasksCount} />
+            <BreakdownItem label="進行中" count={byStatus.in_progress} total={totalTasksCount} />
+            <BreakdownItem label="完了" count={byStatus.done} total={totalTasksCount} />
+          </div>
+        </Card>
+
+        <Card>
+          <div className="flex flex-col gap-4">
+            <h3 className="text-lg font-heading font-bold">優先度内訳</h3>
+            <BreakdownItem label="高" count={byPriority.high} total={totalTasksCount} />
+            <BreakdownItem label="中" count={byPriority.medium} total={totalTasksCount} />
+            <BreakdownItem label="低" count={byPriority.low} total={totalTasksCount} />
+            <BreakdownItem label="未設定" count={byPriority.unset} total={totalTasksCount} />
+          </div>
+        </Card>
+      </div>
+    </div>
+  )
+}
