@@ -31,9 +31,9 @@
     },
     "priorityBreakdown": "优先级明细",
     "priority": {
-      "high": "高",
-      "medium": "中",
-      "low": "低",
+      "high": "high",
+      "medium": "medium",
+      "low": "low",
       "unset": "未设置"
     }
   }

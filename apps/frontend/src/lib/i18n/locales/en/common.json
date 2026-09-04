@@ -31,9 +31,9 @@
     },
     "priorityBreakdown": "Priority Breakdown",
     "priority": {
-      "high": "High",
-      "medium": "Medium",
-      "low": "Low",
+      "high": "high",
+      "medium": "medium",
+      "low": "low",
       "unset": "Unset"
     }
   }
