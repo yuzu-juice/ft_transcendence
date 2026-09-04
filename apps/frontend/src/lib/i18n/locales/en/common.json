@@ -14,5 +14,27 @@
     "terms": {
       "title": "Terms of Service"
     }
+  },
+  "analytics": {
+    "title": "Analytics Dashboard",
+    "totalTasks": "Total Tasks",
+    "completionRate": "Completion Rate",
+    "overdue": "Overdue",
+    "taskCount": "{{count}} tasks",
+    "reload": "Reloading...",
+    "retry": "Retry",
+    "statusBreakdown": "Status Breakdown",
+    "status": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done"
+    },
+    "priorityBreakdown": "Priority Breakdown",
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "unset": "Unset"
+    }
   }
 }

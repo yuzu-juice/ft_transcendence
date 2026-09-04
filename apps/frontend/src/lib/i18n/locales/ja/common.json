@@ -14,5 +14,27 @@
     "terms": {
       "title": "利用規約"
     }
+  },
+  "analytics": {
+    "title": "アナリティクスダッシュボード",
+    "totalTasks": "総タスク数",
+    "completionRate": "完了率",
+    "overdue": "期限超過",
+    "taskCount": "{{count}}件",
+    "reload": "再読み込み中...",
+    "retry": "再試行",
+    "statusBreakdown": "ステータス内訳",
+    "status": {
+      "todo": "未着手",
+      "inProgress": "進行中",
+      "done": "完了"
+    },
+    "priorityBreakdown": "優先度内訳",
+    "priority": {
+      "high": "高",
+      "medium": "中",
+      "low": "低",
+      "unset": "未設定"
+    }
   }
 }
