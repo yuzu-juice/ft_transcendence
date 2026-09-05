@@ -87,6 +87,7 @@ export const TaskModal = ({ taskId, open, onOpenChange }: TaskModalProps) => {
             onEdit={(nextView) => {
               setView(nextView)
             }}
+            onClose={() => onOpenChange(false)}
           />
         )
 

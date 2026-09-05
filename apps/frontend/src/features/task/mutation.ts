@@ -29,4 +29,17 @@ export const taskMutations = {
         })
       },
     }),
+
+  delete: () =>
+    mutationOptions({
+      mutationKey: ['task', 'delete'],
+      mutationFn: async (taskId: string) => {
+        await taskApi.delete(taskId)
+      },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: taskQueryKeys.all(),
+        })
+      },
+    }),
 }
