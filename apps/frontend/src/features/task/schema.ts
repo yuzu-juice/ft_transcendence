@@ -89,10 +89,11 @@ export const TaskSearchFormSchema = z
 
 export type TaskSearchFormValues = z.infer<typeof TaskSearchFormSchema>
 
-// 入力された値が空の場合、undefinedに変換しURLのsearch paramsに合わせる
+// statusの空配列は「すべて」を表すため、デフォルト検索条件と区別してURLに保持する
+// その他の空入力はundefinedに変換しURLのsearch paramsに合わせる
 export const toTaskSearchParams = (form: TaskSearchFormValues, page = 1): TaskSearchParams => ({
   q: form.q || undefined,
-  status: form.status.length > 0 ? form.status : undefined,
+  status: form.status,
   priority: form.priority.length > 0 ? form.priority : undefined,
   dueFrom: form.dueFrom ? new Date(form.dueFrom).toISOString() : undefined,
   dueTo: form.dueTo ? new Date(form.dueTo).toISOString() : undefined,
