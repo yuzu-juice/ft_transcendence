@@ -2,9 +2,22 @@ import { queryClient } from '@/lib/query/client'
 import { mutationOptions } from '@tanstack/react-query'
 import { taskQueryKeys } from './query'
 import { taskApi } from './api'
-import type { TaskAssigneesUpdateInput, TaskUpdateInput } from './schema'
+import type { TaskAssigneesUpdateInput, TaskCreateInput, TaskUpdateInput } from './schema'
 
 export const taskMutations = {
+  create: () =>
+    mutationOptions({
+      mutationKey: ['task', 'update', 'info'],
+      mutationFn: async (input: TaskCreateInput) => {
+        await taskApi.create(input)
+      },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: taskQueryKeys.all(),
+        })
+      },
+    }),
+
   update: () =>
     mutationOptions({
       mutationKey: ['task', 'update', 'info'],
@@ -17,6 +30,7 @@ export const taskMutations = {
         })
       },
     }),
+
   updateAssignees: () =>
     mutationOptions({
       mutationKey: ['task', 'update', 'assignees'],

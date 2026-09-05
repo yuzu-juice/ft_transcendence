@@ -19,7 +19,7 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
   const form = useAppForm({
     defaultValues: {
       title: task.title,
-      description: task.description,
+      description: task.description ? task.description : '',
       status: task.status as z.infer<typeof TaskStatusSchema>,
       priority: task.priority as z.infer<typeof TaskPriorityFormSchema>,
       dueAt: toDateTimeLocal(task.dueAt),
@@ -33,7 +33,7 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
         taskId: task.id,
         input: {
           title: value.title,
-          description: value.description,
+          description: value.description === '' ? null : value.description,
           status: value.status,
           priority: value.priority === '' ? null : value.priority,
           dueAt: value.dueAt ? new Date(value.dueAt).toISOString() : null,
