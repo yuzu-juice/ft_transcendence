@@ -10,6 +10,7 @@ import { Button, Card } from 'otsukimi-ui'
 export const TaskPage = () => {
   // TODO: タスク検索UI
   // TODO: search paramから検索条件を受け取り、検索UIのformと連携する
+  // TOOD: タスクを再検索したらページを1に戻す
   // TODO: タスク作成UI
 
   const query = useQuery(taskQueries.list())

@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 import { taskApi } from './api'
 
-const taskQueryKeys = {
+export const taskQueryKeys = {
   all: () => ['tasks'] as const,
 
   list: () => [...taskQueryKeys.all(), 'list'],
