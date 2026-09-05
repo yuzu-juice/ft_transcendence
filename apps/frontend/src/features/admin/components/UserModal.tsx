@@ -6,6 +6,8 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Button } from 'otsukimi-ui'
 import { Modal } from '@/components/ui/Modal'
 import { UserDetail } from './UserDetail'
+import { UserEditInfo } from './UserEditInfo'
+import { UserEditRoleInfo } from './UserEditRole'
 
 interface UserModalProps {
   userId: string
@@ -40,7 +42,6 @@ const viewConfig = {
   }
 >
 
-// 自分自身の編集・削除はできないようにする
 export const UserModal = ({ userId, open, onOpenChange }: UserModalProps) => {
   const [view, setView] = useState<UserModalView>('detail')
   const query = useQuery(adminQueries.detail(userId))
@@ -91,10 +92,10 @@ export const UserModal = ({ userId, open, onOpenChange }: UserModalProps) => {
         )
 
       case 'edit':
-        return <>編集</>
+        return <UserEditInfo user={query.data} onBack={() => setView('detail')} />
 
       case 'edit-role':
-        return <>ロール編集</>
+        return <UserEditRoleInfo user={query.data} onBack={() => setView('detail')} />
     }
   }
 
