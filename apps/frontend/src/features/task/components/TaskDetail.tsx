@@ -120,7 +120,12 @@ export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
           担当者を編集
         </Button>
         {(session?.user.id === task.creator?.id || session?.user.role === 'admin') && (
-          <Button type="button" onClick={() => handleDeleteTask()} variant="transparent">
+          <Button
+            type="button"
+            onClick={() => handleDeleteTask()}
+            variant="transparent"
+            disabled={taskDeleteMutation.isPending}
+          >
             {taskDeleteMutation.isPending ? '削除しています...' : 'タスクを削除'}
           </Button>
         )}

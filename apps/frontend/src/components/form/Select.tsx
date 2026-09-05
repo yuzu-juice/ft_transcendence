@@ -12,7 +12,7 @@ type SelectProps = ComponentPropsWithRef<'select'>
 type SelectFieldProps<T extends string> = SelectProps & {
   value: T
   onValueChange: (value: T) => void
-  options: SelectOption<T>[]
+  options: readonly SelectOption<T>[]
   label: string
   error?: string
 }
@@ -70,7 +70,7 @@ export function FormSelectField<T extends string>({
   options,
 }: {
   label: string
-  options: SelectOption<T>[]
+  options: readonly SelectOption<T>[]
 }) {
   const field = useFieldContext<T>()
 
@@ -82,9 +82,12 @@ export function FormSelectField<T extends string>({
 
   return (
     <SelectField
+      id={field.name}
+      name={field.name}
       label={label}
       value={field.state.value}
       onValueChange={field.handleChange}
+      onBlur={field.handleBlur}
       options={options}
       error={error}
     />

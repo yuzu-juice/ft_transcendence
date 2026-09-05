@@ -7,7 +7,7 @@ import type { TaskAssigneesUpdateInput, TaskCreateInput, TaskUpdateInput } from 
 export const taskMutations = {
   create: () =>
     mutationOptions({
-      mutationKey: ['task', 'update', 'info'],
+      mutationKey: ['task', 'create'],
       mutationFn: async (input: TaskCreateInput) => {
         await taskApi.create(input)
       },
@@ -50,9 +50,14 @@ export const taskMutations = {
       mutationFn: async (taskId: string) => {
         await taskApi.delete(taskId)
       },
-      onSuccess: async () => {
+      onSuccess: async (_data, taskId) => {
+        queryClient.removeQueries({
+          queryKey: taskQueryKeys.detail(taskId),
+          exact: true,
+        })
+
         await queryClient.invalidateQueries({
-          queryKey: taskQueryKeys.all(),
+          queryKey: taskQueryKeys.list(),
         })
       },
     }),

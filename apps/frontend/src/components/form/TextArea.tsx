@@ -34,6 +34,7 @@ const TextAreaField = ({
       </label>
       <textarea
         {...props}
+        rows={rows}
         id={inputId}
         ref={ref}
         className={`w-full resize-y outline-none rounded-md border border-border px-[1em] py-4 focus:border-2 focus:border-brand-primary-deep focus:outline-none focus:ring-brand-primary-deep transition duration-150 ${className ?? ''}`}

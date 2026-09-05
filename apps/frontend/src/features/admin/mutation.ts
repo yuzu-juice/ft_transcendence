@@ -3,7 +3,7 @@ import { mutationOptions } from '@tanstack/react-query'
 import { adminApi } from './api'
 import { adminQueryKeys } from './query'
 import type { AdminUserUpdateInput, AdminUserUpdateRoleInput } from './schema'
-import { taskQueryKeys } from '../task/query'
+import { taskQueryKeys, userSearchQueryKeys } from '../task/query'
 
 export const adminMutations = {
   update: () =>
@@ -44,15 +44,19 @@ export const adminMutations = {
       mutationFn: async (userId: string) => {
         await adminApi.delete(userId)
       },
-      onSuccess: async () => {
+      onSuccess: async (_, userId) => {
+        queryClient.removeQueries({
+          queryKey: adminQueryKeys.detail(userId),
+          exact: true,
+        })
         await queryClient.invalidateQueries({
-          queryKey: adminQueryKeys.all(),
+          queryKey: adminQueryKeys.users(),
         })
         await queryClient.invalidateQueries({
           queryKey: taskQueryKeys.all(),
         })
         await queryClient.invalidateQueries({
-          queryKey: ['user', 'search'],
+          queryKey: userSearchQueryKeys.list(),
         })
       },
     }),

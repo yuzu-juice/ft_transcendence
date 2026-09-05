@@ -13,7 +13,6 @@ import { Loading } from '@/components/ui/Loading'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { useQuery } from '@tanstack/react-query'
 import { userSearchQueries } from '../query'
-import { useEffect } from 'react'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
 
@@ -37,8 +36,8 @@ export const TaskSearchForm = () => {
 
   const query = useQuery(userSearchQueries.list())
 
-  const form = useAppForm({
-    defaultValues: {
+  const toTaskSearchForm = (search: TaskSearchParamsInput) => {
+    return {
       q: search.q || '',
       status: search.status ? search.status : [],
       priority: search.priority ? search.priority : [],
@@ -48,7 +47,11 @@ export const TaskSearchForm = () => {
       assigneeId: search.assigneeId ? search.assigneeId : '',
       sort: search.sort,
       order: search.order,
-    },
+    }
+  }
+
+  const form = useAppForm({
+    defaultValues: toTaskSearchForm(search),
     validators: {
       onChange: TaskSearchFormSchema,
       onSubmit: TaskSearchFormSchema,
@@ -63,9 +66,7 @@ export const TaskSearchForm = () => {
   })
 
   // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
-  useEffect(() => {
-    form.reset()
-  }, [search, form])
+  form.reset(toTaskSearchForm(search))
 
   if (query.isLoading) {
     return <Loading />

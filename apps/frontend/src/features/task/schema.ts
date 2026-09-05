@@ -16,14 +16,14 @@ export const DEFAULT_TASK_SEARCH = {
 
 export const DEFAULT_TASK_SEARCH_FORM = {
   q: '',
-  status: ['todo', 'in_progress'] as const,
+  status: DEFAULT_TASK_SEARCH.status,
   priority: [],
   dueFrom: '',
   dueTo: '',
   createdBy: '',
   assigneeId: '',
-  sort: 'dueAt' as const,
-  order: 'asc' as const,
+  sort: DEFAULT_TASK_SEARCH.sort,
+  order: DEFAULT_TASK_SEARCH.order,
 }
 
 // .catch()は不正な値を安全な値に置き換える
@@ -33,7 +33,7 @@ export const TaskSearchParamsSchema = z.object({
     .array(TaskStatusSchema)
     .default([...DEFAULT_TASK_SEARCH.status])
     .optional()
-    .catch(['todo', 'in_progress']),
+    .catch([...DEFAULT_TASK_SEARCH.status]),
   priority: z.array(TaskPrioritySchema).optional().catch(undefined),
   dueFrom: z.iso.datetime().optional().catch(undefined),
   dueTo: z.iso.datetime().optional().catch(undefined),

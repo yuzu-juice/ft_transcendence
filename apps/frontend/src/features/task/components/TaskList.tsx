@@ -33,7 +33,7 @@ export const TaskList = () => {
         }),
       })
     }
-  }, [query.data])
+  }, [navigate, query.data])
 
   const renderContent = () => {
     if (query.isPending) {

@@ -73,6 +73,7 @@ export const UserDetail = ({ user, onEdit, onClose }: TaskDetailProps) => {
               handleDeleteUser()
             }}
             variant="transparent"
+            disabled={adminUserDeleteMutation.isPending}
           >
             {adminUserDeleteMutation.isPending ? '削除しています...' : 'ユーザを削除'}
           </Button>

@@ -30,6 +30,7 @@ export const UserListItem = ({ user, onModalOpen }: TaskListItemProps) => {
           type="button"
           className="text-cyan-600 cursor-pointer hover:underline hover:text-cyan-700 transition duration-300 "
           onClick={() => onModalOpen()}
+          aria-label={`${user.name}の詳細`}
         >
           詳細
         </button>

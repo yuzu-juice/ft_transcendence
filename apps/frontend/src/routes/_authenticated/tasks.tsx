@@ -1,5 +1,5 @@
 import { TaskPage } from '@/features/task/components/TaskPage'
-import { TaskSearchParamsSchema } from '@/features/task/schema'
+import { DEFAULT_TASK_SEARCH, TaskSearchParamsSchema } from '@/features/task/schema'
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/tasks')({
@@ -9,10 +9,10 @@ export const Route = createFileRoute('/_authenticated/tasks')({
   search: {
     middlewares: [
       stripSearchParams({
-        status: ['todo', 'in_progress'],
-        sort: 'dueAt',
-        order: 'asc',
-        page: 1,
+        status: [...DEFAULT_TASK_SEARCH.status],
+        sort: DEFAULT_TASK_SEARCH.sort,
+        order: DEFAULT_TASK_SEARCH.order,
+        page: DEFAULT_TASK_SEARCH.page,
       }),
     ],
   },

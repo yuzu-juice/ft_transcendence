@@ -4,7 +4,7 @@ import type { TaskSearchParamsInput } from './schema'
 
 export const taskQueryKeys = {
   all: () => ['tasks'] as const,
-  list: (search: TaskSearchParamsInput) => [...taskQueryKeys.all(), 'list', search],
+  list: (search?: TaskSearchParamsInput) => [...taskQueryKeys.all(), 'list', search],
   detail: (taskId: string) => [...taskQueryKeys.all(), 'detail', taskId],
 }
 
@@ -28,10 +28,15 @@ export const taskQueries = {
     }),
 }
 
+export const userSearchQueryKeys = {
+  all: () => ['user'] as const,
+  list: () => [...userSearchQueryKeys.all(), 'search'],
+}
+
 export const userSearchQueries = {
   list: () =>
     queryOptions({
-      queryKey: ['user', 'search'],
+      queryKey: userSearchQueryKeys.list(),
       queryFn: async () => userSearchApi.list(),
       meta: {
         suppressErrorToast: true,
