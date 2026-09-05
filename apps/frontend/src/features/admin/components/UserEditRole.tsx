@@ -1,13 +1,17 @@
-import { Button } from 'otsukimi-ui'
-import type { User } from '../api'
-import { useAppForm } from '@/components/form/form'
-import { AdminUserUpdateRoleSchema, type AdminUserUpdateRoleInput } from '../schema'
-import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
+import { Button } from 'otsukimi-ui'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import type { AdminUserDetail } from '../api'
 import { adminMutations } from '../mutation'
+import {
+  AdminUserRoleEditFormSchema,
+  type AdminUserRoleEditFormValues,
+  toAdminUserRoleUpdateRequestBody,
+} from '../schema'
 
 interface UserEditRoleInfoProps {
-  user: User
+  user: AdminUserDetail
   onBack: () => void
 }
 
@@ -16,18 +20,16 @@ export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
 
   const form = useAppForm({
     defaultValues: {
-      role: user.role as AdminUserUpdateRoleInput['role'],
+      role: user.role as AdminUserRoleEditFormValues['role'],
     },
     validators: {
-      onChange: AdminUserUpdateRoleSchema,
-      onSubmit: AdminUserUpdateRoleSchema,
+      onChange: AdminUserRoleEditFormSchema,
+      onSubmit: AdminUserRoleEditFormSchema,
     },
     onSubmit: async ({ value }) => {
       await adminUserUpdateMutation.mutateAsync({
         userId: user.id,
-        input: {
-          role: value.role,
-        },
+        input: toAdminUserRoleUpdateRequestBody(value),
       })
       toast.success('ユーザのロールを更新しました')
       onBack()

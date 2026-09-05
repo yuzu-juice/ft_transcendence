@@ -1,17 +1,17 @@
+import { useMutation } from '@tanstack/react-query'
+import { Button } from 'otsukimi-ui'
 import type { ReactNode } from 'react'
+import { toast } from 'sonner'
+import { UserAvatar } from '@/components/ui/UserAvatar'
+import { authClient } from '@/lib/auth/client'
+import type { TaskDetail as TaskDetailResponse } from '../api'
+import { taskMutations } from '../mutation'
+import { formatTaskDateTime, getRelativeDueTime } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
-import { UserAvatar } from '@/components/ui/UserAvatar'
-import { Button } from 'otsukimi-ui'
-import type { Task } from '../api'
-import { formatTaskDateTime, getRelativeDueTime } from '../time'
-import { authClient } from '@/lib/auth/client'
-import { useMutation } from '@tanstack/react-query'
-import { taskMutations } from '../mutation'
-import { toast } from 'sonner'
 
 interface TaskDetailProps {
-  task: Task
+  task: TaskDetailResponse
   onEdit: (page: 'edit' | 'edit-assignees') => void
   onClose: () => void
 }

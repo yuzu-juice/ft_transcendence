@@ -1,16 +1,29 @@
 import z from 'zod'
+import type { AdminUserRoleUpdateRequestBody, AdminUserUpdateRequestBody } from './api'
 
-export const AdminUserUpdateSchema = z.object({
+export const AdminUserEditFormSchema = z.object({
   name: z
     .string()
     .min(1, 'ユーザ名を入力してください')
     .max(100, 'ユーザ名は100文字以内で入力してください'),
 })
 
-export type AdminUserUpdateInput = z.infer<typeof AdminUserUpdateSchema>
+export type AdminUserEditFormValues = z.infer<typeof AdminUserEditFormSchema>
 
-export const AdminUserUpdateRoleSchema = z.object({
+export const toAdminUserUpdateRequestBody = (
+  form: AdminUserEditFormValues,
+): AdminUserUpdateRequestBody => ({
+  name: form.name,
+})
+
+export const AdminUserRoleEditFormSchema = z.object({
   role: z.enum(['admin', 'user']),
 })
 
-export type AdminUserUpdateRoleInput = z.infer<typeof AdminUserUpdateRoleSchema>
+export type AdminUserRoleEditFormValues = z.infer<typeof AdminUserRoleEditFormSchema>
+
+export const toAdminUserRoleUpdateRequestBody = (
+  form: AdminUserRoleEditFormValues,
+): AdminUserRoleUpdateRequestBody => ({
+  role: form.role,
+})

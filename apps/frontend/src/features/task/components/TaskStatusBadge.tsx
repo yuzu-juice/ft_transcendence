@@ -1,10 +1,10 @@
-import type { Task } from '../api'
+import type { TaskListItem } from '../api'
 
 interface TaskStatusBadgeProps {
-  status: Task['status']
+  status: TaskListItem['status']
 }
 
-const StatusToColor = (status: Task['status']) => {
+const StatusToColor = (status: TaskListItem['status']) => {
   switch (status) {
     case 'todo':
       return 'bg-fuchsia-100'

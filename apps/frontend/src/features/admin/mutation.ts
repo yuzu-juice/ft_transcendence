@@ -1,15 +1,18 @@
-import { queryClient } from '@/lib/query/client'
 import { mutationOptions } from '@tanstack/react-query'
-import { adminApi } from './api'
-import { adminQueryKeys } from './query'
-import type { AdminUserUpdateInput, AdminUserUpdateRoleInput } from './schema'
+import { queryClient } from '@/lib/query/client'
 import { taskQueryKeys, userSearchQueryKeys } from '../task/query'
+import {
+  type AdminUserRoleUpdateRequestBody,
+  type AdminUserUpdateRequestBody,
+  adminApi,
+} from './api'
+import { adminQueryKeys } from './query'
 
 export const adminMutations = {
   update: () =>
     mutationOptions({
       mutationKey: ['admin', 'user', 'update', 'info'],
-      mutationFn: async (variables: { userId: string; input: AdminUserUpdateInput }) => {
+      mutationFn: async (variables: { userId: string; input: AdminUserUpdateRequestBody }) => {
         await adminApi.update(variables.userId, variables.input)
       },
       onSuccess: async () => {
@@ -28,7 +31,7 @@ export const adminMutations = {
   updateRole: () =>
     mutationOptions({
       mutationKey: ['admin', 'user', 'update', 'role'],
-      mutationFn: async (variables: { userId: string; input: AdminUserUpdateRoleInput }) => {
+      mutationFn: async (variables: { userId: string; input: AdminUserRoleUpdateRequestBody }) => {
         await adminApi.updateRole(variables.userId, variables.input)
       },
       onSuccess: async () => {

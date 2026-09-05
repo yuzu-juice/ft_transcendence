@@ -1,34 +1,19 @@
-import { useAppForm } from '@/components/form/form'
+import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
+import { Button, Card } from 'otsukimi-ui'
+import { CheckboxField } from '@/components/form/CheckBox'
+import { useAppForm } from '@/components/form/form'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { Loading } from '@/components/ui/Loading'
+import { userSearchQueries } from '../query'
 import {
   DEFAULT_TASK_SEARCH_FORM,
   TaskSearchFormSchema,
-  type TaskSearchFormInput,
-  type TaskSearchParamsInput,
+  toTaskSearchFormValues,
+  toTaskSearchParams,
 } from '../schema'
-import { Button, Card } from 'otsukimi-ui'
-import { CheckboxField } from '@/components/form/CheckBox'
-import { toDateTimeLocal } from '../time'
-import { Loading } from '@/components/ui/Loading'
-import { ErrorMessage } from '@/components/ui/ErrorMessage'
-import { useQuery } from '@tanstack/react-query'
-import { userSearchQueries } from '../query'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
-
-// 入力された値が空の場合、undefinedに変換しAPI送信用のフォーマットに合わせる
-const toTaskSearchInput = (form: TaskSearchFormInput, page = 1): TaskSearchParamsInput => ({
-  q: form.q || undefined,
-  status: form.status.length > 0 ? form.status : undefined,
-  priority: form.priority.length > 0 ? form.priority : undefined,
-  dueFrom: form.dueFrom ? new Date(form.dueFrom).toISOString() : undefined,
-  dueTo: form.dueTo ? new Date(form.dueTo).toISOString() : undefined,
-  createdBy: form.createdBy || undefined,
-  assigneeId: form.assigneeId || undefined,
-  sort: form.sort,
-  order: form.order,
-  page,
-})
 
 export const TaskSearchForm = () => {
   const search = tasksRoute.useSearch()
@@ -36,22 +21,8 @@ export const TaskSearchForm = () => {
 
   const query = useQuery(userSearchQueries.list())
 
-  const toTaskSearchForm = (search: TaskSearchParamsInput) => {
-    return {
-      q: search.q || '',
-      status: search.status ? search.status : [],
-      priority: search.priority ? search.priority : [],
-      dueFrom: toDateTimeLocal(search?.dueFrom) || '',
-      dueTo: toDateTimeLocal(search?.dueTo) || '',
-      createdBy: search.createdBy ? search.createdBy : '',
-      assigneeId: search.assigneeId ? search.assigneeId : '',
-      sort: search.sort,
-      order: search.order,
-    }
-  }
-
   const form = useAppForm({
-    defaultValues: toTaskSearchForm(search),
+    defaultValues: toTaskSearchFormValues(search),
     validators: {
       onChange: TaskSearchFormSchema,
       onSubmit: TaskSearchFormSchema,
@@ -59,14 +30,14 @@ export const TaskSearchForm = () => {
     onSubmit: async ({ value }) => {
       navigate({
         search: () => ({
-          ...toTaskSearchInput(value),
+          ...toTaskSearchParams(value),
         }),
       })
     },
   })
 
   // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
-  form.reset(toTaskSearchForm(search))
+  form.reset(toTaskSearchFormValues(search))
 
   if (query.isLoading) {
     return <Loading />

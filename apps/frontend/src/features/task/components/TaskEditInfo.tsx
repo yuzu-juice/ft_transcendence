@@ -1,25 +1,25 @@
-import { Button } from 'otsukimi-ui'
-import type { Task } from '../api'
-import { useAppForm } from '@/components/form/form'
-import { type TaskUpdateFormInput, TaskUpdateFormSchema } from '../schema'
-import { toDateTimeLocal } from '../time'
-import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
+import { Button } from 'otsukimi-ui'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import type { TaskDetail } from '../api'
 import { taskMutations } from '../mutation'
+import { TaskUpdateFormSchema, type TaskUpdateFormValues, toTaskUpdateRequestBody } from '../schema'
+import { toDateTimeLocal } from '../time'
 
 interface TaskEditInfoProps {
-  task: Task
+  task: TaskDetail
   onBack: () => void
 }
 
 export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
   const taskUpdateMutation = useMutation(taskMutations.update())
 
-  const defaultValues: TaskUpdateFormInput = {
+  const defaultValues: TaskUpdateFormValues = {
     title: task.title,
     description: task.description ?? '',
-    status: task.status as TaskUpdateFormInput['status'],
-    priority: task.priority ? (task.priority as TaskUpdateFormInput['priority']) : '',
+    status: task.status,
+    priority: task.priority ?? '',
     dueAt: toDateTimeLocal(task.dueAt) ?? '',
   }
 
@@ -30,16 +30,9 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
       onSubmit: TaskUpdateFormSchema,
     },
     onSubmit: async ({ value }) => {
-      // 入力された値が空の場合、nullに変換しAPI送信用のフォーマットに合わせる
       await taskUpdateMutation.mutateAsync({
         taskId: task.id,
-        input: {
-          title: value.title,
-          description: value.description === '' ? null : value.description,
-          status: value.status,
-          priority: value.priority === '' ? null : value.priority,
-          dueAt: value.dueAt ? new Date(value.dueAt).toISOString() : null,
-        },
+        input: toTaskUpdateRequestBody(value),
       })
       toast.success('タスク情報を更新しました')
       onBack()

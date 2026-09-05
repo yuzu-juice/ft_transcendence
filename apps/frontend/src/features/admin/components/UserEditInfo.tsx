@@ -1,13 +1,13 @@
-import { Button } from 'otsukimi-ui'
-import type { User } from '../api'
-import { useAppForm } from '@/components/form/form'
-import { AdminUserUpdateSchema } from '../schema'
-import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
+import { Button } from 'otsukimi-ui'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import type { AdminUserDetail } from '../api'
 import { adminMutations } from '../mutation'
+import { AdminUserEditFormSchema, toAdminUserUpdateRequestBody } from '../schema'
 
 interface UserEditInfoProps {
-  user: User
+  user: AdminUserDetail
   onBack: () => void
 }
 
@@ -19,15 +19,13 @@ export const UserEditInfo = ({ user, onBack }: UserEditInfoProps) => {
       name: user.name,
     },
     validators: {
-      onChange: AdminUserUpdateSchema,
-      onSubmit: AdminUserUpdateSchema,
+      onChange: AdminUserEditFormSchema,
+      onSubmit: AdminUserEditFormSchema,
     },
     onSubmit: async ({ value }) => {
       await adminUserUpdateMutation.mutateAsync({
         userId: user.id,
-        input: {
-          name: value.name,
-        },
+        input: toAdminUserUpdateRequestBody(value),
       })
       toast.success('ユーザ情報を更新しました')
       onBack()

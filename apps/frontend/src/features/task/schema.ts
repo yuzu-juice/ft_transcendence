@@ -1,4 +1,11 @@
 import z from 'zod'
+import type {
+  TaskAssigneesUpdateRequestBody,
+  TaskCreateRequestBody,
+  TaskListQuery,
+  TaskUpdateRequestBody,
+} from './api'
+import { toDateTimeLocal } from './time'
 
 export const TaskStatusSchema = z.enum(['todo', 'in_progress', 'done'])
 export const TaskPrioritySchema = z.enum(['low', 'medium', 'high'])
@@ -44,7 +51,20 @@ export const TaskSearchParamsSchema = z.object({
   page: z.number().int().min(1).default(DEFAULT_TASK_SEARCH.page).catch(DEFAULT_TASK_SEARCH.page),
 })
 
-export type TaskSearchParamsInput = z.infer<typeof TaskSearchParamsSchema>
+export type TaskSearchParams = z.infer<typeof TaskSearchParamsSchema>
+
+export const toTaskListQuery = (search: TaskSearchParams): TaskListQuery => ({
+  q: search.q,
+  status: search.status,
+  priority: search.priority,
+  dueFrom: search.dueFrom,
+  dueTo: search.dueTo,
+  createdBy: search.createdBy,
+  assigneeId: search.assigneeId,
+  sort: search.sort,
+  order: search.order,
+  page: String(search.page),
+})
 
 export const TaskSearchFormSchema = z
   .object({
@@ -67,7 +87,33 @@ export const TaskSearchFormSchema = z
     },
   )
 
-export type TaskSearchFormInput = z.infer<typeof TaskSearchFormSchema>
+export type TaskSearchFormValues = z.infer<typeof TaskSearchFormSchema>
+
+// 入力された値が空の場合、undefinedに変換しURLのsearch paramsに合わせる
+export const toTaskSearchParams = (form: TaskSearchFormValues, page = 1): TaskSearchParams => ({
+  q: form.q || undefined,
+  status: form.status.length > 0 ? form.status : undefined,
+  priority: form.priority.length > 0 ? form.priority : undefined,
+  dueFrom: form.dueFrom ? new Date(form.dueFrom).toISOString() : undefined,
+  dueTo: form.dueTo ? new Date(form.dueTo).toISOString() : undefined,
+  createdBy: form.createdBy || undefined,
+  assigneeId: form.assigneeId || undefined,
+  sort: form.sort,
+  order: form.order,
+  page,
+})
+
+export const toTaskSearchFormValues = (search: TaskSearchParams): TaskSearchFormValues => ({
+  q: search.q || '',
+  status: search.status || [],
+  priority: search.priority || [],
+  dueFrom: toDateTimeLocal(search.dueFrom) || '',
+  dueTo: toDateTimeLocal(search.dueTo) || '',
+  createdBy: search.createdBy || '',
+  assigneeId: search.assigneeId || '',
+  sort: search.sort,
+  order: search.order,
+})
 
 // フォーム用のスキーマ
 // フォーム入力の都合で、nullに相当する値を空文字列として扱う
@@ -82,18 +128,14 @@ export const TaskCreateFormSchema = z.object({
   dueAt: z.string(),
 })
 
-// API用のスキーマ
-export const TaskCreateSchema = z.object({
-  title: z
-    .string()
-    .min(1, 'タスク名を入力してください')
-    .max(200, 'タスク名は200文字以内で入力してください'),
-  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください').nullable(),
-  priority: TaskPrioritySchema.nullable(),
-  dueAt: z.string().nullable(),
-})
+export type TaskCreateFormValues = z.infer<typeof TaskCreateFormSchema>
 
-export type TaskCreateInput = z.infer<typeof TaskCreateSchema>
+export const toTaskCreateRequestBody = (form: TaskCreateFormValues): TaskCreateRequestBody => ({
+  title: form.title,
+  description: form.description === '' ? null : form.description,
+  priority: form.priority === '' ? null : form.priority,
+  dueAt: form.dueAt === '' ? null : new Date(form.dueAt).toISOString(),
+})
 
 export const TaskUpdateFormSchema = z.object({
   title: z
@@ -106,23 +148,24 @@ export const TaskUpdateFormSchema = z.object({
   dueAt: z.string(),
 })
 
-export type TaskUpdateFormInput = z.infer<typeof TaskUpdateFormSchema>
+export type TaskUpdateFormValues = z.infer<typeof TaskUpdateFormSchema>
 
-export const TaskUpdateSchema = z.object({
-  title: z
-    .string()
-    .min(1, 'タスク名を入力してください')
-    .max(200, 'タスク名は200文字以内で入力してください'),
-  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください').nullable(),
-  status: TaskStatusSchema,
-  priority: TaskPrioritySchema.nullable(),
-  dueAt: z.iso.datetime().nullable(),
+export const toTaskUpdateRequestBody = (form: TaskUpdateFormValues): TaskUpdateRequestBody => ({
+  title: form.title,
+  description: form.description === '' ? null : form.description,
+  status: form.status,
+  priority: form.priority === '' ? null : form.priority,
+  dueAt: form.dueAt === '' ? null : new Date(form.dueAt).toISOString(),
 })
 
-export type TaskUpdateInput = z.infer<typeof TaskUpdateSchema>
-
-export const TaskAssigneesUpdateSchema = z.object({
+export const TaskAssigneesFormSchema = z.object({
   assigneeIds: z.array(z.string()),
 })
 
-export type TaskAssigneesUpdateInput = z.infer<typeof TaskAssigneesUpdateSchema>
+export type TaskAssigneesFormValues = z.infer<typeof TaskAssigneesFormSchema>
+
+export const toTaskAssigneesUpdateRequestBody = (
+  form: TaskAssigneesFormValues,
+): TaskAssigneesUpdateRequestBody => ({
+  userIds: form.assigneeIds,
+})

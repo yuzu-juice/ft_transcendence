@@ -1,15 +1,15 @@
-import type { ReactNode } from 'react'
-import { UserAvatar } from '@/components/ui/UserAvatar'
+import { useMutation } from '@tanstack/react-query'
 import { Badge, Button } from 'otsukimi-ui'
-import type { User } from '../api'
+import type { ReactNode } from 'react'
+import { toast } from 'sonner'
+import { UserAvatar } from '@/components/ui/UserAvatar'
 import { formatTaskDateTime } from '@/features/task/time' // TODO: 広範囲のlibにする
 import { authClient } from '@/lib/auth/client'
-import { useMutation } from '@tanstack/react-query'
+import type { AdminUserDetail } from '../api'
 import { adminMutations } from '../mutation'
-import { toast } from 'sonner'
 
-interface TaskDetailProps {
-  user: User
+interface UserDetailProps {
+  user: AdminUserDetail
   onEdit: (page: 'edit' | 'edit-role') => void
   onClose: () => void
 }
@@ -23,7 +23,7 @@ const UserDetailListItem = ({ heading, children }: { heading: string; children: 
   )
 }
 
-export const UserDetail = ({ user, onEdit, onClose }: TaskDetailProps) => {
+export const UserDetail = ({ user, onEdit, onClose }: UserDetailProps) => {
   const { data: session } = authClient.useSession()
 
   const adminUserDeleteMutation = useMutation(adminMutations.delete())

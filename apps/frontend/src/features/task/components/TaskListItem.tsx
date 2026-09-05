@@ -1,11 +1,11 @@
-import { TaskStatusBadge } from './TaskStatusBadge'
-import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { UserAvatar } from '@/components/ui/UserAvatar'
-import type { Task } from '../api'
+import type { TaskListItem as TaskListItemResponse } from '../api'
 import { formatTaskDate, isOverDue } from '../time'
+import { TaskPriorityBadge } from './TaskPriorityBadge'
+import { TaskStatusBadge } from './TaskStatusBadge'
 
 interface TaskListItemProps {
-  task: Task
+  task: TaskListItemResponse
   onModalOpen: () => void
 }
 

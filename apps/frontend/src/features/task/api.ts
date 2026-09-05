@@ -1,32 +1,27 @@
+import { type InferRequestType, type InferResponseType, parseResponse } from 'hono/client'
 import { client } from '@/lib/api/client'
-import { parseResponse, type InferResponseType } from 'hono/client'
-import type {
-  TaskAssigneesUpdateInput,
-  TaskCreateInput,
-  TaskSearchParamsInput,
-  TaskUpdateInput,
-} from './schema'
+
+type TaskListRequest = InferRequestType<typeof client.tasks.$get>
+type TaskCreateRequest = InferRequestType<typeof client.tasks.$post>
+type TaskUpdateRequest = InferRequestType<(typeof client.tasks)[':taskId']['$patch']>
+type TaskAssigneesUpdateRequest = InferRequestType<
+  (typeof client.tasks)[':taskId']['assignees']['$put']
+>
+
+export type TaskListQuery = TaskListRequest['query']
+export type TaskCreateRequestBody = TaskCreateRequest['json']
+export type TaskUpdateRequestBody = TaskUpdateRequest['json']
+export type TaskAssigneesUpdateRequestBody = TaskAssigneesUpdateRequest['json']
 
 export const userSearchApi = {
   list: () => parseResponse(client.users.$get({})),
 }
 
 export const taskApi = {
-  list: (search: TaskSearchParamsInput) =>
+  list: (query: TaskListQuery) =>
     parseResponse(
       client.tasks.$get({
-        query: {
-          q: search.q,
-          status: search.status,
-          priority: search.priority,
-          dueFrom: search.dueFrom,
-          dueTo: search.dueTo,
-          createdBy: search.createdBy,
-          assigneeId: search.assigneeId,
-          sort: search.sort,
-          order: search.order,
-          page: String(search.page),
-        },
+        query,
       }),
     ),
 
@@ -39,43 +34,30 @@ export const taskApi = {
       }),
     ),
 
-  create: ({ title, description, priority, dueAt }: TaskCreateInput) =>
+  create: (json: TaskCreateRequestBody) =>
     parseResponse(
       client.tasks.$post({
-        json: {
-          title,
-          description,
-          priority,
-          dueAt,
-        },
+        json,
       }),
     ),
 
-  update: (taskId: string, { title, description, status, priority, dueAt }: TaskUpdateInput) =>
+  update: (taskId: string, json: TaskUpdateRequestBody) =>
     parseResponse(
       client.tasks[':taskId'].$patch({
         param: {
           taskId,
         },
-        json: {
-          title,
-          description,
-          status,
-          priority,
-          dueAt,
-        },
+        json,
       }),
     ),
 
-  updateAssignees: (taskId: string, { assigneeIds }: TaskAssigneesUpdateInput) =>
+  updateAssignees: (taskId: string, json: TaskAssigneesUpdateRequestBody) =>
     parseResponse(
       client.tasks[':taskId'].assignees.$put({
         param: {
           taskId,
         },
-        json: {
-          userIds: assigneeIds,
-        },
+        json,
       }),
     ),
 
@@ -89,4 +71,5 @@ export const taskApi = {
     ),
 }
 
-export type Task = InferResponseType<typeof client.tasks.$get, 200>['data'][number]
+export type TaskListItem = InferResponseType<typeof client.tasks.$get, 200>['data'][number]
+export type TaskDetail = InferResponseType<(typeof client.tasks)[':taskId']['$get'], 200>

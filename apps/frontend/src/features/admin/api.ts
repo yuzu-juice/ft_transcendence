@@ -1,6 +1,13 @@
+import { type InferRequestType, type InferResponseType, parseResponse } from 'hono/client'
 import { client } from '@/lib/api/client'
-import { parseResponse, type InferResponseType } from 'hono/client'
-import type { AdminUserUpdateInput, AdminUserUpdateRoleInput } from './schema'
+
+type AdminUserUpdateRequest = InferRequestType<(typeof client.admin.users)[':userId']['$patch']>
+type AdminUserRoleUpdateRequest = InferRequestType<
+  (typeof client.admin.users)[':userId']['role']['$patch']
+>
+
+export type AdminUserUpdateRequestBody = AdminUserUpdateRequest['json']
+export type AdminUserRoleUpdateRequestBody = AdminUserRoleUpdateRequest['json']
 
 export const adminApi = {
   // TODO: ユーザ名・ロールによるフィルタリングを実装する
@@ -20,27 +27,23 @@ export const adminApi = {
       }),
     ),
 
-  update: (userId: string, { name }: AdminUserUpdateInput) =>
+  update: (userId: string, json: AdminUserUpdateRequestBody) =>
     parseResponse(
       client.admin.users[':userId'].$patch({
         param: {
           userId,
         },
-        json: {
-          name,
-        },
+        json,
       }),
     ),
 
-  updateRole: (userId: string, { role }: AdminUserUpdateRoleInput) =>
+  updateRole: (userId: string, json: AdminUserRoleUpdateRequestBody) =>
     parseResponse(
       client.admin.users[':userId'].role.$patch({
         param: {
           userId,
         },
-        json: {
-          role,
-        },
+        json,
       }),
     ),
 
@@ -54,4 +57,5 @@ export const adminApi = {
     ),
 }
 
-export type User = InferResponseType<typeof client.admin.users.$get, 200>[number]
+export type AdminUserSummary = InferResponseType<typeof client.admin.users.$get, 200>[number]
+export type AdminUserDetail = InferResponseType<(typeof client.admin.users)[':userId']['$get'], 200>

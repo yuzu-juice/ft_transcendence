@@ -1,11 +1,10 @@
-import { Modal } from '@/components/ui/Modal'
-import { useAppForm } from '@/components/form/form'
 import { useMutation } from '@tanstack/react-query'
-import { taskMutations } from '../mutation'
-import type z from 'zod'
-import { TaskCreateFormSchema, type TaskPriorityFormSchema } from '../schema'
-import { toast } from 'sonner'
 import { Button } from 'otsukimi-ui'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import { Modal } from '@/components/ui/Modal'
+import { taskMutations } from '../mutation'
+import { TaskCreateFormSchema, type TaskCreateFormValues, toTaskCreateRequestBody } from '../schema'
 
 interface TaskCreateModalProps {
   open: boolean
@@ -15,25 +14,21 @@ interface TaskCreateModalProps {
 export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps) => {
   const taskCreateMutation = useMutation(taskMutations.create())
 
+  const defaultValues: TaskCreateFormValues = {
+    title: '',
+    description: '',
+    priority: '',
+    dueAt: '',
+  }
+
   const form = useAppForm({
-    defaultValues: {
-      title: '',
-      description: '',
-      priority: '' as z.infer<typeof TaskPriorityFormSchema>,
-      dueAt: '',
-    },
+    defaultValues,
     validators: {
       onChange: TaskCreateFormSchema,
       onSubmit: TaskCreateFormSchema,
     },
     onSubmit: async ({ value }) => {
-      // 入力された値が空の場合、nullに変換しAPI送信用のフォーマットに合わせる
-      await taskCreateMutation.mutateAsync({
-        title: value.title,
-        description: value.description === '' ? null : value.description,
-        priority: value.priority === '' ? null : value.priority,
-        dueAt: value.dueAt === '' ? null : new Date(value.dueAt).toISOString(),
-      })
+      await taskCreateMutation.mutateAsync(toTaskCreateRequestBody(value))
       toast.success('タスクを作成しました')
       // 送信成功時のみフォームをリセット、送信失敗時は再度modalを開いた場合前回の入力値が残る
       form.reset()

@@ -1,13 +1,13 @@
-import { UserAvatar } from '@/components/ui/UserAvatar'
-import type { User } from '../api'
 import { Badge } from 'otsukimi-ui'
+import { UserAvatar } from '@/components/ui/UserAvatar'
+import type { AdminUserSummary } from '../api'
 
-interface TaskListItemProps {
-  user: User
+interface UserListItemProps {
+  user: AdminUserSummary
   onModalOpen: () => void
 }
 
-export const UserListItem = ({ user, onModalOpen }: TaskListItemProps) => {
+export const UserListItem = ({ user, onModalOpen }: UserListItemProps) => {
   return (
     <tr key={user.id} className="border-b border-brand-primary-soft">
       <td className="px-4 py-3">

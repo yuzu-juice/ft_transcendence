@@ -1,17 +1,17 @@
-import { Button } from 'otsukimi-ui'
-import type { Task } from '../api'
-import { useAppForm } from '@/components/form/form'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { userSearchQueries } from '../query'
-import { Loading } from '@/components/ui/Loading'
-import { ErrorMessage } from '@/components/ui/ErrorMessage'
-import { TaskAssigneesUpdateSchema } from '../schema'
-import { UserAvatar } from '@/components/ui/UserAvatar'
+import { Button } from 'otsukimi-ui'
 import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { Loading } from '@/components/ui/Loading'
+import { UserAvatar } from '@/components/ui/UserAvatar'
+import type { TaskDetail } from '../api'
 import { taskMutations } from '../mutation'
+import { userSearchQueries } from '../query'
+import { TaskAssigneesFormSchema, toTaskAssigneesUpdateRequestBody } from '../schema'
 
 interface TaskEditAssigneesProps {
-  task: Task
+  task: TaskDetail
   onBack: () => void
 }
 
@@ -24,15 +24,13 @@ export const TaskEditAssignees = ({ task, onBack }: TaskEditAssigneesProps) => {
       assigneeIds: task.assignees.map((assignee) => assignee.id) as string[],
     },
     validators: {
-      onChange: TaskAssigneesUpdateSchema,
-      onSubmit: TaskAssigneesUpdateSchema,
+      onChange: TaskAssigneesFormSchema,
+      onSubmit: TaskAssigneesFormSchema,
     },
     onSubmit: async ({ value }) => {
       await taskAssigneesUpdateMutation.mutateAsync({
         taskId: task.id,
-        input: {
-          assigneeIds: value.assigneeIds,
-        },
+        input: toTaskAssigneesUpdateRequestBody(value),
       })
       toast.success('タスク担当者情報を更新しました')
       onBack()

@@ -1,14 +1,18 @@
-import { queryClient } from '@/lib/query/client'
 import { mutationOptions } from '@tanstack/react-query'
+import { queryClient } from '@/lib/query/client'
+import {
+  type TaskAssigneesUpdateRequestBody,
+  type TaskCreateRequestBody,
+  type TaskUpdateRequestBody,
+  taskApi,
+} from './api'
 import { taskQueryKeys } from './query'
-import { taskApi } from './api'
-import type { TaskAssigneesUpdateInput, TaskCreateInput, TaskUpdateInput } from './schema'
 
 export const taskMutations = {
   create: () =>
     mutationOptions({
       mutationKey: ['task', 'create'],
-      mutationFn: async (input: TaskCreateInput) => {
+      mutationFn: async (input: TaskCreateRequestBody) => {
         await taskApi.create(input)
       },
       onSuccess: async () => {
@@ -21,7 +25,7 @@ export const taskMutations = {
   update: () =>
     mutationOptions({
       mutationKey: ['task', 'update', 'info'],
-      mutationFn: async (variables: { taskId: string; input: TaskUpdateInput }) => {
+      mutationFn: async (variables: { taskId: string; input: TaskUpdateRequestBody }) => {
         await taskApi.update(variables.taskId, variables.input)
       },
       onSuccess: async () => {
@@ -34,7 +38,7 @@ export const taskMutations = {
   updateAssignees: () =>
     mutationOptions({
       mutationKey: ['task', 'update', 'assignees'],
-      mutationFn: async (variables: { taskId: string; input: TaskAssigneesUpdateInput }) => {
+      mutationFn: async (variables: { taskId: string; input: TaskAssigneesUpdateRequestBody }) => {
         await taskApi.updateAssignees(variables.taskId, variables.input)
       },
       onSuccess: async () => {
