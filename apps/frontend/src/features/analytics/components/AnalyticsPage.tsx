@@ -79,7 +79,7 @@ export const AnalyticsPage = () => {
     <div className="flex flex-col gap-6">
       <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <SummaryItem
           label={t('analytics.totalTasks')}
           value={t('analytics.taskCount', { count: totalTasksCount })}
@@ -91,7 +91,7 @@ export const AnalyticsPage = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <Card>
           <div className="flex flex-col gap-4">
             <h3 className="text-lg font-heading font-bold">{t('analytics.statusBreakdown')}</h3>
