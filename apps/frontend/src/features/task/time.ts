@@ -20,7 +20,7 @@ export const isOverDue = (date: string) => {
   return new Date() > new Date(date)
 }
 
-export const toDateTimeLocal = (value: string | null) => {
+export const toDateTimeLocal = (value: string | null | undefined) => {
   if (!value) return null
 
   const date = new Date(value)

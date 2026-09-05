@@ -1,8 +1,7 @@
 import { Button } from 'otsukimi-ui'
 import type { Task } from '../api'
 import { useAppForm } from '@/components/form/form'
-import { type TaskPriorityFormSchema, type TaskStatusSchema, TaskUpdateFormSchema } from '../schema'
-import type z from 'zod'
+import { type TaskUpdateFormInput, TaskUpdateFormSchema } from '../schema'
 import { toDateTimeLocal } from '../time'
 import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
@@ -16,27 +15,30 @@ interface TaskEditInfoProps {
 export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
   const taskUpdateMutation = useMutation(taskMutations.update())
 
+  const defaultValues: TaskUpdateFormInput = {
+    title: task.title,
+    description: task.description ?? '',
+    status: task.status as TaskUpdateFormInput['status'],
+    priority: task.priority ? (task.priority as TaskUpdateFormInput['priority']) : '',
+    dueAt: toDateTimeLocal(task.dueAt) ?? '',
+  }
+
   const form = useAppForm({
-    defaultValues: {
-      title: task.title,
-      description: task.description ? task.description : '',
-      status: task.status as z.infer<typeof TaskStatusSchema>,
-      priority: task.priority as z.infer<typeof TaskPriorityFormSchema>,
-      dueAt: toDateTimeLocal(task.dueAt),
-    },
+    defaultValues,
     validators: {
       onChange: TaskUpdateFormSchema,
       onSubmit: TaskUpdateFormSchema,
     },
     onSubmit: async ({ value }) => {
+      // 入力された値が空の場合、undefinedに変換しAPI送信用のフォーマットに合わせる
       await taskUpdateMutation.mutateAsync({
         taskId: task.id,
         input: {
           title: value.title,
-          description: value.description === '' ? null : value.description,
+          description: value.description === '' ? undefined : value.description,
           status: value.status,
-          priority: value.priority === '' ? null : value.priority,
-          dueAt: value.dueAt ? new Date(value.dueAt).toISOString() : null,
+          priority: value.priority === '' ? undefined : value.priority,
+          dueAt: value.dueAt ? new Date(value.dueAt).toISOString() : undefined,
         },
       })
       toast.success('タスク情報を更新しました')

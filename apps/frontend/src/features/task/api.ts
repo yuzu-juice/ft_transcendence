@@ -1,13 +1,34 @@
 import { client } from '@/lib/api/client'
 import { parseResponse, type InferResponseType } from 'hono/client'
-import type { TaskAssigneesUpdateInput, TaskCreateInput, TaskUpdateInput } from './schema'
+import type {
+  TaskAssigneesUpdateInput,
+  TaskCreateInput,
+  TaskSearchParamsInput,
+  TaskUpdateInput,
+} from './schema'
 
 export const userSearchApi = {
   list: () => parseResponse(client.users.$get({})),
 }
 
 export const taskApi = {
-  list: () => parseResponse(client.tasks.$get({ query: {} })),
+  list: (search: TaskSearchParamsInput) =>
+    parseResponse(
+      client.tasks.$get({
+        query: {
+          q: search.q,
+          status: search.status,
+          priority: search.priority,
+          dueFrom: search.dueFrom,
+          dueTo: search.dueTo,
+          createdBy: search.createdBy,
+          assigneeId: search.assigneeId,
+          sort: search.sort,
+          order: search.order,
+          page: String(search.page),
+        },
+      }),
+    ),
 
   detail: (taskId: string) =>
     parseResponse(

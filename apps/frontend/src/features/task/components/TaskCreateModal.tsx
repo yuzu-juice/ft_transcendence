@@ -6,7 +6,6 @@ import type z from 'zod'
 import { TaskCreateFormSchema, type TaskPriorityFormSchema } from '../schema'
 import { toast } from 'sonner'
 import { Button } from 'otsukimi-ui'
-import { useEffect } from 'react'
 
 interface TaskCreateModalProps {
   open: boolean
@@ -28,21 +27,19 @@ export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps
       onSubmit: TaskCreateFormSchema,
     },
     onSubmit: async ({ value }) => {
+      // 入力された値が空の場合、undefinedに変換しAPI送信用のフォーマットに合わせる
       await taskCreateMutation.mutateAsync({
         title: value.title,
-        description: value.description === '' ? null : value.description,
-        priority: value.priority === '' ? null : value.priority,
-        dueAt: value.dueAt === '' ? null : new Date(value.dueAt).toISOString(),
+        description: value.description === '' ? undefined : value.description,
+        priority: value.priority === '' ? undefined : value.priority,
+        dueAt: value.dueAt === '' ? undefined : new Date(value.dueAt).toISOString(),
       })
       toast.success('タスクを作成しました')
+      // 送信成功時のみフォームをリセット、送信失敗時は再度modalを開いた場合前回の入力値が残る
+      form.reset()
       handleOpenChange(false)
     },
   })
-
-  // TODO: fix
-  useEffect(() => {
-    form.reset()
-  }, [open])
 
   return (
     <Modal
