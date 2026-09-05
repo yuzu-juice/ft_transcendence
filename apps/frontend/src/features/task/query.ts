@@ -1,21 +1,18 @@
 import { queryOptions } from '@tanstack/react-query'
-import { taskApi } from './api'
+import { taskApi, userSearchApi } from './api'
+import { type TaskSearchParams, toTaskListQuery } from './schema'
 
-const taskQueryKeys = {
+export const taskQueryKeys = {
   all: () => ['tasks'] as const,
-
-  list: () => [...taskQueryKeys.all(), 'list'],
-
+  list: (search?: TaskSearchParams) => [...taskQueryKeys.all(), 'list', search],
   detail: (taskId: string) => [...taskQueryKeys.all(), 'detail', taskId],
-  // TODO: 検索パラメータを明示的にkeyに持つように実装する
 }
 
-// TODO: 検索UI実装までの一時的なもの
 export const taskQueries = {
-  list: () =>
+  list: (search: TaskSearchParams) =>
     queryOptions({
-      queryKey: taskQueryKeys.list(),
-      queryFn: async () => taskApi.list(),
+      queryKey: taskQueryKeys.list(search),
+      queryFn: async () => taskApi.list(toTaskListQuery(search)),
       meta: {
         suppressErrorToast: true,
       },
@@ -25,6 +22,22 @@ export const taskQueries = {
     queryOptions({
       queryKey: taskQueryKeys.detail(taskId),
       queryFn: async () => taskApi.detail(taskId),
+      meta: {
+        suppressErrorToast: true,
+      },
+    }),
+}
+
+export const userSearchQueryKeys = {
+  all: () => ['user'] as const,
+  list: () => [...userSearchQueryKeys.all(), 'search'],
+}
+
+export const userSearchQueries = {
+  list: () =>
+    queryOptions({
+      queryKey: userSearchQueryKeys.list(),
+      queryFn: async () => userSearchApi.list(),
       meta: {
         suppressErrorToast: true,
       },
