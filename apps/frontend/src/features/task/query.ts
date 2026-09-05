@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
-import { taskApi } from './api'
+import { taskApi, userSearchApi } from './api'
 
 export const taskQueryKeys = {
   all: () => ['tasks'] as const,
@@ -25,6 +25,17 @@ export const taskQueries = {
     queryOptions({
       queryKey: taskQueryKeys.detail(taskId),
       queryFn: async () => taskApi.detail(taskId),
+      meta: {
+        suppressErrorToast: true,
+      },
+    }),
+}
+
+export const userSearchQueries = {
+  list: () =>
+    queryOptions({
+      queryKey: ['user', 'search'],
+      queryFn: async () => userSearchApi.list(),
       meta: {
         suppressErrorToast: true,
       },

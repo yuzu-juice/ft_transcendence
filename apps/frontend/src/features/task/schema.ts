@@ -29,3 +29,9 @@ export const TaskUpdateSchema = z.object({
 })
 
 export type TaskUpdateInput = z.infer<typeof TaskUpdateSchema>
+
+export const TaskAssigneesUpdateSchema = z.object({
+  assigneeIds: z.array(z.string()),
+})
+
+export type TaskAssigneesUpdateInput = z.infer<typeof TaskAssigneesUpdateSchema>

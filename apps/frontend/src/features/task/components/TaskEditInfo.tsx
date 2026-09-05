@@ -44,7 +44,6 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
     },
   })
 
-  // リセットボタンも欲しい
   return (
     <div className="flex flex-col gap-6">
       <form
