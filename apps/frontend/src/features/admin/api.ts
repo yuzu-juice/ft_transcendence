@@ -18,6 +18,15 @@ export const adminApi = {
         },
       }),
     ),
+
+  delete: (userId: string) =>
+    parseResponse(
+      client.admin.users[':userId'].$delete({
+        param: {
+          userId,
+        },
+      }),
+    ),
 }
 
 export type User = InferResponseType<typeof client.admin.users.$get, 200>[number]

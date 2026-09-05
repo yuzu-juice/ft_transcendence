@@ -4,6 +4,9 @@ import { Badge, Button } from 'otsukimi-ui'
 import type { User } from '../api'
 import { formatTaskDateTime } from '@/features/task/time' // TODO: 広範囲のlibにする
 import { authClient } from '@/lib/auth/client'
+import { useMutation } from '@tanstack/react-query'
+import { adminMutations } from '../mutation'
+import { toast } from 'sonner'
 
 interface TaskDetailProps {
   user: User
@@ -22,6 +25,13 @@ const UserDetailListItem = ({ heading, children }: { heading: string; children: 
 
 export const UserDetail = ({ user, onEdit, onClose }: TaskDetailProps) => {
   const { data: session } = authClient.useSession()
+
+  const adminUserDeleteMutation = useMutation(adminMutations.delete())
+  const handleDeleteUser = async () => {
+    await adminUserDeleteMutation.mutateAsync(user.id)
+    toast.success('ユーザを削除しました')
+    onClose()
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -57,8 +67,14 @@ export const UserDetail = ({ user, onEdit, onClose }: TaskDetailProps) => {
           <Button type="button" onClick={() => onEdit('edit-role')}>
             ロールを編集
           </Button>
-          <Button type="button" onClick={() => {}} variant="transparent">
-            ユーザを削除
+          <Button
+            type="button"
+            onClick={() => {
+              handleDeleteUser()
+            }}
+            variant="transparent"
+          >
+            {adminUserDeleteMutation.isPending ? '削除しています...' : 'ユーザを削除'}
           </Button>
         </div>
       ) : (
