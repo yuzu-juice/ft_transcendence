@@ -1,30 +1,30 @@
 import { DetailedError } from 'hono/client'
+import i18n from '@/lib/i18n/config'
 
 function getApiErrorMessage(code?: string) {
   switch (code) {
     case 'VALIDATION_ERROR':
-      /* 本来発生しえないエラーのため、開発者向けにVALIDATION ERRORであることを明示 */
-      return '通信中にエラーが発生しました（VALIDATION_ERROR）'
+      return i18n.t('error.api.validation')
     case 'AUTH_REQUIRED':
-      return '認証が必要です'
+      return i18n.t('error.api.authRequired')
     case 'ADMIN_REQUIRED':
-      return '管理者権限が必要です'
+      return i18n.t('error.api.adminRequired')
     case 'USER_NOT_FOUND':
-      return 'ユーザが見つかりません'
+      return i18n.t('error.api.userNotFound')
     case 'TASK_NOT_FOUND':
-      return 'タスクが見つかりません'
+      return i18n.t('error.api.taskNotFound')
     case 'ASSIGNEE_NOT_FOUND':
-      return '担当者が見つかりません'
+      return i18n.t('error.api.assigneeNotFound')
     case 'AVATAR_NOT_FOUND':
-      return 'アバターが見つかりません'
+      return i18n.t('error.api.avatarNotFound')
     case 'INVALID_AVATAR':
-      return '無効な画像です'
+      return i18n.t('error.api.invalidAvatar')
     case 'AVATAR_TOO_LARGE':
-      return '画像のサイズが大きすぎます'
+      return i18n.t('error.api.avatarTooLarge')
     case 'UNSUPPORTED_AVATAR_TYPE':
-      return 'サポートされていない画像タイプです'
+      return i18n.t('error.api.unsupportedAvatarType')
     case 'INTERNAL_SERVER_ERROR':
-      return 'サーバ内でエラーが発生しました'
+      return i18n.t('error.api.internalServerError')
     default:
       return undefined
   }
@@ -33,15 +33,15 @@ function getApiErrorMessage(code?: string) {
 function getHttpErrorMessage(status: number) {
   switch (status) {
     case 401:
-      return '認証が必要です'
+      return i18n.t('error.http.401')
     case 403:
-      return 'アクセス権限がありません'
+      return i18n.t('error.http.403')
     case 404:
-      return '対象が見つかりません'
+      return i18n.t('error.http.404')
     case 500:
-      return 'サーバーでエラーが発生しました'
+      return i18n.t('error.http.500')
     default:
-      return '通信に失敗しました'
+      return i18n.t('error.http.default')
   }
 }
 
@@ -53,7 +53,7 @@ export const getErrorMessage = (error: unknown) => {
   // 今回の実装ではuseQuery/useMutationのすべての実装でHono RPCを使用する
   // したがって投げられるエラーはすべてHono RPCのparseResponseの投げるDetailedErrorであるはず
   if (!(error instanceof DetailedError)) {
-    return '予期しないエラーが発生しました'
+    return i18n.t('error.unexpected')
   }
 
   // APIの返すerror.detail.data.error.codeを参照しエラーメッセージを表示する
@@ -69,5 +69,5 @@ export const getErrorMessage = (error: unknown) => {
     return getHttpErrorMessage(error.statusCode)
   }
 
-  return '通信に失敗しました'
+  return i18n.t('error.http.default')
 }
