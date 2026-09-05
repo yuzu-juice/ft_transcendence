@@ -14,5 +14,27 @@
     "terms": {
       "title": "服务条款"
     }
+  },
+  "analytics": {
+    "title": "分析仪表板",
+    "totalTasks": "任务总数",
+    "completionRate": "完成率",
+    "overdue": "逾期任务",
+    "taskCount": "{{count}}项",
+    "reload": "正在重新加载...",
+    "retry": "重试",
+    "statusBreakdown": "状态明细",
+    "status": {
+      "todo": "未开始",
+      "inProgress": "进行中",
+      "done": "已完成"
+    },
+    "priorityBreakdown": "优先级明细",
+    "priority": {
+      "high": "high",
+      "medium": "medium",
+      "low": "low",
+      "unset": "未设置"
+    }
   }
 }
