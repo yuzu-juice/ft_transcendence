@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TaskModal } from './TaskModal'
 import { TaskListItem } from './TaskListItem'
 import { Button, Card } from 'otsukimi-ui'
@@ -23,6 +23,17 @@ export const TaskList = () => {
   const query = useQuery(taskQueries.list(search))
 
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (query.data && query.data.meta.totalPages < query.data.meta.page) {
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          page: 1,
+        }),
+      })
+    }
+  }, [query.data])
 
   const renderContent = () => {
     if (query.isPending) {

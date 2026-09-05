@@ -13,6 +13,7 @@ import { Loading } from '@/components/ui/Loading'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { useQuery } from '@tanstack/react-query'
 import { userSearchQueries } from '../query'
+import { useEffect } from 'react'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
 
@@ -60,6 +61,11 @@ export const TaskSearchForm = () => {
       })
     },
   })
+
+  // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
+  useEffect(() => {
+    form.reset()
+  }, [search, form])
 
   if (query.isLoading) {
     return <Loading />

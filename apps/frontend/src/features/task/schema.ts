@@ -88,9 +88,9 @@ export const TaskCreateSchema = z.object({
     .string()
     .min(1, 'タスク名を入力してください')
     .max(200, 'タスク名は200文字以内で入力してください'),
-  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください').optional(),
-  priority: TaskPrioritySchema.optional(),
-  dueAt: z.string().optional(),
+  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください').nullable(),
+  priority: TaskPrioritySchema.nullable(),
+  dueAt: z.string().nullable(),
 })
 
 export type TaskCreateInput = z.infer<typeof TaskCreateSchema>
@@ -113,10 +113,10 @@ export const TaskUpdateSchema = z.object({
     .string()
     .min(1, 'タスク名を入力してください')
     .max(200, 'タスク名は200文字以内で入力してください'),
-  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください').optional(),
+  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください').nullable(),
   status: TaskStatusSchema,
-  priority: TaskPrioritySchema.optional(),
-  dueAt: z.iso.datetime().optional(),
+  priority: TaskPrioritySchema.nullable(),
+  dueAt: z.iso.datetime().nullable(),
 })
 
 export type TaskUpdateInput = z.infer<typeof TaskUpdateSchema>

@@ -30,15 +30,15 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
       onSubmit: TaskUpdateFormSchema,
     },
     onSubmit: async ({ value }) => {
-      // 入力された値が空の場合、undefinedに変換しAPI送信用のフォーマットに合わせる
+      // 入力された値が空の場合、nullに変換しAPI送信用のフォーマットに合わせる
       await taskUpdateMutation.mutateAsync({
         taskId: task.id,
         input: {
           title: value.title,
-          description: value.description === '' ? undefined : value.description,
+          description: value.description === '' ? null : value.description,
           status: value.status,
-          priority: value.priority === '' ? undefined : value.priority,
-          dueAt: value.dueAt ? new Date(value.dueAt).toISOString() : undefined,
+          priority: value.priority === '' ? null : value.priority,
+          dueAt: value.dueAt ? new Date(value.dueAt).toISOString() : null,
         },
       })
       toast.success('タスク情報を更新しました')

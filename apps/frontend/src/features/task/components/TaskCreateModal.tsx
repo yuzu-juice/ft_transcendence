@@ -27,12 +27,12 @@ export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps
       onSubmit: TaskCreateFormSchema,
     },
     onSubmit: async ({ value }) => {
-      // 入力された値が空の場合、undefinedに変換しAPI送信用のフォーマットに合わせる
+      // 入力された値が空の場合、nullに変換しAPI送信用のフォーマットに合わせる
       await taskCreateMutation.mutateAsync({
         title: value.title,
-        description: value.description === '' ? undefined : value.description,
-        priority: value.priority === '' ? undefined : value.priority,
-        dueAt: value.dueAt === '' ? undefined : new Date(value.dueAt).toISOString(),
+        description: value.description === '' ? null : value.description,
+        priority: value.priority === '' ? null : value.priority,
+        dueAt: value.dueAt === '' ? null : new Date(value.dueAt).toISOString(),
       })
       toast.success('タスクを作成しました')
       // 送信成功時のみフォームをリセット、送信失敗時は再度modalを開いた場合前回の入力値が残る
