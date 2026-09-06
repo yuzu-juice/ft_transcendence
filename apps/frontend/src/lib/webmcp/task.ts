@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { taskApi } from '@/features/task/api'
-import { TaskSearchParamsSchema } from '@/features/task/schema'
+import { TaskSearchParamsSchema, toTaskListQuery } from '@/features/task/schema'
 
 const nullableString = (maxLength: number) => ({
   anyOf: [{ type: 'string', maxLength }, { type: 'null' }],
@@ -36,6 +36,7 @@ export async function registerTaskTools(signal: AbortSignal) {
       title: 'タスクを検索',
       description:
         'Search tasks. Supports text search, status, priority, deadline, creator, assignee, sorting, and pagination.',
+      // LLMから入力を受けるスキーマを定義する
       inputSchema: {
         type: 'object',
         properties: {
@@ -73,11 +74,8 @@ export async function registerTaskTools(signal: AbortSignal) {
             description: 'タスク作成者のアカウントID',
           },
           assigneeId: {
-            type: 'array',
-            description: 'タスク担当者のアカウントIDの配列',
-            items: {
-              type: 'string',
-            },
+            type: 'string',
+            description: 'タスク担当者のアカウントID',
           },
           sort: {
             type: 'string',
@@ -99,19 +97,10 @@ export async function registerTaskTools(signal: AbortSignal) {
         additionalProperties: false,
       },
       annotations: {
-        readOnlyHint: true,
+        readOnlyHint: true, // 読み取り専用の安全な操作であることを示す
       },
-      async execute(input) {
-        const result = TaskSearchParamsSchema.safeParse(input)
-        if (!result.success) {
-          return JSON.stringify({
-            error: 'invalid_input',
-            issues: result.error.issues,
-          })
-        }
-
-        const tasks = await taskApi.list(result.data)
-        return JSON.stringify(tasks)
+      async execute(input, { signal }) {
+        return await taskApi.list(toTaskListQuery(input), signal)
       },
     },
     { signal },
@@ -137,9 +126,8 @@ export async function registerTaskTools(signal: AbortSignal) {
       annotations: {
         readOnlyHint: true,
       },
-      async execute({ taskId }) {
-        const task = taskApi.detail(taskId)
-        return JSON.stringify(task)
+      async execute({ taskId }, { signal }) {
+        return await taskApi.detail(taskId, signal)
       },
     },
     { signal },
@@ -151,7 +139,6 @@ export async function registerTaskTools(signal: AbortSignal) {
       title: 'タスクを作成',
       description:
         'Create a new task. title is required. description, priority, and dueAt are optional.',
-
       inputSchema: {
         type: 'object',
         properties: {
@@ -177,25 +164,22 @@ export async function registerTaskTools(signal: AbortSignal) {
         required: ['title'],
         additionalProperties: false,
       },
-
       annotations: {
         readOnlyHint: false,
         untrustedContentHint: true,
       },
-
       async execute(input, { signal }) {
         return await taskApi.create(input, signal)
       },
     },
     { signal },
   ),
-    document.modelContext.registerTool(
+    await document.modelContext.registerTool(
       {
         name: 'update_task',
         title: 'タスクを編集',
         description:
           'Update the specified task. Only supplied fields are changed. null clears description, priority, or dueAt.',
-
         inputSchema: {
           type: 'object',
           properties: {
@@ -228,9 +212,7 @@ export async function registerTaskTools(signal: AbortSignal) {
               description: '締切日時。nullを指定すると締切を解除する。',
             },
           },
-
           required: ['taskId'],
-
           // taskId 以外に最低1つ変更項目が必要
           anyOf: [
             { required: ['title'] },
@@ -239,15 +221,12 @@ export async function registerTaskTools(signal: AbortSignal) {
             { required: ['priority'] },
             { required: ['dueAt'] },
           ],
-
           additionalProperties: false,
         },
-
         annotations: {
           readOnlyHint: false,
           untrustedContentHint: true,
         },
-
         async execute({ taskId, ...updates }, { signal }) {
           return await taskApi.update(taskId, updates, signal)
         },
@@ -255,13 +234,12 @@ export async function registerTaskTools(signal: AbortSignal) {
       { signal },
     )
 
-  document.modelContext.registerTool(
+  await document.modelContext.registerTool(
     {
       name: 'update_task_assignees',
       title: 'タスク担当者を更新',
       description:
         'Replace all assignees of the specified task. Passing an empty userIds array removes all assignees.',
-
       inputSchema: {
         type: 'object',
         properties: {
@@ -283,12 +261,10 @@ export async function registerTaskTools(signal: AbortSignal) {
         required: ['taskId', 'userIds'],
         additionalProperties: false,
       },
-
       annotations: {
         readOnlyHint: false,
         untrustedContentHint: true,
       },
-
       async execute({ taskId, userIds }, { signal }) {
         return await taskApi.updateAssignees(taskId, { userIds }, signal)
       },

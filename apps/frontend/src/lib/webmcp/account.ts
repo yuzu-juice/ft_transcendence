@@ -10,18 +10,15 @@ export async function registerAccountTools(signal: AbortSignal) {
       name: 'get_my_account',
       title: '自分のアカウント情報を取得',
       description: 'Retrieve information about the currently signed-in user.',
-
       inputSchema: {
         type: 'object',
         properties: {},
         additionalProperties: false,
       },
-
       annotations: {
         readOnlyHint: true,
         untrustedContentHint: true,
       },
-
       async execute(_, { signal }) {
         const { data, error } = await authClient.getSession({
           fetchOptions: {
