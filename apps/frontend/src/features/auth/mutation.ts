@@ -34,9 +34,19 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
         return i18n.t('auth.error.emailAlreadyUsed')
       case 'INVALID_EMAIL':
         return i18n.t('auth.error.invalidEmail')
+      case 'INVALID_PASSWORD':
+        return i18n.t('auth.error.invalidPassword')
       case 'PASSWORD_TOO_LONG':
       case 'PASSWORD_TOO_SHORT':
         return i18n.t('auth.error.weakPassword')
+      case 'INVALID_CODE':
+        return i18n.t('auth.error.invalidCode')
+      case 'TOTP_ALREADY_ENABLED':
+        return i18n.t('auth.error.totpAlreadyEnabled')
+      case 'TOTP_NOT_ENABLED':
+        return i18n.t('auth.error.totpNotEnabled')
+      case 'INVALID_TWO_FACTOR_COOKIE':
+        return i18n.t('auth.error.invalidTwoFactorCookie')
       default:
         if (error.status === 401) {
           return i18n.t('auth.error.invalidCredentials')

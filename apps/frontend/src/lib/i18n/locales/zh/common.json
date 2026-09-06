@@ -103,9 +103,14 @@
       "invalidCredentials": "邮箱地址或密码不正确",
       "emailAlreadyUsed": "该邮箱地址已被使用",
       "invalidEmail": "请输入有效的邮箱地址",
+      "invalidPassword": "密码不正确",
       "weakPassword": "密码不符合要求",
-      "tooManyRequests": "您的请求次数已超过允许的上限",
-      "authenticationFailed": "密码不符合要求"
+      "tooManyRequests": "请求次数过多，请稍后重试",
+      "authenticationFailed": "认证失败",
+      "invalidCode": "验证码不正确",
+      "totpAlreadyEnabled": "双重身份验证已启用",
+      "totpNotEnabled": "双重身份验证尚未启用",
+      "invalidTwoFactorCookie": "双重身份验证会话无效，请重新登录"
     },
     "github": {
       "title": "使用 GitHub 继续",

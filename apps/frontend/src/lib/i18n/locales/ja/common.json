@@ -103,9 +103,14 @@
       "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
       "emailAlreadyUsed": "このメールアドレスはすでに使用されています",
       "invalidEmail": "有効なメールアドレスを入力してください",
+      "invalidPassword": "パスワードが正しくありません",
       "weakPassword": "パスワードが要件を満たしていません",
       "tooManyRequests": "リクエスト可能な回数を超過しています",
-      "authenticationFailed": "認証に失敗しました"
+      "authenticationFailed": "認証に失敗しました",
+      "invalidCode": "認証コードが正しくありません",
+      "totpAlreadyEnabled": "二要素認証はすでに有効になっています",
+      "totpNotEnabled": "二要素認証が有効になっていません",
+      "invalidTwoFactorCookie": "二要素認証のセッションが無効です。もう一度サインインしてください"
     },
     "github": {
       "title": "GitHubで続行",
