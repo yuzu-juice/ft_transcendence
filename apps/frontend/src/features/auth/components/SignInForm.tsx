@@ -34,10 +34,13 @@ export const SignInForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        await signInMutation.mutateAsync(value)
+        const data = await signInMutation.mutateAsync(value)
+        if (data.user.twoFactorEnabled) {
+          return // Better Authが/totpへ遷移するので何もしない
+        }
+
         await refetch()
-        // _authenticatedで使用しているbeforeLoadを再評価する
-        await router.invalidate()
+        await router.invalidate({ forcePending: true })
         toast.info(t('auth.signIn.toastSuccess'))
         await navigate({
           to: '/mypage',

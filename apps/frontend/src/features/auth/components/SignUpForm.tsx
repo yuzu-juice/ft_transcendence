@@ -37,7 +37,7 @@ export const SignUpForm = () => {
         await signUpMutation.mutateAsync(value)
         await refetch()
         // _authenticatedで使用しているbeforeLoadを再評価する
-        await router.invalidate()
+        await router.invalidate({ forcePending: true })
         toast.info(t('auth.signUp.toastSuccess'))
         await navigate({
           to: '/mypage',

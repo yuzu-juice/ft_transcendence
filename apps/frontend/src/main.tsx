@@ -18,7 +18,7 @@ import { authClient } from './lib/auth/client'
 
 import '@/lib/i18n/config'
 
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   context: {
     session: null,

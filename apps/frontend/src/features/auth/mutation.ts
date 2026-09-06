@@ -1,6 +1,11 @@
 import { authClient } from '@/lib/auth/client'
 import { mutationOptions } from '@tanstack/react-query'
-import type { SignInInput, SignUpInput } from './schema'
+import {
+  type SignInInput,
+  type SignUpInput,
+  type TotpCodeInput,
+  type TotpEnableInput,
+} from './schema'
 import i18n from '@/lib/i18n/config'
 
 export class BetterAuthError extends Error {
@@ -14,6 +19,7 @@ export class BetterAuthError extends Error {
   }
 }
 
+// TOOD: add totp error message
 export const getBetterAuthErrorMessage = (error: unknown): string => {
   if (error instanceof BetterAuthError) {
     if (error.status !== undefined && error.status >= 500) {
@@ -93,6 +99,39 @@ export const signUpMutationOptions = mutationOptions({
       throw new BetterAuthError(error.message, error.code, error.status)
     }
     return data
+  },
+  meta: {
+    suppressErrorToast: true,
+  },
+})
+
+export const totpEnableMutationOptions = mutationOptions({
+  mutationKey: ['auth', 'totp', 'enable'],
+  mutationFn: async (input: TotpEnableInput | undefined) => {
+    const { data, error } = await authClient.twoFactor.enable({
+      method: 'totp',
+      ...(input ? { password: input.password } : {}),
+    })
+    if (error) {
+      throw new BetterAuthError(error.message, error.code, error.status)
+    }
+    return data
+  },
+  meta: {
+    suppressErrorToast: true,
+  },
+})
+
+export const totpVerifyMutationOptions = mutationOptions({
+  mutationKey: ['auth', 'totp', 'verify'],
+  mutationFn: async ({ code }: TotpCodeInput) => {
+    const { error } = await authClient.twoFactor.verifyTotp({
+      code,
+      trustDevice: false,
+    })
+    if (error) {
+      throw new BetterAuthError(error.message, error.code, error.status)
+    }
   },
   meta: {
     suppressErrorToast: true,

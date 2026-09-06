@@ -1,6 +1,6 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { admin } from 'better-auth/plugins'
+import { admin, twoFactor } from 'better-auth/plugins'
 
 import { db } from '../db/index.js'
 import { betterAuthSchema } from '../db/schema/auth.js'
@@ -14,6 +14,10 @@ export const auth = betterAuth({
     admin({
       defaultRole: 'user',
       adminRoles: ['admin'],
+    }),
+    twoFactor({
+      issuer: 'LunaPhase',
+      allowPasswordless: true,
     }),
   ],
   basePath: '/api/auth',
