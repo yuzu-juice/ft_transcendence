@@ -16,8 +16,12 @@ const normalizeLanguage = (value: string | null | undefined): (typeof supportedL
   return isSupportedLanguage(lang) ? lang : 'ja'
 }
 
-const storedLang =
-  typeof window !== 'undefined' ? window.localStorage.getItem(LANGUAGE_STORAGE_KEY) : null
+let storedLang: string | null = null
+if (typeof window !== 'undefined') {
+  try {
+    storedLang = window.localStorage.getItem(LANGUAGE_STORAGE_KEY)
+  } catch {}
+}
 const browserLang = typeof navigator !== 'undefined' ? navigator.language : 'ja'
 const initialLng = normalizeLanguage(storedLang ?? browserLang)
 
