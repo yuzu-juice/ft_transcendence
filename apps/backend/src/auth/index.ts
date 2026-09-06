@@ -17,7 +17,6 @@ export const auth = betterAuth({
     }),
     twoFactor({
       issuer: 'LunaPhase',
-      allowPasswordless: true,
     }),
   ],
   basePath: '/api/auth',
