@@ -1,6 +1,7 @@
+import { Button } from 'otsukimi-ui'
+import { useTranslation } from 'react-i18next'
 import { useAppForm } from '@/components/form/form'
 import { TotpCodeSchema } from '../schema'
-import { Button } from 'otsukimi-ui'
 import { AuthErrorAlert } from './AuthErrorAlert'
 
 interface TotpCodeProps {
@@ -10,6 +11,7 @@ interface TotpCodeProps {
 }
 
 export const TotpCodeForm = ({ onSubmit, errorMessage, isPending }: TotpCodeProps) => {
+  const { t } = useTranslation()
   const form = useAppForm({
     defaultValues: {
       code: '',
@@ -40,7 +42,7 @@ export const TotpCodeForm = ({ onSubmit, errorMessage, isPending }: TotpCodeProp
       <form.AppField name="code">
         {(field) => (
           <field.TextField
-            label="認証コード"
+            label={t('auth.fields.totpCode.label')}
             type="text"
             inputMode="numeric"
             autoComplete="one-time-code"
@@ -52,7 +54,7 @@ export const TotpCodeForm = ({ onSubmit, errorMessage, isPending }: TotpCodeProp
       {errorMessage && <AuthErrorAlert message={errorMessage} />}
 
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? '確認中...' : '確認'}
+        {isPending ? t('auth.totp.code.confirming') : t('auth.totp.code.confirm')}
       </Button>
     </form>
   )

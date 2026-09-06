@@ -75,9 +75,15 @@
         "label": "密码",
         "placeholder": "密码"
       },
+      "currentPassword": {
+        "label": "当前密码"
+      },
       "confirmPassword": {
         "label": "确认密码",
         "placeholder": "确认密码"
+      },
+      "totpCode": {
+        "label": "验证码"
       }
     },
     "signIn": {
@@ -121,6 +127,27 @@
         "unableToGetUserInfo": "无法从 GitHub 获取用户信息",
         "loginFailed": "登录处理失败",
         "githubLoginFailed": "使用 GitHub 登录失败"
+      }
+    },
+    "totp": {
+      "title": "双重身份验证",
+      "unavailable": "无法为此账号启用双重身份验证",
+      "challenge": {
+        "success": "双重身份验证成功"
+      },
+      "code": {
+        "confirm": "确认",
+        "confirming": "确认中..."
+      },
+      "setup": {
+        "title": "启用双重身份验证",
+        "enable": "启用双重身份验证",
+        "enabling": "正在验证...",
+        "passwordVerified": "密码验证成功",
+        "enabled": "双重身份验证已启用",
+        "installAuthenticator": "请在您的设备上安装身份验证器应用",
+        "scanQrCode": "请扫描下方的二维码",
+        "enterCode": "请输入验证码"
       }
     }
   }

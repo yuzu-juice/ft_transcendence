@@ -1,5 +1,6 @@
 import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
 import { TotpChallenge } from './TotpChallenge'
@@ -7,8 +8,8 @@ import { TotpSetup } from './TotpSetup'
 
 const totpRoute = getRouteApi('/totp')
 
-// TODO: i18n
 export const TotpPage = () => {
+  const { t } = useTranslation()
   // 検証成功時のセッション更新でチャレンジ画面を設定画面に切り替えない
   const session = totpRoute.useLoaderData()
   const navigate = useNavigate()
@@ -22,9 +23,9 @@ export const TotpPage = () => {
 
     redirectedRef.current = true
 
-    toast.info('既に2要素認証が有効化されています')
+    toast.info(t('auth.error.totpAlreadyEnabled'))
     navigate({ to: '/mypage' })
-  }, [session?.user.twoFactorEnabled, navigate])
+  }, [session?.user.twoFactorEnabled, navigate, t])
 
   useEffect(() => {
     if (!session || session.user.twoFactorEnabled) return
@@ -36,7 +37,7 @@ export const TotpPage = () => {
       if (cancelled) return
       const isCredential = accounts?.some((account) => account.providerId === 'credential') ?? false
       if (!isCredential) {
-        toast.info('このアカウントで2要素認証を有効化することはできません')
+        toast.info(t('auth.totp.unavailable'))
         await navigate({ to: '/mypage' })
       }
     }
@@ -45,7 +46,7 @@ export const TotpPage = () => {
     return () => {
       cancelled = true
     }
-  }, [session, navigate])
+  }, [session, navigate, t])
 
   // セッションが存在しない == ログインチャレンジ中
   if (!session) {

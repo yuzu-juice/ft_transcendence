@@ -75,9 +75,15 @@
         "label": "パスワード",
         "placeholder": "パスワード"
       },
+      "currentPassword": {
+        "label": "現在のパスワード"
+      },
       "confirmPassword": {
         "label": "確認用パスワード",
         "placeholder": "確認用パスワード"
+      },
+      "totpCode": {
+        "label": "認証コード"
       }
     },
     "signIn": {
@@ -121,6 +127,27 @@
         "unableToGetUserInfo": "GitHubからユーザー情報を取得できませんでした",
         "loginFailed": "ログイン処理に失敗しました",
         "githubLoginFailed": "GitHubでのログインに失敗しました"
+      }
+    },
+    "totp": {
+      "title": "二要素認証",
+      "unavailable": "このアカウントで2要素認証を有効化することはできません",
+      "challenge": {
+        "success": "2要素認証に成功しました"
+      },
+      "code": {
+        "confirm": "確認",
+        "confirming": "確認中..."
+      },
+      "setup": {
+        "title": "二要素認証を有効化する",
+        "enable": "二要素認証を有効にする",
+        "enabling": "確認しています...",
+        "passwordVerified": "パスワードを認証しました",
+        "enabled": "2要素認証を有効化しました",
+        "installAuthenticator": "認証アプリを端末にインストールしてください",
+        "scanQrCode": "以下のQRコードをスキャンしてください",
+        "enterCode": "認証コードを入力してください"
       }
     }
   }

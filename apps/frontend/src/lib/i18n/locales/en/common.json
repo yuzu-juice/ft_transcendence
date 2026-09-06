@@ -75,9 +75,15 @@
         "label": "Password",
         "placeholder": "Password"
       },
+      "currentPassword": {
+        "label": "Current Password"
+      },
       "confirmPassword": {
         "label": "Confirm Password",
         "placeholder": "Confirm Password"
+      },
+      "totpCode": {
+        "label": "Authentication Code"
       }
     },
     "signIn": {
@@ -121,6 +127,27 @@
         "unableToGetUserInfo": "Failed to retrieve user information from GitHub",
         "loginFailed": "Login process failed",
         "githubLoginFailed": "Failed to log in with GitHub"
+      }
+    },
+    "totp": {
+      "title": "Two-factor authentication",
+      "unavailable": "Two-factor authentication cannot be enabled for this account",
+      "challenge": {
+        "success": "Two-factor authentication succeeded"
+      },
+      "code": {
+        "confirm": "Confirm",
+        "confirming": "Confirming..."
+      },
+      "setup": {
+        "title": "Enable two-factor authentication",
+        "enable": "Enable two-factor authentication",
+        "enabling": "Verifying...",
+        "passwordVerified": "Password verified",
+        "enabled": "Two-factor authentication enabled",
+        "installAuthenticator": "Install an authenticator app on your device",
+        "scanQrCode": "Scan the QR code below",
+        "enterCode": "Enter the authentication code"
       }
     }
   }

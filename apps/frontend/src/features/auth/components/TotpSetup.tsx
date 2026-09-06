@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { Button } from 'otsukimi-ui'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import QRCode from 'react-qr-code'
 import { toast } from 'sonner'
 import { useAppForm } from '@/components/form/form'
@@ -17,6 +18,7 @@ import { AuthLayout } from './AuthLayout'
 import { TotpCodeForm } from './TotpCodeForm'
 
 export const TotpSetup = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   const { refetch } = authClient.useSession()
 
@@ -39,7 +41,7 @@ export const TotpSetup = () => {
         return
       }
 
-      toast.info('パスワードを認証しました')
+      toast.info(t('auth.totp.setup.passwordVerified'))
       setTotpURI(data.totpURI)
     },
   })
@@ -48,7 +50,7 @@ export const TotpSetup = () => {
     ...totpVerifyMutationOptions,
     onSuccess: async () => {
       await refetch()
-      toast.info('2要素認証を有効化しました')
+      toast.info(t('auth.totp.setup.enabled'))
       await router.navigate({ to: '/mypage', replace: true })
     },
   })
@@ -78,10 +80,10 @@ export const TotpSetup = () => {
             <form.AppField name="password">
               {(field) => (
                 <field.TextField
-                  label="現在のパスワード"
+                  label={t('auth.fields.currentPassword.label')}
                   type="password"
                   autoComplete="current-password"
-                  placeholder="password"
+                  placeholder={t('auth.fields.password.placeholder')}
                 />
               )}
             </form.AppField>
@@ -94,7 +96,7 @@ export const TotpSetup = () => {
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? '確認しています...' : '二要素認証を有効にする'}
+                {isSubmitting ? t('auth.totp.setup.enabling') : t('auth.totp.setup.enable')}
               </Button>
             )}
           </form.Subscribe>
@@ -104,8 +106,8 @@ export const TotpSetup = () => {
       // 認証アプリと連携するためのQRコードを表示し、確認のため認証コードを入力させる
       return (
         <div className="flex flex-col gap-3">
-          <p>1. 認証アプリを端末にインストールしてください</p>
-          <p>2. 以下のQRコードをスキャンしてください</p>
+          <p>1. {t('auth.totp.setup.installAuthenticator')}</p>
+          <p>2. {t('auth.totp.setup.scanQrCode')}</p>
           <div className="h-auto mx-auto max-w-64 w-full">
             <QRCode
               size={256}
@@ -114,7 +116,7 @@ export const TotpSetup = () => {
               viewBox={`0 0 256 256`}
             />
           </div>
-          <p>3. 認証コードを入力してください</p>
+          <p>3. {t('auth.totp.setup.enterCode')}</p>
           <TotpCodeForm
             onSubmit={(code) => totpVerifyMutation.mutateAsync({ code })}
             isPending={totpVerifyMutation.isPending}
@@ -131,7 +133,7 @@ export const TotpSetup = () => {
 
   return (
     <AuthLayout>
-      <h2 className="text-xl font-bold">二要素認証を有効化する</h2>
+      <h2 className="text-xl font-bold">{t('auth.totp.setup.title')}</h2>
       {renderContent()}
     </AuthLayout>
   )
