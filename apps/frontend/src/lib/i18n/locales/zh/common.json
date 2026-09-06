@@ -37,6 +37,30 @@
       "unset": "未设置"
     }
   },
+  "apiKeys": {
+    "title": "API 密钥",
+    "description": "可用于外部集成的 API 密钥可在此创建和失效",
+    "nameLabel": "密钥名称",
+    "namePlaceholder": "例如: CI token",
+    "create": "创建",
+    "creating": "创建中...",
+    "createdTitle": "API 密钥已创建",
+    "createdDescription": "该密钥只会在此页面显示一次，请务必安全保存。",
+    "copy": "复制",
+    "copied": "API 密钥已复制",
+    "copyFailed": "复制失败",
+    "listTitle": "已创建的密钥",
+    "empty": "暂无已创建的 API 密钥",
+    "keyPrefix": "密钥前缀",
+    "createdAt": "创建时间",
+    "lastUsedAt": "最后使用时间",
+    "neverUsed": "未使用",
+    "revoke": "失效",
+    "revoking": "失效中...",
+    "revokeConfirm": "确定要使“{{name}}”失效吗？",
+    "reload": "重新加载中...",
+    "retry": "重试"
+  },
   "error": {
     "title": "错误",
     "unexpected": "发生了意外错误",

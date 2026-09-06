@@ -37,6 +37,30 @@
       "unset": "Unset"
     }
   },
+  "apiKeys": {
+    "title": "API Keys",
+    "description": "Create and revoke API keys for external integrations",
+    "nameLabel": "Key Name",
+    "namePlaceholder": "e.g. CI token",
+    "create": "Create",
+    "creating": "Creating...",
+    "createdTitle": "API Key Created",
+    "createdDescription": "This key is shown only once on this screen. Save it in a secure place.",
+    "copy": "Copy",
+    "copied": "API key copied",
+    "copyFailed": "Failed to copy",
+    "listTitle": "Issued Keys",
+    "empty": "No API keys have been issued",
+    "keyPrefix": "Key Prefix",
+    "createdAt": "Created At",
+    "lastUsedAt": "Last Used At",
+    "neverUsed": "Never used",
+    "revoke": "Revoke",
+    "revoking": "Revoking...",
+    "revokeConfirm": "Revoke \"{{name}}\"?",
+    "reload": "Reloading...",
+    "retry": "Retry"
+  },
   "error": {
     "title": "Error",
     "unexpected": "An unexpected error occurred",
