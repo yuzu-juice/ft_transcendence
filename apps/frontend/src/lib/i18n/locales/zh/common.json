@@ -104,6 +104,7 @@
       "emailAlreadyUsed": "该邮箱地址已被使用",
       "invalidEmail": "请输入有效的邮箱地址",
       "weakPassword": "密码不符合要求",
+      "tooManyRequests": "您的请求次数已超过允许的上限",
       "authenticationFailed": "密码不符合要求"
     }
   }

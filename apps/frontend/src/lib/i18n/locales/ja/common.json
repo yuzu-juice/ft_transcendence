@@ -104,6 +104,7 @@
       "emailAlreadyUsed": "このメールアドレスはすでに使用されています",
       "invalidEmail": "有効なメールアドレスを入力してください",
       "weakPassword": "パスワードが要件を満たしていません",
+      "tooManyRequests": "リクエスト可能な回数を超過しています",
       "authenticationFailed": "認証に失敗しました"
     }
   }

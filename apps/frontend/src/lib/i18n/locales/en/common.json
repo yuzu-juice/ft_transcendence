@@ -104,6 +104,7 @@
       "emailAlreadyUsed": "This email address is already in use",
       "invalidEmail": "Please enter a valid email address",
       "weakPassword": "Password does not meet requirements",
+      "tooManyRequests": "Exceeded the number of allowed requests",
       "authenticationFailed": "Authentication failed"
     }
   }

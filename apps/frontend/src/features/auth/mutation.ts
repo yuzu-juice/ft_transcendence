@@ -22,14 +22,13 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
 
     switch (error.code) {
       case 'INVALID_EMAIL_OR_PASSWORD':
-      case 'INVALID_CREDENTIALS':
         return i18n.t('auth.error.invalidCredentials')
       case 'USER_ALREADY_EXISTS':
-      case 'EMAIL_ALREADY_EXISTS':
+      case 'USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL':
         return i18n.t('auth.error.emailAlreadyUsed')
       case 'INVALID_EMAIL':
         return i18n.t('auth.error.invalidEmail')
-      case 'WEAK_PASSWORD':
+      case 'PASSWORD_TOO_LONG':
       case 'PASSWORD_TOO_SHORT':
         return i18n.t('auth.error.weakPassword')
       default:
@@ -38,6 +37,12 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
         }
         if (error.status === 409) {
           return i18n.t('auth.error.emailAlreadyUsed')
+        }
+        if (error.status === 429) {
+          return i18n.t('auth.error.tooManyRequests')
+        }
+        if (error.status && error.status >= 500) {
+          return i18n.t('auth.error.serverUnavailable')
         }
     }
   }
