@@ -49,7 +49,9 @@ i18n.on('languageChanged', (language) => {
   if (typeof window === 'undefined') {
     return
   }
-  window.localStorage.setItem(LANGUAGE_STORAGE_KEY, normalizeLanguage(language))
+  try {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, normalizeLanguage(language))
+  } catch {}
 })
 
 export default i18n
