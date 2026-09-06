@@ -36,5 +36,29 @@
       "low": "low",
       "unset": "Unset"
     }
+  },
+  "error": {
+    "title": "Error",
+    "unexpected": "An unexpected error occurred",
+    "api": {
+      "validation": "A communication error occurred (VALIDATION_ERROR)",
+      "authRequired": "Authentication is required",
+      "adminRequired": "Administrator privileges are required",
+      "userNotFound": "User not found",
+      "taskNotFound": "Task not found",
+      "assigneeNotFound": "Assignee not found",
+      "avatarNotFound": "Avatar not found",
+      "invalidAvatar": "Invalid image",
+      "avatarTooLarge": "Image size is too large",
+      "unsupportedAvatarType": "Unsupported image type",
+      "internalServerError": "An internal server error occurred"
+    },
+    "http": {
+      "401": "Authentication is required",
+      "403": "You do not have permission",
+      "404": "Resource not found",
+      "500": "A server error occurred",
+      "default": "Request failed"
+    }
   }
 }

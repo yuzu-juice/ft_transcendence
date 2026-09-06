@@ -36,5 +36,29 @@
       "low": "low",
       "unset": "未設定"
     }
+  },
+  "error": {
+    "title": "エラー",
+    "unexpected": "予期しないエラーが発生しました",
+    "api": {
+      "validation": "通信中にエラーが発生しました（VALIDATION_ERROR）",
+      "authRequired": "認証が必要です",
+      "adminRequired": "管理者権限が必要です",
+      "userNotFound": "ユーザが見つかりません",
+      "taskNotFound": "タスクが見つかりません",
+      "assigneeNotFound": "担当者が見つかりません",
+      "avatarNotFound": "アバターが見つかりません",
+      "invalidAvatar": "無効な画像です",
+      "avatarTooLarge": "画像のサイズが大きすぎます",
+      "unsupportedAvatarType": "サポートされていない画像タイプです",
+      "internalServerError": "サーバ内でエラーが発生しました"
+    },
+    "http": {
+      "401": "認証が必要です",
+      "403": "アクセス権限がありません",
+      "404": "対象が見つかりません",
+      "500": "サーバーでエラーが発生しました",
+      "default": "通信に失敗しました"
+    }
   }
 }
