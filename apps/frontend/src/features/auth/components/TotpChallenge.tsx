@@ -1,10 +1,10 @@
-import { authClient } from '@/lib/auth/client'
-import { TotpCodeForm } from './TotpCodeForm'
-import { useRouter } from '@tanstack/react-router'
-import { getBetterAuthErrorMessage, totpVerifyMutationOptions } from '../mutation'
 import { useMutation } from '@tanstack/react-query'
+import { useRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
+import { authClient } from '@/lib/auth/client'
+import { getBetterAuthErrorMessage, totpVerifyMutationOptions } from '../mutation'
 import { AuthLayout } from './AuthLayout'
+import { TotpCodeForm } from './TotpCodeForm'
 
 export const TotpChallenge = () => {
   const router = useRouter()
@@ -14,7 +14,6 @@ export const TotpChallenge = () => {
     ...totpVerifyMutationOptions,
     onSuccess: async () => {
       await refetch()
-      await router.invalidate({ forcePending: true })
       toast.info('2要素認証に成功しました')
       await router.navigate({ to: '/mypage', replace: true })
     },

@@ -1,24 +1,17 @@
-import { authClient } from '@/lib/auth/client'
-import { useNavigate } from '@tanstack/react-router'
-import { toast } from 'sonner'
-import { Loading } from '@/components/ui/Loading'
-import { TotpSetup } from './TotpSetup'
-import { TotpChallenge } from './TotpChallenge'
+import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { useEffect, useRef } from 'react'
+import { toast } from 'sonner'
+import { authClient } from '@/lib/auth/client'
+import { TotpChallenge } from './TotpChallenge'
+import { TotpSetup } from './TotpSetup'
+
+const totpRoute = getRouteApi('/totp')
 
 // TODO: i18n
 export const TotpPage = () => {
-  const { data: session, isPending } = authClient.useSession()
+  // 検証成功時のセッション更新でチャレンジ画面を設定画面に切り替えない
+  const session = totpRoute.useLoaderData()
   const navigate = useNavigate()
-
-  if (isPending) {
-    return <Loading />
-  }
-
-  // セッションが存在しない == ログインチャレンジ中
-  if (!session) {
-    return <TotpChallenge />
-  }
 
   // toastが2重に出てしまう問題の回避策
   const redirectedRef = useRef(false)
@@ -34,6 +27,8 @@ export const TotpPage = () => {
   }, [session?.user.twoFactorEnabled, navigate])
 
   useEffect(() => {
+    if (!session || session.user.twoFactorEnabled) return
+
     // toastが2重に出てしまう回避策
     let cancelled = false
     const checkCredential = async () => {
@@ -50,7 +45,12 @@ export const TotpPage = () => {
     return () => {
       cancelled = true
     }
-  }, [navigate])
+  }, [session, navigate])
+
+  // セッションが存在しない == ログインチャレンジ中
+  if (!session) {
+    return <TotpChallenge />
+  }
 
   // 2FAを有効化する
   return <TotpSetup />

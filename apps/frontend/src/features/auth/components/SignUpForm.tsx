@@ -1,21 +1,20 @@
-import { CustomLink } from '@/components/ui/CustomLink'
-import { AuthLayout } from './AuthLayout'
-import { Link, useNavigate, useRouter } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
-import { getFormErrorMessage, useAppForm } from '@/components/form/form'
-import { SignUpSchema } from '../schema'
-import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Button, Divider } from 'otsukimi-ui'
-import { toast } from 'sonner'
-import { authClient } from '@/lib/auth/client'
-import { AuthErrorAlert } from './AuthErrorAlert'
 import { Trans, useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { getFormErrorMessage, useAppForm } from '@/components/form/form'
+import { CustomLink } from '@/components/ui/CustomLink'
+import { authClient } from '@/lib/auth/client'
+import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
+import { SignUpSchema } from '../schema'
+import { AuthErrorAlert } from './AuthErrorAlert'
+import { AuthLayout } from './AuthLayout'
 import { GitHubSignIn } from './GitHubSignIn'
 
 export const SignUpForm = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const router = useRouter()
   const { refetch } = authClient.useSession()
 
   const signUpMutation = useMutation(signUpMutationOptions)
@@ -36,8 +35,6 @@ export const SignUpForm = () => {
       try {
         await signUpMutation.mutateAsync(value)
         await refetch()
-        // _authenticatedで使用しているbeforeLoadを再評価する
-        await router.invalidate({ forcePending: true })
         toast.info(t('auth.signUp.toastSuccess'))
         await navigate({
           to: '/mypage',

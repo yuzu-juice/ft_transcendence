@@ -1,15 +1,15 @@
-import { CustomLink } from '@/components/ui/CustomLink'
-import { AuthLayout } from './AuthLayout'
-import { getRouteApi, useNavigate, useRouter } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
-import { useAppForm } from '@/components/form/form'
-import { SignInSchema } from '../schema'
-import { getBetterAuthErrorMessage, getOAuthErrorMessage, signInMutationOptions } from '../mutation'
+import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { Button, Divider } from 'otsukimi-ui'
-import { toast } from 'sonner'
-import { authClient } from '@/lib/auth/client'
-import { AuthErrorAlert } from './AuthErrorAlert'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import { CustomLink } from '@/components/ui/CustomLink'
+import { authClient } from '@/lib/auth/client'
+import { getBetterAuthErrorMessage, getOAuthErrorMessage, signInMutationOptions } from '../mutation'
+import { SignInSchema } from '../schema'
+import { AuthErrorAlert } from './AuthErrorAlert'
+import { AuthLayout } from './AuthLayout'
 import { GitHubSignIn } from './GitHubSignIn'
 
 const signInRoute = getRouteApi('/sign-in')
@@ -18,7 +18,6 @@ export const SignInForm = () => {
   const { t } = useTranslation()
   const search = signInRoute.useSearch()
   const navigate = useNavigate()
-  const router = useRouter()
   const { refetch } = authClient.useSession()
 
   const signInMutation = useMutation(signInMutationOptions)
@@ -35,12 +34,11 @@ export const SignInForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const data = await signInMutation.mutateAsync(value)
-        if (data.user.twoFactorEnabled) {
+        if ('twoFactorRedirect' in data && data.twoFactorRedirect) {
           return // Better Authが/totpへ遷移するので何もしない
         }
 
         await refetch()
-        await router.invalidate({ forcePending: true })
         toast.info(t('auth.signIn.toastSuccess'))
         await navigate({
           to: '/mypage',

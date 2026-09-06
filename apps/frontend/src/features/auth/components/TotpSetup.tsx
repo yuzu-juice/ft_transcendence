@@ -1,19 +1,19 @@
-import { authClient } from '@/lib/auth/client'
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner'
+import { useRouter } from '@tanstack/react-router'
 import { Button } from 'otsukimi-ui'
-import { useAppForm } from '@/components/form/form'
-import { TotpEnableSchema } from '../schema'
-import { AuthLayout } from './AuthLayout'
 import { useEffect, useState } from 'react'
+import QRCode from 'react-qr-code'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import { authClient } from '@/lib/auth/client'
 import {
   getBetterAuthErrorMessage,
   totpEnableMutationOptions,
   totpVerifyMutationOptions,
 } from '../mutation'
+import { TotpEnableSchema } from '../schema'
 import { AuthErrorAlert } from './AuthErrorAlert'
-import QRCode from 'react-qr-code'
-import { useRouter } from '@tanstack/react-router'
+import { AuthLayout } from './AuthLayout'
 import { TotpCodeForm } from './TotpCodeForm'
 
 export const TotpSetup = () => {
@@ -48,7 +48,6 @@ export const TotpSetup = () => {
     ...totpVerifyMutationOptions,
     onSuccess: async () => {
       await refetch()
-      await router.invalidate({ forcePending: true })
       toast.info('2要素認証を有効化しました')
       await router.navigate({ to: '/mypage', replace: true })
     },
@@ -64,6 +63,7 @@ export const TotpSetup = () => {
 
   const renderContent = () => {
     if (!totpURI) {
+      // 現在のパスワードを確認する
       return (
         <form
           noValidate
@@ -101,6 +101,7 @@ export const TotpSetup = () => {
         </form>
       )
     } else {
+      // 認証アプリと連携するためのQRコードを表示し、確認のため認証コードを入力させる
       return (
         <div className="flex flex-col gap-3">
           <p>1. 認証アプリを端末にインストールしてください</p>
