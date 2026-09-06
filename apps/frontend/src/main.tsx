@@ -17,6 +17,7 @@ import '@fontsource/zen-maru-gothic/700.css'
 import { authClient } from './lib/auth/client'
 
 import '@/lib/i18n/config'
+import { WebMcpProvider } from './lib/webmcp/WebMcpProvider'
 
 const router = createRouter({
   routeTree,
@@ -48,6 +49,7 @@ function App() {
           session,
         }}
       />
+      <WebMcpProvider />
       {/* toaster用 */}
       <Toaster richColors position="top-center" />
     </>
