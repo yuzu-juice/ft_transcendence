@@ -1,40 +1,40 @@
-import { Modal } from '@/components/ui/Modal'
-import { useState } from 'react'
-import { TaskDetail } from './TaskDetail'
-import { TaskEditInfo } from './TaskEditInfo'
 import { useQuery } from '@tanstack/react-query'
-import { taskQueries } from '../query'
+import { useState } from 'react'
+import { adminQueries } from '../query'
 import { Loading } from '@/components/ui/Loading'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
-import { TaskEditAssignees } from './TaskEditAssignees'
 import { Button } from 'otsukimi-ui'
+import { Modal } from '@/components/ui/Modal'
+import { UserDetail } from './UserDetail'
+import { UserEditInfo } from './UserEditInfo'
+import { UserEditRoleInfo } from './UserEditRole'
 
-type TaskModalView = 'detail' | 'edit' | 'edit-assignees'
-
-interface TaskModalProps {
-  taskId: string
+interface UserModalProps {
+  userId: string
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
+type UserModalView = 'detail' | 'edit' | 'edit-role'
+
 const viewConfig = {
   detail: {
-    title: 'タスク詳細',
+    title: 'ユーザ詳細',
     showCloseButton: true,
     dismissible: true,
   },
   edit: {
-    title: 'タスクを編集',
+    title: 'ユーザ情報を編集',
     showCloseButton: false,
     dismissible: false,
   },
-  'edit-assignees': {
-    title: '担当者を編集',
+  'edit-role': {
+    title: 'ユーザのロールを編集',
     showCloseButton: false,
     dismissible: false,
   },
 } satisfies Record<
-  TaskModalView,
+  UserModalView,
   {
     title: string
     showCloseButton: boolean
@@ -42,9 +42,9 @@ const viewConfig = {
   }
 >
 
-export const TaskModal = ({ taskId, open, onOpenChange }: TaskModalProps) => {
-  const [view, setView] = useState<TaskModalView>('detail')
-  const query = useQuery(taskQueries.detail(taskId))
+export const UserModal = ({ userId, open, onOpenChange }: UserModalProps) => {
+  const [view, setView] = useState<UserModalView>('detail')
+  const query = useQuery(adminQueries.detail(userId))
   const config = viewConfig[view]
 
   const handleOpenChange = (nextOpen: boolean) => {
@@ -82,8 +82,8 @@ export const TaskModal = ({ taskId, open, onOpenChange }: TaskModalProps) => {
     switch (view) {
       case 'detail':
         return (
-          <TaskDetail
-            task={query.data}
+          <UserDetail
+            user={query.data}
             onEdit={(nextView) => {
               setView(nextView)
             }}
@@ -92,24 +92,10 @@ export const TaskModal = ({ taskId, open, onOpenChange }: TaskModalProps) => {
         )
 
       case 'edit':
-        return (
-          <TaskEditInfo
-            task={query.data}
-            onBack={() => {
-              setView('detail')
-            }}
-          />
-        )
+        return <UserEditInfo user={query.data} onBack={() => setView('detail')} />
 
-      case 'edit-assignees':
-        return (
-          <TaskEditAssignees
-            task={query.data}
-            onBack={() => {
-              setView('detail')
-            }}
-          />
-        )
+      case 'edit-role':
+        return <UserEditRoleInfo user={query.data} onBack={() => setView('detail')} />
     }
   }
 

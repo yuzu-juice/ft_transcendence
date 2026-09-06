@@ -1,27 +1,29 @@
-import { Input, type InputProps } from 'otsukimi-ui'
-import { useId, type ReactNode } from 'react'
+import { useId, type ComponentPropsWithRef } from 'react'
 import { useFieldContext } from './form-context'
 import { getFormErrorMessage } from './form'
 
-type TextFieldProps = InputProps & {
-  label: ReactNode
+type TextAreaProps = ComponentPropsWithRef<'textarea'>
+
+type TextAreaFieldProps = TextAreaProps & {
+  label: string
   error?: string
+  rows?: number
 }
 
-// otsukimi-uiを包む純粋な表示コンポーネント
-const TextField = ({
+const TextAreaField = ({
   label,
   error,
+  rows = 4,
   id,
   className,
-  'aria-describedby': ariaDescribedBy, // HTML要素に対して補足説明や詳細な情報が書かれている別の要素のIDを指定する属性
+  ref,
+  'aria-describedby': ariaDescribedBy,
   ...props
-}: TextFieldProps) => {
-  const generatedId = useId() // アクセシビリティ属性に渡すことができる一意の ID を生成するための React フック
+}: TextAreaFieldProps) => {
+  const generatedId = useId()
   const inputId = id ?? generatedId
   const errorId = `${inputId}-error`
 
-  // filter(Boolean)は空要素を排除するためのイディオム
   const describedby =
     [ariaDescribedBy, error ? errorId : undefined].filter(Boolean).join(' ') || undefined
 
@@ -30,10 +32,12 @@ const TextField = ({
       <label htmlFor={inputId} className="text-sm font-bold text-brand-primary">
         {label}
       </label>
-      <Input
+      <textarea
         {...props}
+        rows={rows}
         id={inputId}
-        className={`w-full ${className ?? ''}`}
+        ref={ref}
+        className={`w-full resize-y outline-none rounded-md border border-border px-[1em] py-4 focus:border-2 focus:border-brand-primary-deep focus:outline-none focus:ring-brand-primary-deep transition duration-150 ${className ?? ''}`}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedby}
       />
@@ -46,15 +50,12 @@ const TextField = ({
   )
 }
 
-// TextFieldPropsから`name`以降を除いたものを受け取る
-// ここに列挙されているフィールドはpropsで受け取るのではなく、コンポーネント内部のuseFieldContextから取得する
-type FormTextFieldProps = Omit<
-  TextFieldProps,
+type FormTextAreaFieldProps = Omit<
+  TextAreaFieldProps,
   'name' | 'value' | 'defaultValue' | 'onChange' | 'onBlur' | 'error'
 >
 
-// UIとTanstack Form接続用のコンポーネント
-export const FormTextField = (props: FormTextFieldProps) => {
+export const FormTextAreaField = (props: FormTextAreaFieldProps) => {
   const field = useFieldContext<string>()
 
   const firstError = field.state.meta.errors[0]
@@ -64,7 +65,7 @@ export const FormTextField = (props: FormTextFieldProps) => {
       : undefined
 
   return (
-    <TextField
+    <TextAreaField
       {...props}
       id={props.id ?? field.name}
       name={field.name}

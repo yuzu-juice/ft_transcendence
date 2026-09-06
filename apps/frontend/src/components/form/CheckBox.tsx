@@ -7,7 +7,7 @@ type CheckboxFieldProps = CheckboxProps & {
 }
 
 // otsukimi-uiを包む純粋な表示コンポーネント
-const CheckboxField = ({ error, id, ...props }: CheckboxFieldProps) => {
+export const CheckboxField = ({ error, id, ...props }: CheckboxFieldProps) => {
   const generatedId = useId() // アクセシビリティ属性に渡すことができる一意の ID を生成するための React フック
   const inputId = id ?? generatedId
 

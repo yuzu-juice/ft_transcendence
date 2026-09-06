@@ -1,15 +1,19 @@
+import { useMutation } from '@tanstack/react-query'
+import { Button } from 'otsukimi-ui'
 import type { ReactNode } from 'react'
+import { toast } from 'sonner'
+import { UserAvatar } from '@/components/ui/UserAvatar'
+import { authClient } from '@/lib/auth/client'
+import type { TaskDetail as TaskDetailResponse } from '../api'
+import { taskMutations } from '../mutation'
+import { formatTaskDateTime, getRelativeDueTime } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
-import { UserAvatar } from '@/components/ui/UserAvatar'
-import { Button } from 'otsukimi-ui'
-import type { Task } from '../api'
-import { formatTaskDateTime, getRelativeDueTime } from '../time'
-import { authClient } from '@/lib/auth/client'
 
 interface TaskDetailProps {
-  task: Task
+  task: TaskDetailResponse
   onEdit: (page: 'edit' | 'edit-assignees') => void
+  onClose: () => void
 }
 
 const TaskDetailListItem = ({ children }: { children: ReactNode }) => {
@@ -20,8 +24,15 @@ const TaskDetailHeading = ({ title }: { title: string }) => {
   return <h4 className="text-sm text-brand-primary font-bold">{title}</h4>
 }
 
-export const TaskDetail = ({ task, onEdit }: TaskDetailProps) => {
+export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
   const { data: session } = authClient.useSession()
+
+  const taskDeleteMutation = useMutation(taskMutations.delete())
+  const handleDeleteTask = async () => {
+    await taskDeleteMutation.mutateAsync(task.id)
+    toast.success('タスクを削除しました')
+    onClose()
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -108,10 +119,14 @@ export const TaskDetail = ({ task, onEdit }: TaskDetailProps) => {
         <Button type="button" onClick={() => onEdit('edit-assignees')}>
           担当者を編集
         </Button>
-        {/* TODO: 削除ボタンとそのMutationを実装 */}
         {(session?.user.id === task.creator?.id || session?.user.role === 'admin') && (
-          <Button type="button" onClick={() => {}} variant="transparent">
-            タスクを削除
+          <Button
+            type="button"
+            onClick={() => handleDeleteTask()}
+            variant="transparent"
+            disabled={taskDeleteMutation.isPending}
+          >
+            {taskDeleteMutation.isPending ? '削除しています...' : 'タスクを削除'}
           </Button>
         )}
       </div>

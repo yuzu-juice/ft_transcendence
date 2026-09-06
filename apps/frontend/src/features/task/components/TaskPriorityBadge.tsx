@@ -1,10 +1,10 @@
-import type { Task } from '../api'
+import type { TaskListItem } from '../api'
 
 interface TaskPriorityBadgeProps {
-  priority: Task['priority']
+  priority: TaskListItem['priority']
 }
 
-const PriorityToColor = (priority: Task['priority']) => {
+const PriorityToColor = (priority: TaskListItem['priority']) => {
   switch (priority) {
     case 'low':
       return 'bg-blue-100'

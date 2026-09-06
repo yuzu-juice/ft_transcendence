@@ -1,11 +1,11 @@
-import { TaskStatusBadge } from './TaskStatusBadge'
-import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { UserAvatar } from '@/components/ui/UserAvatar'
-import type { Task } from '../api'
+import type { TaskListItem as TaskListItemResponse } from '../api'
 import { formatTaskDate, isOverDue } from '../time'
+import { TaskPriorityBadge } from './TaskPriorityBadge'
+import { TaskStatusBadge } from './TaskStatusBadge'
 
 interface TaskListItemProps {
-  task: Task
+  task: TaskListItemResponse
   onModalOpen: () => void
 }
 
@@ -64,6 +64,7 @@ export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
           type="button"
           className="text-cyan-600 cursor-pointer hover:underline hover:text-cyan-700 transition duration-300 "
           onClick={() => onModalOpen()}
+          aria-label={`${task.title}の詳細`}
         >
           詳細
         </button>
