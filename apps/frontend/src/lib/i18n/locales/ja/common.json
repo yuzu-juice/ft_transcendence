@@ -62,6 +62,39 @@
     }
   },
   "auth": {
+    "fields": {
+      "name": {
+        "label": "ユーザ名",
+        "placeholder": "ユーザ名"
+      },
+      "email": {
+        "label": "メールアドレス",
+        "placeholder": "example@example.com"
+      },
+      "password": {
+        "label": "パスワード",
+        "placeholder": "パスワード"
+      },
+      "confirmPassword": {
+        "label": "確認用パスワード",
+        "placeholder": "確認用パスワード"
+      }
+    },
+    "signIn": {
+      "title": "サインイン",
+      "submit": "サインイン",
+      "submitting": "サインインしています...",
+      "toastSuccess": "サインインしました",
+      "noAccount": "未登録ですか?"
+    },
+    "signUp": {
+      "title": "サインアップ",
+      "submit": "サインアップ",
+      "submitting": "サインアップしています...",
+      "toastSuccess": "サインアップしました",
+      "agreement": "に同意する",
+      "hasAccount": "登録済ですか?"
+    },
     "error": {
       "title": "認証エラー",
       "signInFailed": "ログインに失敗しました",

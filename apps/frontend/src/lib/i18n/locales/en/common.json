@@ -62,6 +62,39 @@
     }
   },
   "auth": {
+    "fields": {
+      "name": {
+        "label": "Username",
+        "placeholder": "Username"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "example@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      },
+      "confirmPassword": {
+        "label": "Confirm Password",
+        "placeholder": "Confirm Password"
+      }
+    },
+    "signIn": {
+      "title": "Sign In",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "toastSuccess": "Signed in",
+      "noAccount": "No account yet?"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "submit": "Sign Up",
+      "submitting": "Signing up...",
+      "toastSuccess": "Signed up",
+      "agreement": "I agree",
+      "hasAccount": "Already registered?"
+    },
     "error": {
       "title": "Authentication Error",
       "signInFailed": "Failed to sign in",

@@ -62,6 +62,39 @@
     }
   },
   "auth": {
+    "fields": {
+      "name": {
+        "label": "用户名",
+        "placeholder": "用户名"
+      },
+      "email": {
+        "label": "邮箱地址",
+        "placeholder": "example@example.com"
+      },
+      "password": {
+        "label": "密码",
+        "placeholder": "密码"
+      },
+      "confirmPassword": {
+        "label": "确认密码",
+        "placeholder": "确认密码"
+      }
+    },
+    "signIn": {
+      "title": "登录",
+      "submit": "登录",
+      "submitting": "正在登录...",
+      "toastSuccess": "登录成功",
+      "noAccount": "还没有账号吗?"
+    },
+    "signUp": {
+      "title": "注册",
+      "submit": "注册",
+      "submitting": "正在注册...",
+      "toastSuccess": "注册成功",
+      "agreement": "即表示同意",
+      "hasAccount": "已经注册了吗?"
+    },
     "error": {
       "title": "认证错误",
       "signInFailed": "登录失败",
