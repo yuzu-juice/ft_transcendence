@@ -28,3 +28,9 @@ export const SignUpSchema = z
   })
 
 export type SignUpInput = z.infer<typeof SignUpSchema>
+
+// GitHub OAuth / TOTPのエラーコールバックを解釈する用途に使用
+export const SignInSearchSchema = z.object({
+  error: z.string().optional(),
+  oauth: z.string().optional(),
+})

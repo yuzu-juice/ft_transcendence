@@ -50,6 +50,21 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
   return i18n.t('auth.error.authenticationFailed')
 }
 
+// TODO: i18n
+export const getOAuthErrorMessage = (code: string): string => {
+  switch (code) {
+    case 'email_not_found':
+      return 'GitHubアカウントからメールアドレスを取得できませんでした'
+    case 'unable_to_get_user_info':
+      return 'GitHubからユーザー情報を取得できませんでした'
+    case 'unable_to_create_user':
+    case 'unable_to_create_session':
+      return 'ログイン処理に失敗しました'
+    default:
+      return 'GitHubでのログインに失敗しました'
+  }
+}
+
 export const signInMutationOptions = mutationOptions({
   mutationKey: ['auth', 'sign-in'],
   mutationFn: async ({ email, password }: SignInInput) => {

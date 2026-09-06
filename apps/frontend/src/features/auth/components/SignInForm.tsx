@@ -1,18 +1,22 @@
 import { CustomLink } from '@/components/ui/CustomLink'
 import { AuthLayout } from './AuthLayout'
-import { useNavigate, useRouter } from '@tanstack/react-router'
+import { getRouteApi, useNavigate, useRouter } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
 import { useAppForm } from '@/components/form/form'
 import { SignInSchema } from '../schema'
-import { getBetterAuthErrorMessage, signInMutationOptions } from '../mutation'
-import { Button } from 'otsukimi-ui'
+import { getBetterAuthErrorMessage, getOAuthErrorMessage, signInMutationOptions } from '../mutation'
+import { Button, Divider } from 'otsukimi-ui'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
 import { AuthErrorAlert } from './AuthErrorAlert'
 import { useTranslation } from 'react-i18next'
+import { GitHubSignIn } from './GitHubSignIn'
+
+const signInRoute = getRouteApi('/sign-in')
 
 export const SignInForm = () => {
   const { t } = useTranslation()
+  const search = signInRoute.useSearch()
   const navigate = useNavigate()
   const router = useRouter()
   const { refetch } = authClient.useSession()
@@ -89,6 +93,11 @@ export const SignInForm = () => {
           )}
         </form.Subscribe>
       </form>
+      <Divider />
+      <div className="flex flex-col gap-2">
+        <GitHubSignIn />
+        {search.error && <AuthErrorAlert message={getOAuthErrorMessage(search.error)} />}
+      </div>
       <div className="flex flex-row gap-2">
         {t('auth.signIn.noAccount')}
         <CustomLink to="/sign-up">{t('auth.signUp.title')}</CustomLink>

@@ -17,6 +17,17 @@
 - `BETTER_AUTH_SECRET` : `openssl rand -base64 32`により生成された値
 - `INITIAL_ADMIN_PASSWORD` : 8文字以上128文字以下の文字列
 
+### GitHub OAuth Appの準備
+
+GitHubアカウントによるログインフローを導入する場合は以下の通り環境変数を設定してください。
+[GitHub OAuth Appを作成](https://github.com/settings/applications/new)するページへアクセスし、以下の通り入力してください。
+
+- Application name: `ft_transcendence-dev` （任意の名前）
+- Homepage URL: `http://localhost:8080`
+- Authorization callback URL: `http://localhost:8080/api/auth/callback/github`
+
+その後取得できるID・Secretをそれぞれ `GITHUB_CLIENT_ID`・`GITHUB_CLIENT_SECRET` に設定してください。
+
 ## 開発環境の起動
 
 ```sh

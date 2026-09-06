@@ -1,4 +1,5 @@
 import { SignInForm } from '@/features/auth/components/SignInForm'
+import { SignInSearchSchema } from '@/features/auth/schema'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/sign-in')({
@@ -10,5 +11,6 @@ export const Route = createFileRoute('/sign-in')({
       })
     }
   },
+  validateSearch: SignInSearchSchema,
   component: SignInForm,
 })

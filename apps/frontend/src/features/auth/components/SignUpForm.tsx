@@ -5,11 +5,12 @@ import { useMutation } from '@tanstack/react-query'
 import { getFormErrorMessage, useAppForm } from '@/components/form/form'
 import { SignUpSchema } from '../schema'
 import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
-import { Button } from 'otsukimi-ui'
+import { Button, Divider } from 'otsukimi-ui'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
 import { AuthErrorAlert } from './AuthErrorAlert'
 import { Trans, useTranslation } from 'react-i18next'
+import { GitHubSignIn } from './GitHubSignIn'
 
 export const SignUpForm = () => {
   const { t } = useTranslation()
@@ -140,6 +141,10 @@ export const SignUpForm = () => {
           )}
         </form.Subscribe>
       </form>
+      <Divider />
+      <div className="flex flex-col">
+        <GitHubSignIn />
+      </div>
       <div className="flex flex-row gap-2">
         {t('auth.signUp.hasAccount')}
         <CustomLink to="/sign-in">{t('auth.signIn.title')}</CustomLink>

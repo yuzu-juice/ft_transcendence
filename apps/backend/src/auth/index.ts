@@ -16,9 +16,15 @@ export const auth = betterAuth({
       adminRoles: ['admin'],
     }),
   ],
-  basePath: '/auth',
+  basePath: '/api/auth',
   emailAndPassword: {
     enabled: true,
+  },
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
   },
   advanced: {
     trustedProxyHeaders: true,
