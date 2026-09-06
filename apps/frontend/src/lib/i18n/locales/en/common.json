@@ -106,6 +106,17 @@
       "weakPassword": "Password does not meet requirements",
       "tooManyRequests": "Exceeded the number of allowed requests",
       "authenticationFailed": "Authentication failed"
+    },
+    "github": {
+      "title": "Continue with GitHub",
+      "agreementText": "By clicking 'Continue with GitHub', you agree to this site's <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>",
+      "toastError": "Could not start the GitHub login process",
+      "error": {
+        "emailNotFound": "Failed to retrieve email address from GitHub account",
+        "unableToGetUserInfo": "Failed to retrieve user information from GitHub",
+        "loginFailed": "Login process failed",
+        "githubLoginFailed": "Failed to log in with GitHub"
+      }
     }
   }
 }

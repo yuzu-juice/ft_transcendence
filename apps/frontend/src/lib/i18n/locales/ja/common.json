@@ -106,6 +106,17 @@
       "weakPassword": "パスワードが要件を満たしていません",
       "tooManyRequests": "リクエスト可能な回数を超過しています",
       "authenticationFailed": "認証に失敗しました"
+    },
+    "github": {
+      "title": "GitHubで続行",
+      "agreementText": "「GitHubで続行」をクリックすることで、当サイトの<terms>利用規約</terms>・<privacy>プライバシーポリシー</privacy>に同意したものとします",
+      "toastError": "GitHubでのログインを開始できませんでした",
+      "error": {
+        "emailNotFound": "GitHubアカウントからメールアドレスを取得できませんでした",
+        "unableToGetUserInfo": "GitHubからユーザー情報を取得できませんでした",
+        "loginFailed": "ログイン処理に失敗しました",
+        "githubLoginFailed": "GitHubでのログインに失敗しました"
+      }
     }
   }
 }

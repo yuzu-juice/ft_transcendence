@@ -106,6 +106,17 @@
       "weakPassword": "密码不符合要求",
       "tooManyRequests": "您的请求次数已超过允许的上限",
       "authenticationFailed": "密码不符合要求"
+    },
+    "github": {
+      "title": "使用 GitHub 继续",
+      "agreementText": "点击“使用 GitHub 继续”，即表示您同意本网站的<terms>服务条款</terms>和<privacy>隐私政策</privacy>",
+      "toastError": "我无法登录GitHub",
+      "error": {
+        "emailNotFound": "无法从 GitHub 账号获取电子邮件地址",
+        "unableToGetUserInfo": "无法从 GitHub 获取用户信息",
+        "loginFailed": "登录处理失败",
+        "githubLoginFailed": "使用 GitHub 登录失败"
+      }
     }
   }
 }

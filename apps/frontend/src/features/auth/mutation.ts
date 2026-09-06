@@ -50,18 +50,17 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
   return i18n.t('auth.error.authenticationFailed')
 }
 
-// TODO: i18n
 export const getOAuthErrorMessage = (code: string): string => {
   switch (code) {
     case 'email_not_found':
-      return 'GitHubアカウントからメールアドレスを取得できませんでした'
+      return i18n.t('auth.github.error.emailNotFound')
     case 'unable_to_get_user_info':
-      return 'GitHubからユーザー情報を取得できませんでした'
+      return i18n.t('auth.github.error.unableToGetUserInfo')
     case 'unable_to_create_user':
     case 'unable_to_create_session':
-      return 'ログイン処理に失敗しました'
+      return i18n.t('auth.github.error.loginFailed')
     default:
-      return 'GitHubでのログインに失敗しました'
+      return i18n.t('auth.github.error.githubLoginFailed')
   }
 }
 
