@@ -60,5 +60,52 @@
       "500": "服务器发生错误",
       "default": "请求失败"
     }
+  },
+  "auth": {
+    "fields": {
+      "name": {
+        "label": "用户名",
+        "placeholder": "用户名"
+      },
+      "email": {
+        "label": "邮箱地址",
+        "placeholder": "example@example.com"
+      },
+      "password": {
+        "label": "密码",
+        "placeholder": "密码"
+      },
+      "confirmPassword": {
+        "label": "确认密码",
+        "placeholder": "确认密码"
+      }
+    },
+    "signIn": {
+      "title": "登录",
+      "submit": "登录",
+      "submitting": "正在登录...",
+      "toastSuccess": "登录成功",
+      "noAccount": "还没有账号吗?"
+    },
+    "signUp": {
+      "title": "注册",
+      "submit": "注册",
+      "submitting": "正在注册...",
+      "toastSuccess": "注册成功",
+      "agreementText": "我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>",
+      "agreement": "即表示同意",
+      "hasAccount": "已经注册了吗?"
+    },
+    "error": {
+      "title": "认证错误",
+      "signInFailed": "登录失败",
+      "serverUnavailable": "无法连接到服务器，请稍后重试",
+      "invalidCredentials": "邮箱地址或密码不正确",
+      "emailAlreadyUsed": "该邮箱地址已被使用",
+      "invalidEmail": "请输入有效的邮箱地址",
+      "weakPassword": "密码不符合要求",
+      "tooManyRequests": "您的请求次数已超过允许的上限",
+      "authenticationFailed": "密码不符合要求"
+    }
   }
 }

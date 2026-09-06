@@ -60,5 +60,52 @@
       "500": "サーバーでエラーが発生しました",
       "default": "通信に失敗しました"
     }
+  },
+  "auth": {
+    "fields": {
+      "name": {
+        "label": "ユーザ名",
+        "placeholder": "ユーザ名"
+      },
+      "email": {
+        "label": "メールアドレス",
+        "placeholder": "example@example.com"
+      },
+      "password": {
+        "label": "パスワード",
+        "placeholder": "パスワード"
+      },
+      "confirmPassword": {
+        "label": "確認用パスワード",
+        "placeholder": "確認用パスワード"
+      }
+    },
+    "signIn": {
+      "title": "サインイン",
+      "submit": "サインイン",
+      "submitting": "サインインしています...",
+      "toastSuccess": "サインインしました",
+      "noAccount": "未登録ですか?"
+    },
+    "signUp": {
+      "title": "サインアップ",
+      "submit": "サインアップ",
+      "submitting": "サインアップしています...",
+      "toastSuccess": "サインアップしました",
+      "agreementText": "<terms>利用規約</terms>・<privacy>プライバシーポリシー</privacy>に同意する",
+      "agreement": "に同意する",
+      "hasAccount": "登録済ですか?"
+    },
+    "error": {
+      "title": "認証エラー",
+      "signInFailed": "ログインに失敗しました",
+      "serverUnavailable": "サーバとの通信に失敗しました。再度お試しください",
+      "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
+      "emailAlreadyUsed": "このメールアドレスはすでに使用されています",
+      "invalidEmail": "有効なメールアドレスを入力してください",
+      "weakPassword": "パスワードが要件を満たしていません",
+      "tooManyRequests": "リクエスト可能な回数を超過しています",
+      "authenticationFailed": "認証に失敗しました"
+    }
   }
 }

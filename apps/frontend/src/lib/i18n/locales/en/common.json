@@ -60,5 +60,52 @@
       "500": "A server error occurred",
       "default": "Request failed"
     }
+  },
+  "auth": {
+    "fields": {
+      "name": {
+        "label": "Username",
+        "placeholder": "Username"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "example@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      },
+      "confirmPassword": {
+        "label": "Confirm Password",
+        "placeholder": "Confirm Password"
+      }
+    },
+    "signIn": {
+      "title": "Sign In",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "toastSuccess": "Signed in",
+      "noAccount": "No account yet?"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "submit": "Sign Up",
+      "submitting": "Signing up...",
+      "toastSuccess": "Signed up",
+      "agreementText": "I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>",
+      "agreement": "I agree",
+      "hasAccount": "Already registered?"
+    },
+    "error": {
+      "title": "Authentication Error",
+      "signInFailed": "Failed to sign in",
+      "serverUnavailable": "Failed to communicate with the server. Please try again.",
+      "invalidCredentials": "Incorrect email address or password",
+      "emailAlreadyUsed": "This email address is already in use",
+      "invalidEmail": "Please enter a valid email address",
+      "weakPassword": "Password does not meet requirements",
+      "tooManyRequests": "Exceeded the number of allowed requests",
+      "authenticationFailed": "Authentication failed"
+    }
   }
 }

@@ -8,8 +8,11 @@ import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
 import { Button } from 'otsukimi-ui'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
+import { AuthErrorAlert } from './AuthErrorAlert'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const SignUpForm = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const router = useRouter()
   const { refetch } = authClient.useSession()
@@ -34,7 +37,7 @@ export const SignUpForm = () => {
         await refetch()
         // _authenticatedで使用しているbeforeLoadを再評価する
         await router.invalidate()
-        toast.info('サインアップしました')
+        toast.info(t('auth.signUp.toastSuccess'))
         await navigate({
           to: '/mypage',
         })
@@ -44,7 +47,7 @@ export const SignUpForm = () => {
 
   return (
     <AuthLayout>
-      <h2 className="text-xl font-bold">サインアップ</h2>
+      <h2 className="text-xl font-bold">{t('auth.signUp.title')}</h2>
       <form
         noValidate
         className="flex flex-col gap-5"
@@ -57,10 +60,10 @@ export const SignUpForm = () => {
         <form.AppField name="name">
           {(field) => (
             <field.TextField
-              label="ユーザ名"
+              label={t('auth.fields.name.label')}
               type="text"
               autoComplete="username"
-              placeholder="ユーザ名"
+              placeholder={t('auth.fields.name.placeholder')}
             />
           )}
         </form.AppField>
@@ -68,11 +71,11 @@ export const SignUpForm = () => {
         <form.AppField name="email">
           {(field) => (
             <field.TextField
-              label="メールアドレス"
+              label={t('auth.fields.email.label')}
               type="email"
               inputMode="email"
               autoComplete="email"
-              placeholder="example@example.com"
+              placeholder={t('auth.fields.email.placeholder')}
             />
           )}
         </form.AppField>
@@ -80,10 +83,10 @@ export const SignUpForm = () => {
         <form.AppField name="password">
           {(field) => (
             <field.TextField
-              label="パスワード"
+              label={t('auth.fields.password.label')}
               type="password"
               autoComplete="new-password"
-              placeholder="パスワード"
+              placeholder={t('auth.fields.password.placeholder')}
             />
           )}
         </form.AppField>
@@ -91,10 +94,10 @@ export const SignUpForm = () => {
         <form.AppField name="confirmPassword">
           {(field) => (
             <field.TextField
-              label="確認用パスワード"
+              label={t('auth.fields.confirmPassword.label')}
               type="password"
               autoComplete="new-password"
-              placeholder="確認用パスワード"
+              placeholder={t('auth.fields.confirmPassword.placeholder')}
             />
           )}
         </form.AppField>
@@ -106,14 +109,13 @@ export const SignUpForm = () => {
                 <field.CheckboxField />
 
                 <span className="text-sm">
-                  <Link to="/terms" className="underline">
-                    利用規約
-                  </Link>
-                  ・
-                  <Link to="/privacy" className="underline">
-                    プライバシーポリシー
-                  </Link>
-                  に同意する
+                  <Trans
+                    i18nKey="auth.signUp.agreementText"
+                    components={{
+                      terms: <Link to="/terms" className="underline" />,
+                      privacy: <Link to="/privacy" className="underline" />,
+                    }}
+                  />
                 </span>
               </div>
 
@@ -127,22 +129,20 @@ export const SignUpForm = () => {
         </form.AppField>
 
         {signUpMutation.isError && (
-          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-            {getBetterAuthErrorMessage(signUpMutation.error)}
-          </p>
+          <AuthErrorAlert message={getBetterAuthErrorMessage(signUpMutation.error)} />
         )}
 
         <form.Subscribe selector={(state) => state.isSubmitting}>
           {(isSubmitting) => (
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'サインアップしています...' : 'サインアップ'}
+              {isSubmitting ? t('auth.signUp.submitting') : t('auth.signUp.submit')}
             </Button>
           )}
         </form.Subscribe>
       </form>
       <div className="flex flex-row gap-2">
-        登録済ですか?
-        <CustomLink to="/sign-in">サインイン</CustomLink>
+        {t('auth.signUp.hasAccount')}
+        <CustomLink to="/sign-in">{t('auth.signIn.title')}</CustomLink>
       </div>
     </AuthLayout>
   )

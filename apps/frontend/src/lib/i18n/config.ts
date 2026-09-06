@@ -5,10 +5,25 @@ import commonEn from './locales/en/common.json'
 import commonZh from './locales/zh/common.json'
 
 const supportedLangs = ['ja', 'en', 'zh'] as const
-const browserLang = typeof navigator !== 'undefined' ? navigator.language.split('-')[0] : 'ja'
-const initialLng = supportedLangs.includes(browserLang as (typeof supportedLangs)[number])
-  ? browserLang
-  : 'ja'
+const LANGUAGE_STORAGE_KEY = 'ft.language'
+
+const isSupportedLanguage = (value: string): value is (typeof supportedLangs)[number] => {
+  return supportedLangs.some((lang) => lang === value)
+}
+
+const normalizeLanguage = (value: string | null | undefined): (typeof supportedLangs)[number] => {
+  const lang = value?.split('-')[0] ?? ''
+  return isSupportedLanguage(lang) ? lang : 'ja'
+}
+
+let storedLang: string | null = null
+if (typeof window !== 'undefined') {
+  try {
+    storedLang = window.localStorage.getItem(LANGUAGE_STORAGE_KEY)
+  } catch {}
+}
+const browserLang = typeof navigator !== 'undefined' ? navigator.language : 'ja'
+const initialLng = normalizeLanguage(storedLang ?? browserLang)
 
 void i18n.use(initReactI18next).init({
   lng: initialLng,
@@ -28,6 +43,15 @@ void i18n.use(initReactI18next).init({
   react: {
     useSuspense: false, // 翻訳リソースはローカルにあるため、suspenseは不要
   },
+})
+
+i18n.on('languageChanged', (language) => {
+  if (typeof window === 'undefined') {
+    return
+  }
+  try {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, normalizeLanguage(language))
+  } catch {}
 })
 
 export default i18n

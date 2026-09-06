@@ -8,8 +8,11 @@ import { getBetterAuthErrorMessage, signInMutationOptions } from '../mutation'
 import { Button } from 'otsukimi-ui'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
+import { AuthErrorAlert } from './AuthErrorAlert'
+import { useTranslation } from 'react-i18next'
 
 export const SignInForm = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const router = useRouter()
   const { refetch } = authClient.useSession()
@@ -31,7 +34,7 @@ export const SignInForm = () => {
         await refetch()
         // _authenticatedで使用しているbeforeLoadを再評価する
         await router.invalidate()
-        toast.info('サインインしました')
+        toast.info(t('auth.signIn.toastSuccess'))
         await navigate({
           to: '/mypage',
         })
@@ -41,7 +44,7 @@ export const SignInForm = () => {
 
   return (
     <AuthLayout>
-      <h2 className="text-xl font-bold">サインイン</h2>
+      <h2 className="text-xl font-bold">{t('auth.signIn.title')}</h2>
       <form
         noValidate
         className="flex flex-col gap-5"
@@ -54,11 +57,11 @@ export const SignInForm = () => {
         <form.AppField name="email">
           {(field) => (
             <field.TextField
-              label="メールアドレス"
+              label={t('auth.fields.email.label')}
               type="email"
               inputMode="email"
               autoComplete="email"
-              placeholder="example@example.com"
+              placeholder={t('auth.fields.email.placeholder')}
             />
           )}
         </form.AppField>
@@ -66,31 +69,29 @@ export const SignInForm = () => {
         <form.AppField name="password">
           {(field) => (
             <field.TextField
-              label="パスワード"
+              label={t('auth.fields.password.label')}
               type="password"
               autoComplete="current-password"
-              placeholder="パスワード"
+              placeholder={t('auth.fields.password.placeholder')}
             />
           )}
         </form.AppField>
 
         {signInMutation.isError && (
-          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-            {getBetterAuthErrorMessage(signInMutation.error)}
-          </p>
+          <AuthErrorAlert message={getBetterAuthErrorMessage(signInMutation.error)} />
         )}
 
         <form.Subscribe selector={(state) => state.isSubmitting}>
           {(isSubmitting) => (
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'サインインしています...' : 'サインイン'}
+              {isSubmitting ? t('auth.signIn.submitting') : t('auth.signIn.submit')}
             </Button>
           )}
         </form.Subscribe>
       </form>
       <div className="flex flex-row gap-2">
-        未登録ですか?
-        <CustomLink to="/sign-up">サインアップ</CustomLink>
+        {t('auth.signIn.noAccount')}
+        <CustomLink to="/sign-up">{t('auth.signUp.title')}</CustomLink>
       </div>
     </AuthLayout>
   )

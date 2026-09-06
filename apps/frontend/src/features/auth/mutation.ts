@@ -1,6 +1,7 @@
 import { authClient } from '@/lib/auth/client'
 import { mutationOptions } from '@tanstack/react-query'
 import type { SignInInput, SignUpInput } from './schema'
+import i18n from '@/lib/i18n/config'
 
 export class BetterAuthError extends Error {
   readonly code?: string
@@ -14,15 +15,39 @@ export class BetterAuthError extends Error {
 }
 
 export const getBetterAuthErrorMessage = (error: unknown): string => {
-  if (error instanceof BetterAuthError && error.status !== undefined && error.status >= 500) {
-    return 'サーバとの通信に失敗しました。再度お試しください'
+  if (error instanceof BetterAuthError) {
+    if (error.status !== undefined && error.status >= 500) {
+      return i18n.t('auth.error.serverUnavailable')
+    }
+
+    switch (error.code) {
+      case 'INVALID_EMAIL_OR_PASSWORD':
+        return i18n.t('auth.error.invalidCredentials')
+      case 'USER_ALREADY_EXISTS':
+      case 'USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL':
+        return i18n.t('auth.error.emailAlreadyUsed')
+      case 'INVALID_EMAIL':
+        return i18n.t('auth.error.invalidEmail')
+      case 'PASSWORD_TOO_LONG':
+      case 'PASSWORD_TOO_SHORT':
+        return i18n.t('auth.error.weakPassword')
+      default:
+        if (error.status === 401) {
+          return i18n.t('auth.error.invalidCredentials')
+        }
+        if (error.status === 409) {
+          return i18n.t('auth.error.emailAlreadyUsed')
+        }
+        if (error.status === 429) {
+          return i18n.t('auth.error.tooManyRequests')
+        }
+        if (error.status && error.status >= 500) {
+          return i18n.t('auth.error.serverUnavailable')
+        }
+    }
   }
-  if (error instanceof BetterAuthError && error.message) {
-    // Better Authのエラーメッセージを露出している
-    // i18n化する際にはバックエンド側の設定含め変更する必要がある
-    return error.message
-  }
-  return 'ログインに失敗しました'
+
+  return i18n.t('auth.error.authenticationFailed')
 }
 
 export const signInMutationOptions = mutationOptions({
