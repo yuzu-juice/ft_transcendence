@@ -8,6 +8,7 @@ import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
 import { Button } from 'otsukimi-ui'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
+import { AuthErrorAlert } from './AuthErrorAlert'
 
 export const SignUpForm = () => {
   const navigate = useNavigate()
@@ -127,9 +128,7 @@ export const SignUpForm = () => {
         </form.AppField>
 
         {signUpMutation.isError && (
-          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-            {getBetterAuthErrorMessage(signUpMutation.error)}
-          </p>
+          <AuthErrorAlert message={getBetterAuthErrorMessage(signUpMutation.error)} />
         )}
 
         <form.Subscribe selector={(state) => state.isSubmitting}>

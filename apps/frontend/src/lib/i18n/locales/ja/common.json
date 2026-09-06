@@ -60,5 +60,16 @@
       "500": "サーバーでエラーが発生しました",
       "default": "通信に失敗しました"
     }
+  },
+  "auth": {
+    "error": {
+      "title": "認証エラー",
+      "signInFailed": "ログインに失敗しました",
+      "serverUnavailable": "サーバとの通信に失敗しました。再度お試しください",
+      "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
+      "emailAlreadyUsed": "このメールアドレスはすでに使用されています",
+      "invalidEmail": "有効なメールアドレスを入力してください",
+      "weakPassword": "パスワードが要件を満たしていません"
+    }
   }
 }

@@ -60,5 +60,16 @@
       "500": "服务器发生错误",
       "default": "请求失败"
     }
+  },
+  "auth": {
+    "error": {
+      "title": "认证错误",
+      "signInFailed": "登录失败",
+      "serverUnavailable": "无法连接到服务器，请稍后重试",
+      "invalidCredentials": "邮箱地址或密码不正确",
+      "emailAlreadyUsed": "该邮箱地址已被使用",
+      "invalidEmail": "请输入有效的邮箱地址",
+      "weakPassword": "密码不符合要求"
+    }
   }
 }
