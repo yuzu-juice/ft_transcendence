@@ -92,6 +92,7 @@
       "submit": "サインアップ",
       "submitting": "サインアップしています...",
       "toastSuccess": "サインアップしました",
+      "agreementText": "<terms>利用規約</terms>・<privacy>プライバシーポリシー</privacy>に同意する",
       "agreement": "に同意する",
       "hasAccount": "登録済ですか?"
     },

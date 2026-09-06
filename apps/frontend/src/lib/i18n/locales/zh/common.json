@@ -92,6 +92,7 @@
       "submit": "注册",
       "submitting": "正在注册...",
       "toastSuccess": "注册成功",
+      "agreementText": "我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>",
       "agreement": "即表示同意",
       "hasAccount": "已经注册了吗?"
     },

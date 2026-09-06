@@ -9,7 +9,7 @@ import { Button } from 'otsukimi-ui'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
 import { AuthErrorAlert } from './AuthErrorAlert'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const SignUpForm = () => {
   const { t } = useTranslation()
@@ -109,14 +109,13 @@ export const SignUpForm = () => {
                 <field.CheckboxField />
 
                 <span className="text-sm">
-                  <Link to="/terms" className="underline">
-                    {t('legal.terms.title')}
-                  </Link>
-                  ・
-                  <Link to="/privacy" className="underline">
-                    {t('legal.privacy.title')}
-                  </Link>
-                  {t('auth.signUp.agreement')}
+                  <Trans
+                    i18nKey="auth.signUp.agreementText"
+                    components={{
+                      terms: <Link to="/terms" className="underline" />,
+                      privacy: <Link to="/privacy" className="underline" />,
+                    }}
+                  />
                 </span>
               </div>
 
