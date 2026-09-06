@@ -103,7 +103,8 @@
       "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
       "emailAlreadyUsed": "このメールアドレスはすでに使用されています",
       "invalidEmail": "有効なメールアドレスを入力してください",
-      "weakPassword": "パスワードが要件を満たしていません"
+      "weakPassword": "パスワードが要件を満たしていません",
+      "authenticationFailed": "認証に失敗しました"
     }
   }
 }

@@ -103,7 +103,8 @@
       "invalidCredentials": "Incorrect email address or password",
       "emailAlreadyUsed": "This email address is already in use",
       "invalidEmail": "Please enter a valid email address",
-      "weakPassword": "Password does not meet requirements"
+      "weakPassword": "Password does not meet requirements",
+      "authenticationFailed": "Authentication failed"
     }
   }
 }

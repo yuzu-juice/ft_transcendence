@@ -42,7 +42,7 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
     }
   }
 
-  return i18n.t('auth.error.signInFailed')
+  return i18n.t('auth.error.authenticationFailed')
 }
 
 export const signInMutationOptions = mutationOptions({
