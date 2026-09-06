@@ -27,7 +27,7 @@ const healthRoute = createRoute({
   },
 })
 
-const app = new OpenAPIHono()
+const app = new OpenAPIHono().basePath('/api')
 
 app.onError(onError)
 
