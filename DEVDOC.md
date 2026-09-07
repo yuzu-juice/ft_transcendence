@@ -163,3 +163,8 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 
 - Docker Composeの設定により、バックエンドのソースコードを更新した際にはサーバが自動的に再起動することになっています。`Syncing service "backend" after 1 changes were detected`に続けて`Server is running on http://localhost:3000`というメッセージが表示されれば再起動されたことを意味しますが、たまにそのようにならないケースが存在します。
 - 再起動は全てを解決します。特にソースコードを書き換えた直後に期待通りの挙動を示さない場合、一度`docker compose down`した後に、再度`docker compose up --watch`を実行してみてください。
+
+## Grafana
+
+- `http://localhost:8080/grafana`へアクセスします。
+- 初回アクセス時のログイン名・パスワードはどちらも`admin`です。
