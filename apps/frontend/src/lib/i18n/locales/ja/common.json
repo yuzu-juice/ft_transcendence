@@ -41,6 +41,7 @@
     "title": "APIキー",
     "description": "外部連携で使用するAPIキーを発行・失効できます",
     "nameLabel": "キー名",
+    "nameRequiredHint": "キー名の入力は必須です",
     "namePlaceholder": "例: CI token",
     "create": "発行",
     "creating": "発行中...",

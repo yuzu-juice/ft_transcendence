@@ -41,6 +41,7 @@
     "title": "API Keys",
     "description": "Create and revoke API keys for external integrations",
     "nameLabel": "Key Name",
+    "nameRequiredHint": "A key name is required",
     "namePlaceholder": "e.g. CI token",
     "create": "Create",
     "creating": "Creating...",

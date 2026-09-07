@@ -41,6 +41,7 @@
     "title": "API 密钥",
     "description": "可用于外部集成的 API 密钥可在此创建和失效",
     "nameLabel": "密钥名称",
+    "nameRequiredHint": "密钥名称为必填项",
     "namePlaceholder": "例如: CI token",
     "create": "创建",
     "creating": "创建中...",

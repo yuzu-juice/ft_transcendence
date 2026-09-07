@@ -104,6 +104,7 @@ export const ApiKeyPage = () => {
           <label className="text-sm font-bold text-brand-primary" htmlFor="api-key-name">
             {t('apiKeys.nameLabel')}
           </label>
+          <p className="text-xs text-gray-600">{t('apiKeys.nameRequiredHint')}</p>
           <div className="flex flex-col gap-3 md:flex-row">
             <Input
               id="api-key-name"
