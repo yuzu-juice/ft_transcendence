@@ -39,7 +39,7 @@
   },
   "apiKeys": {
     "title": "API Keys",
-    "description": "Create and revoke API keys for external integrations",
+    "description": "Create and delete API keys for external integrations",
     "nameLabel": "Key Name",
     "nameRequiredHint": "A key name is required",
     "namePlaceholder": "e.g. CI token",
@@ -56,9 +56,9 @@
     "createdAt": "Created At",
     "lastUsedAt": "Last Used At",
     "neverUsed": "Never used",
-    "revoke": "Revoke",
-    "revoking": "Revoking...",
-    "revokeConfirm": "Revoke \"{{name}}\"?",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "deleteConfirm": "Delete \"{{name}}\"?",
     "reload": "Reloading...",
     "retry": "Retry"
   },

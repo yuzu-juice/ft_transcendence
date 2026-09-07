@@ -82,7 +82,7 @@ export const ApiKeyPage = () => {
   }
 
   const onDelete = async (apiKeyId: string, apiKeyName: string) => {
-    const agreed = window.confirm(t('apiKeys.revokeConfirm', { name: apiKeyName }))
+    const agreed = window.confirm(t('apiKeys.deleteConfirm', { name: apiKeyName }))
     if (!agreed) {
       return
     }
@@ -138,6 +138,7 @@ export const ApiKeyPage = () => {
               {createdApiKey.key}
             </div>
             <div className="flex justify-end gap-2">
+              {/* 平文キーをメモリから消し、UIを閉じる */}
               <Button type="button" variant="transparent" onClick={() => setCreatedApiKey(null)}>
                 {t('common.cancel')}
               </Button>
@@ -181,7 +182,7 @@ export const ApiKeyPage = () => {
                     void onDelete(apiKey.id, apiKey.name)
                   }}
                 >
-                  {deleteMutation.isPending ? t('apiKeys.revoking') : t('apiKeys.revoke')}
+                  {deleteMutation.isPending ? t('apiKeys.deleting') : t('apiKeys.delete')}
                 </Button>
               </div>
             </div>

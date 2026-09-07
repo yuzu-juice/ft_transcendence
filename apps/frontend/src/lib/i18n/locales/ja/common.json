@@ -39,7 +39,7 @@
   },
   "apiKeys": {
     "title": "APIキー",
-    "description": "外部連携で使用するAPIキーを発行・失効できます",
+    "description": "外部連携で使用するAPIキーを発行・削除できます",
     "nameLabel": "キー名",
     "nameRequiredHint": "キー名の入力は必須です",
     "namePlaceholder": "例: CI token",
@@ -56,9 +56,9 @@
     "createdAt": "作成日時",
     "lastUsedAt": "最終利用日時",
     "neverUsed": "未使用",
-    "revoke": "失効",
-    "revoking": "失効中...",
-    "revokeConfirm": "「{{name}}」を失効しますか？",
+    "delete": "削除",
+    "deleting": "削除中...",
+    "deleteConfirm": "「{{name}}」を削除しますか？",
     "reload": "再読み込み中...",
     "retry": "再試行"
   },
