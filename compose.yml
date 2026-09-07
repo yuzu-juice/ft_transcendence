@@ -180,6 +180,19 @@ services:
       networks:
         - monitoring
 
+    cadvisor:
+      image: gcr.io/cadvisor/cadvisor:latest
+      restart: unless-stopped
+      volumes:
+        - /:/rootfs:ro
+        - /sys:/sys:ro
+        - /var/run:/var/run:rw
+        - /var/lib/docker:/var/lib/docker:ro
+      expose:
+        - "8080"
+      networks:
+        - monitoring
+
     prometheus:
       image: prom/prometheus:v3.14.0
       container_name: prometheus
@@ -199,7 +212,7 @@ services:
     grafana:
       image: grafana/grafana:8.3.6
       environment:
-        - GF_SERVER_ROOT_URL=http://localhost:8080/grafana # TODO 環境変数にする
+        - GF_SERVER_ROOT_URL=${BASE_URL}/grafana
         - GF_SERVER_SERVE_FROM_SUB_PATH=true
         - GF_LOG_LEVEL=warn
       volumes:
