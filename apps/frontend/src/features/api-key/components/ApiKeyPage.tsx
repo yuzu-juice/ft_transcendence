@@ -47,26 +47,26 @@ export const ApiKeyPage = () => {
     )
   }
 
-const onCreate = async () => {
-  const trimmedName = name.trim()
-  if (!trimmedName) {
-    return
-  }
+  const onCreate = async () => {
+    const trimmedName = name.trim()
+    if (!trimmedName) {
+      return
+    }
 
-  try {
-    const created = await createMutation.mutateAsync({
-      name: trimmedName,
-    })
-    setCreatedApiKey({
-      name: created.name,
-      key: created.key,
-      keyPrefix: created.keyPrefix,
-    })
-    setName('')
-  } catch {
-    // no-op: error presentation is handled elsewhere
+    try {
+      const created = await createMutation.mutateAsync({
+        name: trimmedName,
+      })
+      setCreatedApiKey({
+        name: created.name,
+        key: created.key,
+        keyPrefix: created.keyPrefix,
+      })
+      setName('')
+    } catch {
+      // no-op: error presentation is handled elsewhere
+    }
   }
-}
 
   const onCopy = async () => {
     if (!createdApiKey) {
@@ -87,7 +87,11 @@ const onCreate = async () => {
       return
     }
 
-    await deleteMutation.mutateAsync(apiKeyId)
+    try {
+      await deleteMutation.mutateAsync(apiKeyId)
+    } catch {
+      // no-op: error presentation is handled elsewhere
+    }
   }
 
   return (
@@ -132,7 +136,10 @@ const onCreate = async () => {
             <div className="rounded-sm bg-gray-100 p-3 font-mono text-sm break-all">
               {createdApiKey.key}
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="transparent" onClick={() => setCreatedApiKey(null)}>
+                {t('common.cancel')}
+              </Button>
               <Button type="button" onClick={() => void onCopy()}>
                 {t('apiKeys.copy')}
               </Button>

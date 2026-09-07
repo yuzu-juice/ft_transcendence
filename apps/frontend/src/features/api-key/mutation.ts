@@ -13,9 +13,6 @@ export const apiKeyMutations = {
           queryKey: apiKeyQueryKeys.all(),
         })
       },
-      meta: {
-        suppressErrorToast: true,
-      },
     }),
 
   delete: () =>
@@ -28,9 +25,6 @@ export const apiKeyMutations = {
         await queryClient.invalidateQueries({
           queryKey: apiKeyQueryKeys.all(),
         })
-      },
-      meta: {
-        suppressErrorToast: true,
       },
     }),
 }
