@@ -47,12 +47,13 @@ export const ApiKeyPage = () => {
     )
   }
 
-  const onCreate = async () => {
-    const trimmedName = name.trim()
-    if (!trimmedName) {
-      return
-    }
+const onCreate = async () => {
+  const trimmedName = name.trim()
+  if (!trimmedName) {
+    return
+  }
 
+  try {
     const created = await createMutation.mutateAsync({
       name: trimmedName,
     })
@@ -62,7 +63,10 @@ export const ApiKeyPage = () => {
       keyPrefix: created.keyPrefix,
     })
     setName('')
+  } catch {
+    // no-op: error presentation is handled elsewhere
   }
+}
 
   const onCopy = async () => {
     if (!createdApiKey) {
