@@ -16,6 +16,7 @@
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
 - `BETTER_AUTH_SECRET` : `openssl rand -base64 32`により生成された値
 - `INITIAL_ADMIN_PASSWORD` : 8文字以上128文字以下の文字列
+- `GF_DISCORD_WEBHOOK_URL` : Discordのwebhook URL
 
 ## 開発環境の起動
 
@@ -167,4 +168,5 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 ## Grafana
 
 - `http://localhost:8080/grafana`へアクセスします。
-- 初回アクセス時のログイン名・パスワードはどちらも`admin`です。
+- 初回アクセス時のログイン名・パスワードは環境変数へ設定した `GF_SECURITY_ADMIN_USER`・`GF_SECURITY_ADMIN_PASSWORD` です。
+- `GF_DISCORD_WEBHOOK_URL`に設定したwebhookに対して、コンテナのCPU利用率・メモリ利用が設定値を超過した場合にalertが送信されます
