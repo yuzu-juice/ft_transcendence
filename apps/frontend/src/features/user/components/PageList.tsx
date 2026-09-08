@@ -17,6 +17,11 @@ const pages: {
     admin: false,
   },
   {
+    path: '/api-keys',
+    name: 'APIキー',
+    admin: false,
+  },
+  {
     path: '/admin',
     name: '管理画面',
     admin: true,

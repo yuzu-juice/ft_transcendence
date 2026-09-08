@@ -16,6 +16,7 @@ import '@fontsource/zen-maru-gothic/700.css'
 import { getSession } from './lib/auth/session'
 
 import '@/lib/i18n/config'
+import { WebMcpProvider } from './lib/webmcp/WebMcpProvider'
 
 export const router = createRouter({
   routeTree,
@@ -34,7 +35,13 @@ declare module '@tanstack/react-router' {
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider
+        router={router}
+        context={{
+          session,
+        }}
+      />
+      <WebMcpProvider />
       {/* toaster用 */}
       <Toaster richColors position="top-center" />
     </>

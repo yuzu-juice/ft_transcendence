@@ -18,56 +18,52 @@ export const userSearchApi = {
 }
 
 export const taskApi = {
-  list: (query: TaskListQuery) =>
-    parseResponse(
-      client.tasks.$get({
-        query,
-      }),
-    ),
+  list: (query: TaskListQuery, signal?: AbortSignal) =>
+    parseResponse(client.tasks.$get({ query }, { init: { signal } })),
 
-  detail: (taskId: string) =>
+  detail: (taskId: string, signal?: AbortSignal) =>
     parseResponse(
-      client.tasks[':taskId'].$get({
-        param: {
-          taskId,
+      client.tasks[':taskId'].$get(
+        {
+          param: { taskId },
         },
-      }),
+        { init: { signal } },
+      ),
     ),
 
-  create: (json: TaskCreateRequestBody) =>
-    parseResponse(
-      client.tasks.$post({
-        json,
-      }),
-    ),
+  create: (json: TaskCreateRequestBody, signal?: AbortSignal) =>
+    parseResponse(client.tasks.$post({ json }, { init: { signal } })),
 
-  update: (taskId: string, json: TaskUpdateRequestBody) =>
+  update: (taskId: string, json: TaskUpdateRequestBody, signal?: AbortSignal) =>
     parseResponse(
-      client.tasks[':taskId'].$patch({
-        param: {
-          taskId,
+      client.tasks[':taskId'].$patch(
+        {
+          param: { taskId },
+          json,
         },
-        json,
-      }),
+        { init: { signal } },
+      ),
     ),
 
-  updateAssignees: (taskId: string, json: TaskAssigneesUpdateRequestBody) =>
+  updateAssignees: (taskId: string, json: TaskAssigneesUpdateRequestBody, signal?: AbortSignal) =>
     parseResponse(
-      client.tasks[':taskId'].assignees.$put({
-        param: {
-          taskId,
+      client.tasks[':taskId'].assignees.$put(
+        {
+          param: { taskId },
+          json,
         },
-        json,
-      }),
+        { init: { signal } },
+      ),
     ),
 
-  delete: (taskId: string) =>
+  delete: (taskId: string, signal?: AbortSignal) =>
     parseResponse(
-      client.tasks[':taskId'].$delete({
-        param: {
-          taskId,
+      client.tasks[':taskId'].$delete(
+        {
+          param: { taskId },
         },
-      }),
+        { init: { signal } },
+      ),
     ),
 }
 
