@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
-import { Button, Card } from 'otsukimi-ui'
-import { useRef } from 'react'
-import type { CSVLink as CSVLinkType } from 'react-csv'
+import { Button, Card, Link } from 'otsukimi-ui'
 import { CSVLink } from 'react-csv'
 import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -58,8 +56,6 @@ export const AnalyticsPage = () => {
   const search = analyticsSummaryRoute.useSearch()
 
   const query = useQuery(analyticsQueries.summary(search))
-
-  const csvLinkRef = useRef<CSVLinkType | null>(null)
 
   if (query.isPending) {
     return <Loading />
@@ -152,21 +148,11 @@ export const AnalyticsPage = () => {
     <div className="flex flex-col gap-6">
       <div className="flex flex-row flex-wrap items-center">
         <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
-        <Button
-          className="ml-auto"
-          onClick={() => {
-            csvLinkRef.current?.link.click()
-          }}
-        >
-          Export CSV
-        </Button>
-        <CSVLink
-          ref={csvLinkRef}
-          data={csvData}
-          headers={csvHeaders}
-          filename="analytics.csv"
-          hidden
-        />
+        <Link className="ml-auto">
+          <CSVLink data={csvData} headers={csvHeaders} filename="analytics.csv">
+            Export CSV
+          </CSVLink>
+        </Link>
       </div>
 
       <AnalyticsForm />
