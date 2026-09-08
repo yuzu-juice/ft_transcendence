@@ -239,6 +239,8 @@ services:
         - node.name=es01
         - discovery.type=single-node
         - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
       expose:
         - 9200
       networks:
@@ -257,3 +259,4 @@ volumes:
     avatar-data:
     prometheus-data:
     grafana-data:
+    elasticsearch-data:
