@@ -24,6 +24,7 @@
     "i18next": "^26.4.0",
     "otsukimi-ui": "^1.2.1",
     "react": "^19.2.8",
+    "react-csv": "^2.2.2",
     "react-dom": "^19.2.8",
     "react-i18next": "^17.0.12",
     "react-markdown": "^10.1.0",
