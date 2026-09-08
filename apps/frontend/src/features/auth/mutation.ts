@@ -1,6 +1,11 @@
 import { authClient } from '@/lib/auth/client'
 import { mutationOptions } from '@tanstack/react-query'
-import type { SignInInput, SignUpInput } from './schema'
+import {
+  type SignInInput,
+  type SignUpInput,
+  type TotpCodeInput,
+  type TotpEnableInput,
+} from './schema'
 import i18n from '@/lib/i18n/config'
 
 export class BetterAuthError extends Error {
@@ -14,6 +19,7 @@ export class BetterAuthError extends Error {
   }
 }
 
+// TOOD: add totp error message
 export const getBetterAuthErrorMessage = (error: unknown): string => {
   if (error instanceof BetterAuthError) {
     if (error.status !== undefined && error.status >= 500) {
@@ -28,9 +34,19 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
         return i18n.t('auth.error.emailAlreadyUsed')
       case 'INVALID_EMAIL':
         return i18n.t('auth.error.invalidEmail')
+      case 'INVALID_PASSWORD':
+        return i18n.t('auth.error.invalidPassword')
       case 'PASSWORD_TOO_LONG':
       case 'PASSWORD_TOO_SHORT':
         return i18n.t('auth.error.weakPassword')
+      case 'INVALID_CODE':
+        return i18n.t('auth.error.invalidCode')
+      case 'TOTP_ALREADY_ENABLED':
+        return i18n.t('auth.error.totpAlreadyEnabled')
+      case 'TOTP_NOT_ENABLED':
+        return i18n.t('auth.error.totpNotEnabled')
+      case 'INVALID_TWO_FACTOR_COOKIE':
+        return i18n.t('auth.error.invalidTwoFactorCookie')
       default:
         if (error.status === 401) {
           return i18n.t('auth.error.invalidCredentials')
@@ -48,6 +64,20 @@ export const getBetterAuthErrorMessage = (error: unknown): string => {
   }
 
   return i18n.t('auth.error.authenticationFailed')
+}
+
+export const getOAuthErrorMessage = (code: string): string => {
+  switch (code) {
+    case 'email_not_found':
+      return i18n.t('auth.github.error.emailNotFound')
+    case 'unable_to_get_user_info':
+      return i18n.t('auth.github.error.unableToGetUserInfo')
+    case 'unable_to_create_user':
+    case 'unable_to_create_session':
+      return i18n.t('auth.github.error.loginFailed')
+    default:
+      return i18n.t('auth.github.error.githubLoginFailed')
+  }
 }
 
 export const signInMutationOptions = mutationOptions({
@@ -79,6 +109,39 @@ export const signUpMutationOptions = mutationOptions({
       throw new BetterAuthError(error.message, error.code, error.status)
     }
     return data
+  },
+  meta: {
+    suppressErrorToast: true,
+  },
+})
+
+export const totpEnableMutationOptions = mutationOptions({
+  mutationKey: ['auth', 'totp', 'enable'],
+  mutationFn: async (input: TotpEnableInput | undefined) => {
+    const { data, error } = await authClient.twoFactor.enable({
+      method: 'totp',
+      ...(input ? { password: input.password } : {}),
+    })
+    if (error) {
+      throw new BetterAuthError(error.message, error.code, error.status)
+    }
+    return data
+  },
+  meta: {
+    suppressErrorToast: true,
+  },
+})
+
+export const totpVerifyMutationOptions = mutationOptions({
+  mutationKey: ['auth', 'totp', 'verify'],
+  mutationFn: async ({ code }: TotpCodeInput) => {
+    const { error } = await authClient.twoFactor.verifyTotp({
+      code,
+      trustDevice: false,
+    })
+    if (error) {
+      throw new BetterAuthError(error.message, error.code, error.status)
+    }
   },
   meta: {
     suppressErrorToast: true,

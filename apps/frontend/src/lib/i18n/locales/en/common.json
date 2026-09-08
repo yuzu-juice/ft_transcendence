@@ -102,9 +102,15 @@
         "label": "Password",
         "placeholder": "Password"
       },
+      "currentPassword": {
+        "label": "Current Password"
+      },
       "confirmPassword": {
         "label": "Confirm Password",
         "placeholder": "Confirm Password"
+      },
+      "totpCode": {
+        "label": "Authentication Code"
       }
     },
     "signIn": {
@@ -130,9 +136,46 @@
       "invalidCredentials": "Incorrect email address or password",
       "emailAlreadyUsed": "This email address is already in use",
       "invalidEmail": "Please enter a valid email address",
+      "invalidPassword": "Incorrect password",
       "weakPassword": "Password does not meet requirements",
       "tooManyRequests": "Exceeded the number of allowed requests",
-      "authenticationFailed": "Authentication failed"
+      "authenticationFailed": "Authentication failed",
+      "invalidCode": "Invalid authentication code",
+      "totpAlreadyEnabled": "Two-factor authentication is already enabled",
+      "totpNotEnabled": "Two-factor authentication is not enabled",
+      "invalidTwoFactorCookie": "Your two-factor authentication session is invalid. Please sign in again."
+    },
+    "github": {
+      "title": "Continue with GitHub",
+      "agreementText": "By clicking 'Continue with GitHub', you agree to this site's <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>",
+      "toastError": "Could not start the GitHub login process",
+      "error": {
+        "emailNotFound": "Failed to retrieve email address from GitHub account",
+        "unableToGetUserInfo": "Failed to retrieve user information from GitHub",
+        "loginFailed": "Login process failed",
+        "githubLoginFailed": "Failed to log in with GitHub"
+      }
+    },
+    "totp": {
+      "title": "Two-factor authentication",
+      "unavailable": "Two-factor authentication cannot be enabled for this account",
+      "challenge": {
+        "success": "Two-factor authentication succeeded"
+      },
+      "code": {
+        "confirm": "Confirm",
+        "confirming": "Confirming..."
+      },
+      "setup": {
+        "title": "Enable two-factor authentication",
+        "enable": "Enable two-factor authentication",
+        "enabling": "Verifying...",
+        "passwordVerified": "Password verified",
+        "enabled": "Two-factor authentication enabled",
+        "installAuthenticator": "Install an authenticator app on your device",
+        "scanQrCode": "Scan the QR code below",
+        "enterCode": "Enter the authentication code"
+      }
     }
   }
 }

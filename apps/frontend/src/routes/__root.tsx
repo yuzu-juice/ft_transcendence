@@ -1,11 +1,11 @@
-import { NotFoundPage } from '@/components/layout/NotFoundPage'
-import type { authClient } from '@/lib/auth/client'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { NotFoundPage } from '@/components/layout/NotFoundPage'
+import type { getSession } from '@/lib/auth/session'
 
-// RouterContextを拡張してBetter Authの提供するsessionの情報を渡せるようにする
+// 認証ガードが最新のセッションを取得できるようにする
 export interface RouterContext {
-  session: typeof authClient.$Infer.Session | null
+  getSession: typeof getSession
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
