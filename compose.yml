@@ -257,8 +257,6 @@ services:
       depends_on:
         - elasticsearch
       image: docker.elastic.co/kibana/kibana:9.5.3
-      volumes:
-        - kibana-data:/usr/share/kibana/data
       environment:
         - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
         - ELASTICSEARCH_USERNAME=kibana_system
@@ -284,4 +282,3 @@ volumes:
     prometheus-data:
     grafana-data:
     elasticsearch-data:
-    kibana-data:
