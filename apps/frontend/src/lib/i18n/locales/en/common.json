@@ -5,6 +5,7 @@
   "common": {
     "save": "Save",
     "cancel": "Cancel",
+    "close": "Close",
     "back": "Back"
   },
   "legal": {
@@ -58,6 +59,7 @@
     "neverUsed": "Never used",
     "delete": "Delete",
     "deleting": "Deleting...",
+    "deleted": "API key deleted",
     "deleteConfirm": "Delete \"{{name}}\"?",
     "reload": "Reloading...",
     "retry": "Retry"

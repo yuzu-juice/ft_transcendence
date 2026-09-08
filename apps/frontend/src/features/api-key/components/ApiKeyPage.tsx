@@ -9,12 +9,6 @@ import { toast } from 'sonner'
 import { apiKeyMutations } from '../mutation'
 import { apiKeyQueries } from '../query'
 
-type CreatedApiKey = {
-  name: string
-  key: string
-  keyPrefix: string
-}
-
 export const ApiKeyPage = () => {
   const { t } = useTranslation()
   const query = useQuery(apiKeyQueries.list())
@@ -22,7 +16,7 @@ export const ApiKeyPage = () => {
   const deleteMutation = useMutation(apiKeyMutations.delete())
 
   const [name, setName] = useState('')
-  const [createdApiKey, setCreatedApiKey] = useState<CreatedApiKey | null>(null)
+  const [createdApiKey, setCreatedApiKey] = useState<string | null>(null)
 
   if (query.isPending) {
     return <Loading />
@@ -57,11 +51,7 @@ export const ApiKeyPage = () => {
       const created = await createMutation.mutateAsync({
         name: trimmedName,
       })
-      setCreatedApiKey({
-        name: created.name,
-        key: created.key,
-        keyPrefix: created.keyPrefix,
-      })
+      setCreatedApiKey(created.key)
       setName('')
     } catch {
       // no-op: error presentation is handled elsewhere
@@ -74,7 +64,7 @@ export const ApiKeyPage = () => {
     }
 
     try {
-      await navigator.clipboard.writeText(createdApiKey.key)
+      await navigator.clipboard.writeText(createdApiKey)
       toast.success(t('apiKeys.copied'))
     } catch {
       toast.error(t('apiKeys.copyFailed'))
@@ -89,6 +79,7 @@ export const ApiKeyPage = () => {
 
     try {
       await deleteMutation.mutateAsync(apiKeyId)
+      toast.success(t('apiKeys.deleted'))
     } catch {
       // no-op: error presentation is handled elsewhere
     }
@@ -105,7 +96,13 @@ export const ApiKeyPage = () => {
             {t('apiKeys.nameLabel')}
           </label>
           <p className="text-xs text-gray-600">{t('apiKeys.nameRequiredHint')}</p>
-          <div className="flex flex-col gap-3 md:flex-row">
+          <form
+            className="flex flex-col gap-3 md:flex-row"
+            onSubmit={(event) => {
+              event.preventDefault()
+              void onCreate()
+            }}
+          >
             <Input
               id="api-key-name"
               value={name}
@@ -116,16 +113,10 @@ export const ApiKeyPage = () => {
               placeholder={t('apiKeys.namePlaceholder')}
               className="w-full"
             />
-            <Button
-              type="button"
-              disabled={createMutation.isPending || name.trim().length === 0}
-              onClick={() => {
-                void onCreate()
-              }}
-            >
+            <Button type="submit" disabled={createMutation.isPending || name.trim().length === 0}>
               {createMutation.isPending ? t('apiKeys.creating') : t('apiKeys.create')}
             </Button>
-          </div>
+          </form>
         </div>
       </Card>
 
@@ -135,12 +126,12 @@ export const ApiKeyPage = () => {
             <h3 className="text-lg font-heading font-bold">{t('apiKeys.createdTitle')}</h3>
             <p className="text-sm text-red-600">{t('apiKeys.createdDescription')}</p>
             <div className="rounded-sm bg-gray-100 p-3 font-mono text-sm break-all">
-              {createdApiKey.key}
+              {createdApiKey}
             </div>
             <div className="flex justify-end gap-2">
               {/* 平文キーをメモリから消し、UIを閉じる */}
               <Button type="button" variant="transparent" onClick={() => setCreatedApiKey(null)}>
-                {t('common.cancel')}
+                {t('common.close')}
               </Button>
               <Button type="button" onClick={() => void onCopy()}>
                 {t('apiKeys.copy')}

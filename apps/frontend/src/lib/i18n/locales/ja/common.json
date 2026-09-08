@@ -5,6 +5,7 @@
   "common": {
     "save": "保存",
     "cancel": "キャンセル",
+    "close": "閉じる",
     "back": "戻る"
   },
   "legal": {
@@ -58,6 +59,7 @@
     "neverUsed": "未使用",
     "delete": "削除",
     "deleting": "削除中...",
+    "deleted": "APIキーを削除しました",
     "deleteConfirm": "「{{name}}」を削除しますか？",
     "reload": "再読み込み中...",
     "retry": "再試行"
