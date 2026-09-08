@@ -184,4 +184,6 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 
 ## ELK
 
-- elasticsearch のログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。
+- Kibana へは、`http://localhost:8080/kibana` からアクセスします。
+- Kibana へのログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。
+- Kibana は elasticsearch への内部的な接続で、ログイン名 `kibana_system` 、パスワードは環境変数 `KIBANA_PASSWORD` を使います
