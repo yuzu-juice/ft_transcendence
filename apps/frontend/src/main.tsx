@@ -35,12 +35,7 @@ declare module '@tanstack/react-router' {
 function App() {
   return (
     <>
-      <RouterProvider
-        router={router}
-        context={{
-          session,
-        }}
-      />
+      <RouterProvider router={router} />
       <WebMcpProvider />
       {/* toaster用 */}
       <Toaster richColors position="top-center" />
