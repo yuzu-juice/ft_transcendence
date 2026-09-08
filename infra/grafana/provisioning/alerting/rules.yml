@@ -98,6 +98,8 @@ groups:
           isPaused: false
           notification_settings:
             receiver: discord
+            group_interval: 5m
+            repeat_interval: 15m
         - uid: afxjtl5t895hcc
           title: Container Memory
           condition: C
@@ -155,3 +157,5 @@ groups:
           isPaused: false
           notification_settings:
             receiver: discord
+            group_interval: 5m
+            repeat_interval: 15m
