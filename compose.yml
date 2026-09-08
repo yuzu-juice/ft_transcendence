@@ -238,6 +238,7 @@ services:
       environment:
         - node.name=es01
         - discovery.type=single-node
+        - xpack.security.http.ssl.enabled=false
         - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       volumes:
         - elasticsearch-data:/usr/share/elasticsearch/data
