@@ -16,6 +16,7 @@
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
 - `BETTER_AUTH_SECRET` : `openssl rand -base64 32`により生成された値
 - `INITIAL_ADMIN_PASSWORD` : 8文字以上128文字以下の文字列
+- `GF_DISCORD_WEBHOOK_URL` : Discordのwebhook URL（[webhookの作成手順](https://support.discord.com/hc/ja/articles/228383668-%E3%82%A6%E3%82%A7%E3%83%96%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%81%94%E7%B4%B9%E4%BB%8B)）
 
 ### GitHub OAuth Appの準備
 
@@ -174,3 +175,9 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 
 - Docker Composeの設定により、バックエンドのソースコードを更新した際にはサーバが自動的に再起動することになっています。`Syncing service "backend" after 1 changes were detected`に続けて`Server is running on http://localhost:3000`というメッセージが表示されれば再起動されたことを意味しますが、たまにそのようにならないケースが存在します。
 - 再起動は全てを解決します。特にソースコードを書き換えた直後に期待通りの挙動を示さない場合、一度`docker compose down`した後に、再度`docker compose up --watch`を実行してみてください。
+
+## Grafana
+
+- `http://localhost:8080/grafana`へアクセスします。
+- 初回アクセス時のログイン名・パスワードは環境変数へ設定した `GF_SECURITY_ADMIN_USER`・`GF_SECURITY_ADMIN_PASSWORD` です。
+- `GF_DISCORD_WEBHOOK_URL`に設定したwebhookに対して、コンテナのCPU利用率・メモリ利用が設定値を超過した場合にalertが送信されます
