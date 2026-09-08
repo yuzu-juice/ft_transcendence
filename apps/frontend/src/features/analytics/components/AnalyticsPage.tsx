@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
-import { Button, Card, Link } from 'otsukimi-ui'
+import { Button, Card } from 'otsukimi-ui'
 import { CSVLink } from 'react-csv'
 import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -148,11 +148,14 @@ export const AnalyticsPage = () => {
     <div className="flex flex-col gap-6">
       <div className="flex flex-row flex-wrap items-center">
         <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
-        <Link className="ml-auto">
-          <CSVLink data={csvData} headers={csvHeaders} filename="analytics.csv">
-            Export CSV
-          </CSVLink>
-        </Link>
+        <CSVLink
+          data={csvData}
+          headers={csvHeaders}
+          filename="analytics.csv"
+          className="ml-auto text-brand-primary-deep cursor-pointer"
+        >
+          Export CSV
+        </CSVLink>
       </div>
 
       <AnalyticsForm />
