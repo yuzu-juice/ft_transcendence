@@ -181,3 +181,7 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 - `http://localhost:8080/grafana`へアクセスします。
 - 初回アクセス時のログイン名・パスワードは環境変数へ設定した `GF_SECURITY_ADMIN_USER`・`GF_SECURITY_ADMIN_PASSWORD` です。
 - `GF_DISCORD_WEBHOOK_URL`に設定したwebhookに対して、コンテナのCPU利用率・メモリ利用が設定値を超過した場合にalertが送信されます
+
+## ELK
+
+- elasticsearch のログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。

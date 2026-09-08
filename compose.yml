@@ -37,6 +37,7 @@ services:
             - frontend
             - backend
             - grafana
+            - elastic
 
     frontend:
         <<: *workspace
@@ -231,12 +232,25 @@ services:
         - monitoring
         - grafana
 
+    elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:9.5.3
+      container_name: es01
+      environment:
+        - node.name=es01
+        - discovery.type=single-node
+        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      expose:
+        - 9200
+      networks:
+        - elastic
+
 networks:
     frontend:
     backend:
     database:
     monitoring:
     grafana:
+    elastic:
 
 volumes:
     postgres-data:
