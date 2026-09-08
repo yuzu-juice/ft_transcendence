@@ -5,6 +5,7 @@
   "common": {
     "save": "保存",
     "cancel": "取消",
+    "close": "关闭",
     "back": "返回"
   },
   "legal": {
@@ -36,6 +37,32 @@
       "low": "low",
       "unset": "未设置"
     }
+  },
+  "apiKeys": {
+    "title": "API 密钥",
+    "description": "可用于外部集成的 API 密钥可在此创建和删除",
+    "nameLabel": "密钥名称",
+    "nameRequiredHint": "密钥名称为必填项",
+    "namePlaceholder": "例如: CI token",
+    "create": "创建",
+    "creating": "创建中...",
+    "createdTitle": "API 密钥已创建",
+    "createdDescription": "该密钥只会在此页面显示一次，请务必安全保存。",
+    "copy": "复制",
+    "copied": "API 密钥已复制",
+    "copyFailed": "复制失败",
+    "listTitle": "已创建的密钥",
+    "empty": "暂无已创建的 API 密钥",
+    "keyPrefix": "密钥前缀",
+    "createdAt": "创建时间",
+    "lastUsedAt": "最后使用时间",
+    "neverUsed": "未使用",
+    "delete": "删除",
+    "deleting": "删除中...",
+    "deleted": "API 密钥已删除",
+    "deleteConfirm": "确定要删除“{{name}}”吗？",
+    "reload": "重新加载中...",
+    "retry": "重试"
   },
   "error": {
     "title": "错误",

@@ -5,6 +5,7 @@
   "common": {
     "save": "保存",
     "cancel": "キャンセル",
+    "close": "閉じる",
     "back": "戻る"
   },
   "legal": {
@@ -36,6 +37,32 @@
       "low": "low",
       "unset": "未設定"
     }
+  },
+  "apiKeys": {
+    "title": "APIキー",
+    "description": "外部連携で使用するAPIキーを発行・削除できます",
+    "nameLabel": "キー名",
+    "nameRequiredHint": "キー名の入力は必須です",
+    "namePlaceholder": "例: CI token",
+    "create": "発行",
+    "creating": "発行中...",
+    "createdTitle": "APIキーを発行しました",
+    "createdDescription": "このキーはこの画面で一度だけ表示されます。必ず安全な場所に保存してください。",
+    "copy": "コピー",
+    "copied": "APIキーをコピーしました",
+    "copyFailed": "コピーに失敗しました",
+    "listTitle": "発行済みキー",
+    "empty": "発行済みのAPIキーはありません",
+    "keyPrefix": "キー先頭",
+    "createdAt": "作成日時",
+    "lastUsedAt": "最終利用日時",
+    "neverUsed": "未使用",
+    "delete": "削除",
+    "deleting": "削除中...",
+    "deleted": "APIキーを削除しました",
+    "deleteConfirm": "「{{name}}」を削除しますか？",
+    "reload": "再読み込み中...",
+    "retry": "再試行"
   },
   "error": {
     "title": "エラー",
