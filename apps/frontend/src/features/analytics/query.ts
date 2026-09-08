@@ -1,17 +1,17 @@
 import { queryOptions } from '@tanstack/react-query'
-import { analyticsApi } from './api'
+import { type AnalyticsSummaryQuery, analyticsApi } from './api'
 
 const analyticsQueryKeys = {
   all: () => ['analytics'] as const,
 
-  summary: () => [...analyticsQueryKeys.all(), 'summary'] as const,
+  summary: (form: AnalyticsSummaryQuery) => [...analyticsQueryKeys.all(), 'summary', form],
 }
 
 export const analyticsQueries = {
-  summary: () =>
+  summary: (form: AnalyticsSummaryQuery) =>
     queryOptions({
-      queryKey: analyticsQueryKeys.summary(),
-      queryFn: async () => analyticsApi.summary(),
+      queryKey: analyticsQueryKeys.summary(form),
+      queryFn: async () => analyticsApi.summary(form),
       refetchInterval: 30 * 1000, // 30sec
       refetchIntervalInBackground: false, // 画面が閲覧されている時のみ更新
       refetchOnWindowFocus: true,

@@ -1,10 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
+import { getRouteApi } from '@tanstack/react-router'
 import { Button, Card } from 'otsukimi-ui'
 import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Loading } from '@/components/ui/Loading'
-import { analyticsQueries } from '../query'
 import { formatTaskDateTime } from '@/features/task/time'
+import { analyticsQueries } from '../query'
+import { AnalyticsForm } from './AnalyticsForm'
+
+const analyticsSummaryRoute = getRouteApi('/_authenticated/analytics')
 
 type SummaryItemProps = {
   label: string
@@ -48,7 +52,9 @@ const BreakdownItem = ({ label, count, total, countLabel }: BreakdownItemProps) 
 
 export const AnalyticsPage = () => {
   const { t } = useTranslation()
-  const query = useQuery(analyticsQueries.summary())
+  const search = analyticsSummaryRoute.useSearch()
+
+  const query = useQuery(analyticsQueries.summary(search))
 
   if (query.isPending) {
     return <Loading />
@@ -85,6 +91,8 @@ export const AnalyticsPage = () => {
           {formatTaskDateTime(new Date(query.dataUpdatedAt).toISOString())}
         </span>
       </div>
+
+      <AnalyticsForm />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <SummaryItem

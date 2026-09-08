@@ -6,7 +6,9 @@
     "save": "保存",
     "cancel": "キャンセル",
     "close": "閉じる",
-    "back": "戻る"
+    "back": "戻る",
+    "search": "検索",
+    "reset": "リセット"
   },
   "legal": {
     "privacy": {
@@ -37,7 +39,11 @@
       "medium": "medium",
       "low": "low",
       "unset": "未設定"
-    }
+    },
+    "assignee": "担当者",
+    "notSpecified": "指定しない",
+    "dueDatetimeFrom": "締切日時（開始）",
+    "dueDatetimeTo": "締切日時（終了）"
   },
   "apiKeys": {
     "title": "APIキー",

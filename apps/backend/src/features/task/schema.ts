@@ -64,3 +64,11 @@ export const putTaskAssigneesSchema = z.object({
 })
 
 export type PutTaskAssigneesInput = z.infer<typeof putTaskAssigneesSchema>
+
+export const getAnalyticsSummarySchema = z.object({
+  dueFrom: z.coerce.date().optional(),
+  dueTo: z.coerce.date().optional(),
+  assigneeId: z.string().optional(),
+})
+
+export type getAnalyticsSummaryInput = z.infer<typeof getAnalyticsSummarySchema>

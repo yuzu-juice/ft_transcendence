@@ -6,7 +6,9 @@
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "search": "Search",
+    "reset": "Reset"
   },
   "legal": {
     "privacy": {
@@ -37,7 +39,11 @@
       "medium": "medium",
       "low": "low",
       "unset": "Unset"
-    }
+    },
+    "assignee": "Assignee",
+    "notSpecified": "Not specified",
+    "dueDatetimeFrom": "Due Date & Time (From)",
+    "dueDatetimeTo": "Due Date & Time (To)"
   },
   "apiKeys": {
     "title": "API Keys",

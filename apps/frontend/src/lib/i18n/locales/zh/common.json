@@ -6,7 +6,9 @@
     "save": "保存",
     "cancel": "取消",
     "close": "关闭",
-    "back": "返回"
+    "back": "返回",
+    "search": "搜索",
+    "reset": "重置"
   },
   "legal": {
     "privacy": {
@@ -37,7 +39,11 @@
       "medium": "medium",
       "low": "low",
       "unset": "未设置"
-    }
+    },
+    "assignee": "负责人",
+    "notSpecified": "不指定",
+    "dueDatetimeFrom": "截止时间（开始）",
+    "dueDatetimeTo": "截止时间（结束）"
   },
   "apiKeys": {
     "title": "API 密钥",
