@@ -2,15 +2,25 @@ import { authClient } from '@/lib/auth/client'
 import { Loading } from '@/components/ui/Loading'
 import { UserAvatar } from '@/components/ui/UserAvatar'
 import { Badge, Button, Card } from 'otsukimi-ui'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AvatarEditModal } from './AvatarEditModal'
 import { ProfileEditModal } from './ProfileEditModal'
+import { CustomLink } from '@/components/ui/CustomLink'
 
 export const UserProfile = () => {
   const { data: session } = authClient.useSession()
 
   const [avatarEditOpen, setAvatarEditOpen] = useState(false)
   const [profileEditOpen, setProfileEditOpen] = useState(false)
+
+  // Email・パスワード認証によりログインしているアカウントのみ2FAを有効化できるようにする
+  const [hasCredential, setHasCredential] = useState<boolean>(false)
+
+  useEffect(() => {
+    void authClient.listAccounts().then(({ data }) => {
+      setHasCredential(data?.some((account) => account.providerId === 'credential') ?? false)
+    })
+  }, [])
 
   if (!session) {
     return <Loading />
@@ -45,6 +55,19 @@ export const UserProfile = () => {
               <h3 className="text-4xl font-bold font-heading mb-2">{session.user.name}</h3>
             </div>
             <p>email: {session.user.email}</p>
+            {hasCredential && (
+              <p>
+                二要素認証:
+                {session.user.twoFactorEnabled ? (
+                  <span>有効化済み</span>
+                ) : (
+                  <span>
+                    無効（
+                    <CustomLink to="/totp">有効化する</CustomLink>）
+                  </span>
+                )}
+              </p>
+            )}
           </div>
           <Button type="button" onClick={() => setProfileEditOpen(true)}>
             プロフィールを編集

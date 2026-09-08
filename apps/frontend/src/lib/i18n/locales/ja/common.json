@@ -5,6 +5,7 @@
   "common": {
     "save": "保存",
     "cancel": "キャンセル",
+    "close": "閉じる",
     "back": "戻る"
   },
   "legal": {
@@ -36,6 +37,32 @@
       "low": "low",
       "unset": "未設定"
     }
+  },
+  "apiKeys": {
+    "title": "APIキー",
+    "description": "外部連携で使用するAPIキーを発行・削除できます",
+    "nameLabel": "キー名",
+    "nameRequiredHint": "キー名の入力は必須です",
+    "namePlaceholder": "例: CI token",
+    "create": "発行",
+    "creating": "発行中...",
+    "createdTitle": "APIキーを発行しました",
+    "createdDescription": "このキーはこの画面で一度だけ表示されます。必ず安全な場所に保存してください。",
+    "copy": "コピー",
+    "copied": "APIキーをコピーしました",
+    "copyFailed": "コピーに失敗しました",
+    "listTitle": "発行済みキー",
+    "empty": "発行済みのAPIキーはありません",
+    "keyPrefix": "キー先頭",
+    "createdAt": "作成日時",
+    "lastUsedAt": "最終利用日時",
+    "neverUsed": "未使用",
+    "delete": "削除",
+    "deleting": "削除中...",
+    "deleted": "APIキーを削除しました",
+    "deleteConfirm": "「{{name}}」を削除しますか？",
+    "reload": "再読み込み中...",
+    "retry": "再試行"
   },
   "error": {
     "title": "エラー",
@@ -75,9 +102,15 @@
         "label": "パスワード",
         "placeholder": "パスワード"
       },
+      "currentPassword": {
+        "label": "現在のパスワード"
+      },
       "confirmPassword": {
         "label": "確認用パスワード",
         "placeholder": "確認用パスワード"
+      },
+      "totpCode": {
+        "label": "認証コード"
       }
     },
     "signIn": {
@@ -103,9 +136,46 @@
       "invalidCredentials": "メールアドレスまたはパスワードが正しくありません",
       "emailAlreadyUsed": "このメールアドレスはすでに使用されています",
       "invalidEmail": "有効なメールアドレスを入力してください",
+      "invalidPassword": "パスワードが正しくありません",
       "weakPassword": "パスワードが要件を満たしていません",
       "tooManyRequests": "リクエスト可能な回数を超過しています",
-      "authenticationFailed": "認証に失敗しました"
+      "authenticationFailed": "認証に失敗しました",
+      "invalidCode": "認証コードが正しくありません",
+      "totpAlreadyEnabled": "二要素認証はすでに有効になっています",
+      "totpNotEnabled": "二要素認証が有効になっていません",
+      "invalidTwoFactorCookie": "二要素認証のセッションが無効です。もう一度サインインしてください"
+    },
+    "github": {
+      "title": "GitHubで続行",
+      "agreementText": "「GitHubで続行」をクリックすることで、当サイトの<terms>利用規約</terms>・<privacy>プライバシーポリシー</privacy>に同意したものとします",
+      "toastError": "GitHubでのログインを開始できませんでした",
+      "error": {
+        "emailNotFound": "GitHubアカウントからメールアドレスを取得できませんでした",
+        "unableToGetUserInfo": "GitHubからユーザー情報を取得できませんでした",
+        "loginFailed": "ログイン処理に失敗しました",
+        "githubLoginFailed": "GitHubでのログインに失敗しました"
+      }
+    },
+    "totp": {
+      "title": "二要素認証",
+      "unavailable": "このアカウントで2要素認証を有効化することはできません",
+      "challenge": {
+        "success": "2要素認証に成功しました"
+      },
+      "code": {
+        "confirm": "確認",
+        "confirming": "確認中..."
+      },
+      "setup": {
+        "title": "二要素認証を有効化する",
+        "enable": "二要素認証を有効にする",
+        "enabling": "確認しています...",
+        "passwordVerified": "パスワードを認証しました",
+        "enabled": "2要素認証を有効化しました",
+        "installAuthenticator": "認証アプリを端末にインストールしてください",
+        "scanQrCode": "以下のQRコードをスキャンしてください",
+        "enterCode": "認証コードを入力してください"
+      }
     }
   }
 }

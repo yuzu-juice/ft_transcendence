@@ -15,8 +15,10 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TotpRouteImport } from './routes/totp'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedApiKeysRouteImport } from './routes/_authenticated/api-keys'
 import { Route as AuthenticatedMypageRouteImport } from './routes/_authenticated/mypage'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 
@@ -49,6 +51,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TotpRoute = TotpRouteImport.update({
+  id: '/totp',
+  path: '/totp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -57,6 +64,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedApiKeysRoute = AuthenticatedApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedMypageRoute = AuthenticatedMypageRouteImport.update({
@@ -76,8 +88,10 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
+  '/totp': typeof TotpRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/api-keys': typeof AuthenticatedApiKeysRoute
   '/mypage': typeof AuthenticatedMypageRoute
   '/tasks': typeof AuthenticatedTasksRoute
 }
@@ -87,8 +101,10 @@ export interface FileRoutesByTo {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
+  '/totp': typeof TotpRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/api-keys': typeof AuthenticatedApiKeysRoute
   '/mypage': typeof AuthenticatedMypageRoute
   '/tasks': typeof AuthenticatedTasksRoute
 }
@@ -100,8 +116,10 @@ export interface FileRoutesById {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
+  '/totp': typeof TotpRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/api-keys': typeof AuthenticatedApiKeysRoute
   '/_authenticated/mypage': typeof AuthenticatedMypageRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
 }
@@ -113,8 +131,10 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/terms'
+    | '/totp'
     | '/admin'
     | '/analytics'
+    | '/api-keys'
     | '/mypage'
     | '/tasks'
   fileRoutesByTo: FileRoutesByTo
@@ -124,8 +144,10 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/terms'
+    | '/totp'
     | '/admin'
     | '/analytics'
+    | '/api-keys'
     | '/mypage'
     | '/tasks'
   id:
@@ -136,8 +158,10 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/terms'
+    | '/totp'
     | '/_authenticated/admin'
     | '/_authenticated/analytics'
+    | '/_authenticated/api-keys'
     | '/_authenticated/mypage'
     | '/_authenticated/tasks'
   fileRoutesById: FileRoutesById
@@ -149,6 +173,7 @@ export interface RootRouteChildren {
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
   TermsRoute: typeof TermsRoute
+  TotpRoute: typeof TotpRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -195,6 +220,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/totp': {
+      id: '/totp'
+      path: '/totp'
+      fullPath: '/totp'
+      preLoaderRoute: typeof TotpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -207,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/analytics'
       fullPath: '/analytics'
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/api-keys': {
+      id: '/_authenticated/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof AuthenticatedApiKeysRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/mypage': {
@@ -229,6 +268,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedApiKeysRoute: typeof AuthenticatedApiKeysRoute
   AuthenticatedMypageRoute: typeof AuthenticatedMypageRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
 }
@@ -236,6 +276,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedApiKeysRoute: AuthenticatedApiKeysRoute,
   AuthenticatedMypageRoute: AuthenticatedMypageRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
 }
@@ -251,6 +292,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
   TermsRoute: TermsRoute,
+  TotpRoute: TotpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

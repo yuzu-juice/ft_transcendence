@@ -1,11 +1,10 @@
-import { useNavigate, useRouter } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
 
 import { authClient } from '@/lib/auth/client'
 import { toast } from 'sonner'
 
 export const SignOutButton = () => {
   const router = useRouter()
-  const navigate = useNavigate()
   const { refetch } = authClient.useSession()
 
   const handleSignOut = async () => {
@@ -16,14 +15,10 @@ export const SignOutButton = () => {
     }
 
     await refetch()
-    await router.invalidate({ sync: true })
-
+    await router.invalidate({ forcePending: true })
     toast.info('サインアウトしました')
-
-    await navigate({
-      to: '/sign-in',
-    })
   }
+
   return (
     <div className="flex flex-col gap-4">
       <h3 className="text-lg font-heading font-bold">アカウント</h3>

@@ -5,6 +5,7 @@
   "common": {
     "save": "保存",
     "cancel": "取消",
+    "close": "关闭",
     "back": "返回"
   },
   "legal": {
@@ -36,6 +37,32 @@
       "low": "low",
       "unset": "未设置"
     }
+  },
+  "apiKeys": {
+    "title": "API 密钥",
+    "description": "可用于外部集成的 API 密钥可在此创建和删除",
+    "nameLabel": "密钥名称",
+    "nameRequiredHint": "密钥名称为必填项",
+    "namePlaceholder": "例如: CI token",
+    "create": "创建",
+    "creating": "创建中...",
+    "createdTitle": "API 密钥已创建",
+    "createdDescription": "该密钥只会在此页面显示一次，请务必安全保存。",
+    "copy": "复制",
+    "copied": "API 密钥已复制",
+    "copyFailed": "复制失败",
+    "listTitle": "已创建的密钥",
+    "empty": "暂无已创建的 API 密钥",
+    "keyPrefix": "密钥前缀",
+    "createdAt": "创建时间",
+    "lastUsedAt": "最后使用时间",
+    "neverUsed": "未使用",
+    "delete": "删除",
+    "deleting": "删除中...",
+    "deleted": "API 密钥已删除",
+    "deleteConfirm": "确定要删除“{{name}}”吗？",
+    "reload": "重新加载中...",
+    "retry": "重试"
   },
   "error": {
     "title": "错误",
@@ -75,9 +102,15 @@
         "label": "密码",
         "placeholder": "密码"
       },
+      "currentPassword": {
+        "label": "当前密码"
+      },
       "confirmPassword": {
         "label": "确认密码",
         "placeholder": "确认密码"
+      },
+      "totpCode": {
+        "label": "验证码"
       }
     },
     "signIn": {
@@ -103,9 +136,46 @@
       "invalidCredentials": "邮箱地址或密码不正确",
       "emailAlreadyUsed": "该邮箱地址已被使用",
       "invalidEmail": "请输入有效的邮箱地址",
+      "invalidPassword": "密码不正确",
       "weakPassword": "密码不符合要求",
-      "tooManyRequests": "您的请求次数已超过允许的上限",
-      "authenticationFailed": "密码不符合要求"
+      "tooManyRequests": "请求次数过多，请稍后重试",
+      "authenticationFailed": "认证失败",
+      "invalidCode": "验证码不正确",
+      "totpAlreadyEnabled": "双重身份验证已启用",
+      "totpNotEnabled": "双重身份验证尚未启用",
+      "invalidTwoFactorCookie": "双重身份验证会话无效，请重新登录"
+    },
+    "github": {
+      "title": "使用 GitHub 继续",
+      "agreementText": "点击“使用 GitHub 继续”，即表示您同意本网站的<terms>服务条款</terms>和<privacy>隐私政策</privacy>",
+      "toastError": "我无法登录GitHub",
+      "error": {
+        "emailNotFound": "无法从 GitHub 账号获取电子邮件地址",
+        "unableToGetUserInfo": "无法从 GitHub 获取用户信息",
+        "loginFailed": "登录处理失败",
+        "githubLoginFailed": "使用 GitHub 登录失败"
+      }
+    },
+    "totp": {
+      "title": "双重身份验证",
+      "unavailable": "无法为此账号启用双重身份验证",
+      "challenge": {
+        "success": "双重身份验证成功"
+      },
+      "code": {
+        "confirm": "确认",
+        "confirming": "确认中..."
+      },
+      "setup": {
+        "title": "启用双重身份验证",
+        "enable": "启用双重身份验证",
+        "enabling": "正在验证...",
+        "passwordVerified": "密码验证成功",
+        "enabled": "双重身份验证已启用",
+        "installAuthenticator": "请在您的设备上安装身份验证器应用",
+        "scanQrCode": "请扫描下方的二维码",
+        "enterCode": "请输入验证码"
+      }
     }
   }
 }

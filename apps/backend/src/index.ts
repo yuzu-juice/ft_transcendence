@@ -5,6 +5,8 @@ import { onError } from './middleware/error.js'
 import avatar from './routes/avatar.js'
 import internal from './routes/internal.js'
 import publicApi from './routes/public.js'
+import { logger } from './logger/index.js'
+import { requestId } from 'hono/request-id'
 
 const healthResponseSchema = z.object({
   ok: z.boolean().openapi({ example: true }),
@@ -27,9 +29,24 @@ const healthRoute = createRoute({
   },
 })
 
-const app = new OpenAPIHono()
+const app = new OpenAPIHono().basePath('/api')
 
 app.onError(onError)
+
+app.use('*', requestId())
+app.use('*', async (c, next) => {
+  const started = performance.now()
+
+  await next()
+
+  logger.info({
+    requestId: c.get('requestId'),
+    method: c.req.method,
+    path: c.req.path,
+    status: c.res.status,
+    durationMs: performance.now() - started,
+  })
+})
 
 app.notFound((c) => {
   return c.json(
