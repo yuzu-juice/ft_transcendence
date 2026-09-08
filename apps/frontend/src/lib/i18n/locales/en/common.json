@@ -18,6 +18,7 @@
   },
   "analytics": {
     "title": "Analytics Dashboard",
+    "lastUpdated": "Last updated",
     "totalTasks": "Total Tasks",
     "completionRate": "Completion Rate",
     "overdue": "Overdue",

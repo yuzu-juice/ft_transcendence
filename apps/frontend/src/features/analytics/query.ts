@@ -12,6 +12,9 @@ export const analyticsQueries = {
     queryOptions({
       queryKey: analyticsQueryKeys.summary(),
       queryFn: async () => analyticsApi.summary(),
+      refetchInterval: 30 * 1000, // 30sec
+      refetchIntervalInBackground: false, // 画面が閲覧されている時のみ更新
+      refetchOnWindowFocus: true,
       meta: {
         suppressErrorToast: true,
       },

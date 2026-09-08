@@ -18,6 +18,7 @@
   },
   "analytics": {
     "title": "分析仪表板",
+    "lastUpdated": "最終更新時刻",
     "totalTasks": "任务总数",
     "completionRate": "完成率",
     "overdue": "逾期任务",

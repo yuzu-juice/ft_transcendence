@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Loading } from '@/components/ui/Loading'
 import { analyticsQueries } from '../query'
+import { formatTaskDateTime } from '@/features/task/time'
 
 type SummaryItemProps = {
   label: string
@@ -77,7 +78,13 @@ export const AnalyticsPage = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
+      <div className="flex flex-row flex-wrap items-center">
+        <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
+        <span className="text-sm ml-auto">
+          {t('analytics.lastUpdated')}:{' '}
+          {formatTaskDateTime(new Date(query.dataUpdatedAt).toISOString())}
+        </span>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <SummaryItem

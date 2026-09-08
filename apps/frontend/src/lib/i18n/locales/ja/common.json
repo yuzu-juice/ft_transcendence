@@ -18,6 +18,7 @@
   },
   "analytics": {
     "title": "アナリティクスダッシュボード",
+    "lastUpdated": "最終更新時刻",
     "totalTasks": "総タスク数",
     "completionRate": "完了率",
     "overdue": "期限超過",
