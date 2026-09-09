@@ -10,7 +10,7 @@
 
 ## 環境変数の準備
 
-`.env.example`を`.env`へコピーし、環境変数を設定してください。
+`.env.example`を`.env.dev`へコピーし、環境変数を設定してください。
 以下に示す通り、一部の環境変数には設定の制約が存在します。
 
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
