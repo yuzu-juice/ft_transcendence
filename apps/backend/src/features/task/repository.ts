@@ -49,6 +49,12 @@ export type SearchTasks = {
   page: number
 }
 
+export type GetAnalyticsSummary = {
+  dueFrom?: Date
+  dueTo?: Date
+  assigneeId?: string
+}
+
 export const PAGE_SIZE = 20
 
 function buildTaskWhere(t: typeof taskTable, input: SearchTasks): SQL {
@@ -80,6 +86,36 @@ function buildTaskWhere(t: typeof taskTable, input: SearchTasks): SQL {
 
   if (input.createdBy) {
     conditions.push(eq(t.createdBy, input.createdBy))
+  }
+
+  if (input.assigneeId) {
+    conditions.push(
+      exists(
+        db
+          .select({ id: taskAssignmentTable.taskId })
+          .from(taskAssignmentTable)
+          .where(
+            and(
+              eq(taskAssignmentTable.taskId, t.id),
+              eq(taskAssignmentTable.userId, input.assigneeId),
+            ),
+          ),
+      ),
+    )
+  }
+
+  return and(...conditions) ?? sql`true`
+}
+
+function buildAnalyticsSummaryWhere(t: typeof taskTable, input: GetAnalyticsSummary): SQL {
+  const conditions: SQL[] = []
+
+  if (input.dueFrom) {
+    conditions.push(gte(t.dueAt, input.dueFrom))
+  }
+
+  if (input.dueTo) {
+    conditions.push(lte(t.dueAt, input.dueTo))
   }
 
   if (input.assigneeId) {
@@ -229,13 +265,16 @@ export const taskRepository = {
   },
 
   // Analytics
-  getAnalyticsSummary: async () => {
+  getAnalyticsSummary: async (query: GetAnalyticsSummary) => {
+    const where = buildAnalyticsSummaryWhere(taskTable, query)
+
     const statusCountsPromise = db
       .select({
         status: taskTable.status,
         count: count(),
       })
       .from(taskTable)
+      .where(where)
       .groupBy(taskTable.status)
 
     const priorityCountsPromise = db
@@ -244,14 +283,15 @@ export const taskRepository = {
         count: count(),
       })
       .from(taskTable)
+      .where(where)
       .groupBy(taskTable.priority)
 
     const overdueCountPromise = db
       .select({ count: count() })
       .from(taskTable)
-      .where(and(lt(taskTable.dueAt, new Date()), ne(taskTable.status, 'done')))
+      .where(and(where, lt(taskTable.dueAt, new Date()), ne(taskTable.status, 'done')))
 
-    const totalTasksCountPromise = db.$count(taskTable)
+    const totalTasksCountPromise = db.$count(taskTable, where)
 
     const [statusCounts, priorityCounts, overdueCount, totalTasksCount] = await Promise.all([
       statusCountsPromise,

@@ -7,6 +7,8 @@
     "cancel": "キャンセル",
     "close": "閉じる",
     "back": "戻る",
+    "search": "検索",
+    "reset": "リセット",
     "loadingSigningIn": "ログイン中",
     "pagination": {
       "prev": "前のページ",
@@ -27,6 +29,7 @@
   },
   "analytics": {
     "title": "アナリティクスダッシュボード",
+    "lastUpdated": "最終更新時刻",
     "totalTasks": "総タスク数",
     "completionRate": "完了率",
     "overdue": "期限超過",
@@ -45,7 +48,11 @@
       "medium": "medium",
       "low": "low",
       "unset": "未設定"
-    }
+    },
+    "assignee": "担当者",
+    "unspecified": "指定しない",
+    "dueDatetimeFrom": "締切開始",
+    "dueDatetimeTo": "締切終了"
   },
   "apiKeys": {
     "title": "APIキー",

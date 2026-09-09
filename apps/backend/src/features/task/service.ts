@@ -2,6 +2,7 @@ import { AppError } from '../../errors/app-error.js'
 import { userRepository } from '../user/repository.js'
 import {
   type CreateTask,
+  type GetAnalyticsSummary,
   PAGE_SIZE,
   type SearchTasks,
   taskRepository,
@@ -79,9 +80,9 @@ export const taskService = {
     await taskRepository.delete(taskId)
   },
 
-  getAnalyticsSummary: async () => {
+  getAnalyticsSummary: async (query: GetAnalyticsSummary) => {
     const { totalTasksCount, statusCounts, priorityCounts, overdueCount } =
-      await taskRepository.getAnalyticsSummary()
+      await taskRepository.getAnalyticsSummary(query)
 
     const byStatus = {
       todo: 0,

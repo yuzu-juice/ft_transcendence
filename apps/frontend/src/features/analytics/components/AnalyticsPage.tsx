@@ -1,9 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
+import { getRouteApi } from '@tanstack/react-router'
 import { Button, Card } from 'otsukimi-ui'
+import { CSVLink } from 'react-csv'
 import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Loading } from '@/components/ui/Loading'
+import { formatTaskDateTime } from '@/features/task/time'
 import { analyticsQueries } from '../query'
+import { AnalyticsForm } from './AnalyticsForm'
+
+const analyticsSummaryRoute = getRouteApi('/_authenticated/analytics')
 
 type SummaryItemProps = {
   label: string
@@ -47,7 +53,9 @@ const BreakdownItem = ({ label, count, total, countLabel }: BreakdownItemProps) 
 
 export const AnalyticsPage = () => {
   const { t } = useTranslation()
-  const query = useQuery(analyticsQueries.summary())
+  const search = analyticsSummaryRoute.useSearch()
+
+  const query = useQuery(analyticsQueries.summary(search))
 
   if (query.isPending) {
     return <Loading />
@@ -75,9 +83,82 @@ export const AnalyticsPage = () => {
   const { totalTasksCount, byStatus, byPriority, overdueCount, completionRate } = query.data
   const completionRateText = `${Math.round(completionRate * 100)}%`
 
+  const csvData = [
+    {
+      category: 'Summary',
+      metric: 'Total Tasks',
+      value: totalTasksCount,
+    },
+    {
+      category: 'Summary',
+      metric: 'Completion Rate',
+      value: completionRateText,
+    },
+    {
+      category: 'Summary',
+      metric: 'Overdue Tasks',
+      value: overdueCount,
+    },
+
+    {
+      category: 'Status',
+      metric: 'Todo',
+      value: byStatus.todo,
+    },
+    {
+      category: 'Status',
+      metric: 'In Progress',
+      value: byStatus.in_progress,
+    },
+    {
+      category: 'Status',
+      metric: 'Done',
+      value: byStatus.done,
+    },
+
+    {
+      category: 'Priority',
+      metric: 'High',
+      value: byPriority.high,
+    },
+    {
+      category: 'Priority',
+      metric: 'Medium',
+      value: byPriority.medium,
+    },
+    {
+      category: 'Priority',
+      metric: 'Low',
+      value: byPriority.low,
+    },
+    {
+      category: 'Priority',
+      metric: 'Unset',
+      value: byPriority.unset,
+    },
+  ]
+
+  const csvHeaders = [
+    { label: 'Category', key: 'category' },
+    { label: 'Metric', key: 'metric' },
+    { label: 'Value', key: 'value' },
+  ]
+
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
+      <div className="flex flex-row flex-wrap items-center">
+        <h2 className="text-2xl font-heading font-bold">{t('analytics.title')}</h2>
+        <CSVLink
+          data={csvData}
+          headers={csvHeaders}
+          filename="analytics.csv"
+          className="ml-auto text-brand-primary-deep cursor-pointer"
+        >
+          Export CSV
+        </CSVLink>
+      </div>
+
+      <AnalyticsForm />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <SummaryItem
@@ -146,6 +227,10 @@ export const AnalyticsPage = () => {
           </div>
         </Card>
       </div>
+      <span className="text-sm ml-auto mr-6">
+        {t('analytics.lastUpdated')}:{' '}
+        {formatTaskDateTime(new Date(query.dataUpdatedAt).toISOString())}
+      </span>
     </div>
   )
 }

@@ -7,6 +7,8 @@
     "cancel": "Cancel",
     "close": "Close",
     "back": "Back",
+    "search": "Search",
+    "reset": "Reset",
     "loadingSigningIn": "Signing in",
     "pagination": {
       "prev": "Previous page",
@@ -27,6 +29,7 @@
   },
   "analytics": {
     "title": "Analytics Dashboard",
+    "lastUpdated": "Last updated",
     "totalTasks": "Total Tasks",
     "completionRate": "Completion Rate",
     "overdue": "Overdue",
@@ -45,7 +48,11 @@
       "medium": "medium",
       "low": "low",
       "unset": "Unset"
-    }
+    },
+    "assignee": "Assignee",
+    "unspecified": "Unspecified",
+    "dueDatetimeFrom": "Due From",
+    "dueDatetimeTo": "Due To"
   },
   "apiKeys": {
     "title": "API Keys",
