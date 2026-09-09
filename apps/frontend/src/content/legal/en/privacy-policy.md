@@ -1,6 +1,6 @@
 # Privacy Policy
 
-*Last updated: August 2026*
+_Last updated: August 2026_
 
 This Privacy Policy explains how this task management application collects, uses, and protects your personal information when you use our service.
 
@@ -93,10 +93,9 @@ To exercise any of these rights, please contact us using the information below.
 
 The Application integrates with the following third-party services:
 
-| Service | Purpose | Privacy Policy |
-|---|---|---|
+| Service      | Purpose               | Privacy Policy                                                                                               |
+| ------------ | --------------------- | ------------------------------------------------------------------------------------------------------------ |
 | GitHub OAuth | Optional login method | [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) |
-| Cloudflare | Tunnel and access control for review environments | [Cloudflare Privacy Policy](https://www.cloudflare.com/privacypolicy/) |
 
 ---
 
@@ -108,6 +107,6 @@ We may update this Privacy Policy from time to time. The date at the top of this
 
 ## 10. Contact
 
-This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, and <!-- login4 -->.
+This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, tamatsuu, and other contributors.
 
 If you have any questions about this Privacy Policy, please open an issue in our [GitHub repository](https://github.com/yuzu-juice/ft_transcendence).
