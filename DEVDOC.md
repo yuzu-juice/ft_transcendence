@@ -10,7 +10,7 @@
 
 ## 環境変数の準備
 
-`.env.example`を`.env`へコピーし、環境変数を設定してください。
+`.env.example`を`.env.dev`へコピーし、環境変数を設定してください。
 以下に示す通り、一部の環境変数には設定の制約が存在します。
 
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
@@ -187,3 +187,10 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 - Kibana へは、`http://localhost:8080/kibana` からアクセスします。
 - Kibana へのログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。
 - Kibana は elasticsearch への内部的な接続で、ログイン名 `kibana_system` 、パスワードは環境変数 `KIBANA_PASSWORD` を使います
+
+## 本番環境の検証をする場合
+
+- envファイルとして `.env.prod` を作成してください
+- `BETTER_AUTH_URL` や `BASE_URL` を `https://localhost` に設定してください
+- GitHub OAuth App の設定項目 `Authorization callback URL` に `https://localhost/api/auth/callback/github` を追加してください
+- `./start.sh`を実行すると本番環境が立ち上がります

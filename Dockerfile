@@ -29,3 +29,32 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store,uid=1000,gid=1000 \
 FROM deps AS development
 
 ENV NODE_ENV="development"
+
+
+FROM deps AS production
+
+ENV NODE_ENV="production"
+
+
+FROM deps AS builder
+
+ENV NODE_ENV="production"
+
+# Hono RPC型を含む backend/dist を先に生成
+RUN pnpm --filter @ft/backend build
+
+RUN pnpm --filter @ft/frontend build
+
+
+FROM deps AS backend-production
+
+ENV NODE_ENV="production"
+
+COPY --from="builder" /workspace/apps/backend/dist /workspace/apps/backend/dist
+
+CMD ["pnpm", "--filter", "@ft/backend", "start"]
+
+
+FROM nginx:alpine AS reverse-proxy-production
+
+COPY --from="builder" /workspace/apps/frontend/dist /usr/share/nginx/html

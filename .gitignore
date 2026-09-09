@@ -14,3 +14,7 @@ vite.config.ts.timestamp-*
 .vite/
 
 .env
+.env.dev
+.env.prod
+
+secrets/
