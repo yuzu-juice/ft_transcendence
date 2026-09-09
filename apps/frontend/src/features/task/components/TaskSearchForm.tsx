@@ -12,10 +12,12 @@ import {
   toTaskSearchFormValues,
   toTaskSearchParams,
 } from '../schema'
+import { useTranslation } from 'react-i18next'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
 
 export const TaskSearchForm = () => {
+  const { t } = useTranslation()
   const search = tasksRoute.useSearch()
   const navigate = tasksRoute.useNavigate()
 
@@ -55,7 +57,7 @@ export const TaskSearchForm = () => {
               query.refetch()
             }}
           >
-            {query.isFetching ? '再読み込み中...' : '再試行'}
+            {query.isFetching ? t('task.actions.reloading') : t('task.actions.retry')}
           </Button>
         </div>
       </div>
@@ -74,7 +76,7 @@ export const TaskSearchForm = () => {
         }}
       >
         <form.AppField name="q">
-          {(field) => <field.TextField type="text" label="キーワード" />}
+          {(field) => <field.TextField type="text" label={t('task.form.keyword')} />}
         </form.AppField>
 
         <div className="flex flex-row flex-wrap gap-y-6 gap-x-12">
@@ -82,13 +84,13 @@ export const TaskSearchForm = () => {
             {(field) => {
               return (
                 <div className="flex flex-col gap-1.5 text-sm font-bold text-brand-primary">
-                  ステータス
+                  {t('task.form.status')}
                   <div className="flex flex-row flex-wrap gap-5">
                     {(['todo', 'in_progress', 'done'] as const).map((option) => {
                       return (
                         <CheckboxField
                           key={option}
-                          label={option}
+                          label={t(`task.status.${option}`)}
                           checked={field.state.value.includes(option)}
                           onChange={(event) => {
                             field.handleChange(
@@ -110,13 +112,13 @@ export const TaskSearchForm = () => {
             {(field) => {
               return (
                 <div className="flex flex-col gap-1.5 text-sm font-bold text-brand-primary">
-                  優先度
+                  {t('task.form.priority')}
                   <div className="flex flex-row flex-wrap gap-5">
                     {(['low', 'medium', 'high'] as const).map((option) => {
                       return (
                         <CheckboxField
                           key={option}
-                          label={option}
+                          label={t(`task.priority.${option}`)}
                           checked={field.state.value.includes(option)}
                           onChange={(event) => {
                             field.handleChange(
@@ -140,9 +142,9 @@ export const TaskSearchForm = () => {
           <form.AppField name="createdBy">
             {(field) => (
               <field.SelectField
-                label="作成者"
+                label={t('task.form.createdBy')}
                 options={[
-                  { label: '未指定', value: '' },
+                  { label: t('task.form.unspecified'), value: '' },
                   ...query.data.map((user) => {
                     return { label: user.name, value: user.id }
                   }),
@@ -154,9 +156,9 @@ export const TaskSearchForm = () => {
           <form.AppField name="assigneeId">
             {(field) => (
               <field.SelectField
-                label="担当者"
+                label={t('task.form.assignee')}
                 options={[
-                  { label: '未指定', value: '' },
+                  { label: t('task.form.unspecified'), value: '' },
                   ...query.data.map((user) => {
                     return { label: user.name, value: user.id }
                   }),
@@ -168,10 +170,10 @@ export const TaskSearchForm = () => {
 
         <div className="flex flex-row flex-wrap items-center gap-y-6 gap-x-12">
           <form.AppField name="dueFrom">
-            {(field) => <field.TextField type="datetime-local" label="締切開始" />}
+            {(field) => <field.TextField type="datetime-local" label={t('task.form.dueFrom')} />}
           </form.AppField>
           <form.AppField name="dueTo">
-            {(field) => <field.TextField type="datetime-local" label="締切終了" />}
+            {(field) => <field.TextField type="datetime-local" label={t('task.form.dueTo')} />}
           </form.AppField>
         </div>
 
@@ -179,13 +181,13 @@ export const TaskSearchForm = () => {
           <form.AppField name="sort">
             {(field) => (
               <field.SelectField
-                label="並べ替え基準"
+                label={t('task.form.sort')}
                 options={[
-                  { label: '締切日時', value: 'dueAt' },
-                  { label: '作成日時', value: 'createdAt' },
-                  { label: '更新日時', value: 'updatedAt' },
-                  { label: 'ステータス', value: 'status' },
-                  { label: '優先度', value: 'priority' },
+                  { label: t('task.form.sortOptions.dueAt'), value: 'dueAt' },
+                  { label: t('task.form.sortOptions.createdAt'), value: 'createdAt' },
+                  { label: t('task.form.sortOptions.updatedAt'), value: 'updatedAt' },
+                  { label: t('task.form.sortOptions.status'), value: 'status' },
+                  { label: t('task.form.sortOptions.priority'), value: 'priority' },
                 ]}
               />
             )}
@@ -194,10 +196,10 @@ export const TaskSearchForm = () => {
           <form.AppField name="order">
             {(field) => (
               <field.SelectField
-                label="並び順"
+                label={t('task.form.order')}
                 options={[
-                  { label: '昇順', value: 'asc' },
-                  { label: '降順', value: 'desc' },
+                  { label: t('task.form.orderOptions.asc'), value: 'asc' },
+                  { label: t('task.form.orderOptions.desc'), value: 'desc' },
                 ]}
               />
             )}
@@ -216,10 +218,10 @@ export const TaskSearchForm = () => {
               })
             }}
           >
-            リセット
+            {t('task.actions.reset')}
           </Button>
           <Button type="submit" className="w-full">
-            検索
+            {t('task.actions.search')}
           </Button>
         </div>
       </form>

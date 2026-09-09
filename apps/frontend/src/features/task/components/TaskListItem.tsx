@@ -3,6 +3,7 @@ import type { TaskListItem as TaskListItemResponse } from '../api'
 import { formatTaskDate, isOverDue } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
+import { useTranslation } from 'react-i18next'
 
 interface TaskListItemProps {
   task: TaskListItemResponse
@@ -10,6 +11,7 @@ interface TaskListItemProps {
 }
 
 export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
+  const { t } = useTranslation()
   // レスポンシブUIを考慮し、担当者の数の表示には限度を設けている
   const visibleAssignees = task.assignees.slice(0, 2)
   const remainingAssignees = task.assignees.length - visibleAssignees.length
@@ -38,7 +40,7 @@ export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
           <UserAvatar
             userId={task.creator.id}
             avatarUrl={task.creator.image}
-            alt={`${task.creator.name}のアバター`}
+            alt={t('task.avatarAlt', { name: task.creator.name })}
             className="size-8 rounded-xs"
           />
         ) : (
@@ -52,7 +54,7 @@ export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
               key={assignee.id}
               userId={assignee.id}
               avatarUrl={assignee.image}
-              alt={`${assignee.name}のアバター`}
+              alt={t('task.avatarAlt', { name: assignee.name })}
               className="size-8 shrink-0 rounded-xs"
             />
           ))}
@@ -64,9 +66,9 @@ export const TaskListItem = ({ task, onModalOpen }: TaskListItemProps) => {
           type="button"
           className="text-cyan-600 cursor-pointer hover:underline hover:text-cyan-700 transition duration-300 "
           onClick={() => onModalOpen()}
-          aria-label={`${task.title}の詳細`}
+          aria-label={t('task.list.detailAria', { title: task.title })}
         >
-          詳細
+          {t('task.list.detail')}
         </button>
       </td>
     </tr>

@@ -9,6 +9,7 @@ import { taskMutations } from '../mutation'
 import { formatTaskDateTime, getRelativeDueTime } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
+import { useTranslation } from 'react-i18next'
 
 interface TaskDetailProps {
   task: TaskDetailResponse
@@ -25,12 +26,13 @@ const TaskDetailHeading = ({ title }: { title: string }) => {
 }
 
 export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
+  const { t } = useTranslation()
   const { data: session } = authClient.useSession()
 
   const taskDeleteMutation = useMutation(taskMutations.delete())
   const handleDeleteTask = async () => {
     await taskDeleteMutation.mutateAsync(task.id)
-    toast.success('タスクを削除しました')
+    toast.success(t('task.deleted'))
     onClose()
   }
 
@@ -38,35 +40,39 @@ export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-6">
         <TaskDetailListItem>
-          <TaskDetailHeading title="タイトル" />
+          <TaskDetailHeading title={t('task.detail.title')} />
           {task.title}
         </TaskDetailListItem>
         <TaskDetailListItem>
-          <TaskDetailHeading title="概要" />
+          <TaskDetailHeading title={t('task.detail.description')} />
           {task.description}
         </TaskDetailListItem>
         <div className="flex flex-wrap gap-5">
           <TaskDetailListItem>
-            <TaskDetailHeading title="ステータス" />
+            <TaskDetailHeading title={t('task.detail.status')} />
             <TaskStatusBadge status={task.status} />
           </TaskDetailListItem>
           <TaskDetailListItem>
-            <TaskDetailHeading title="優先度" />
-            {task.priority ? <TaskPriorityBadge priority={task.priority} /> : '未設定'}
+            <TaskDetailHeading title={t('task.detail.priority')} />
+            {task.priority ? (
+              <TaskPriorityBadge priority={task.priority} />
+            ) : (
+              t('task.detail.unset')
+            )}
           </TaskDetailListItem>
         </div>
         <TaskDetailListItem>
-          <TaskDetailHeading title="締切" />
+          <TaskDetailHeading title={t('task.detail.dueAt')} />
           {task.dueAt ? (
             <>
               {formatTaskDateTime(task.dueAt)} ({getRelativeDueTime(task.dueAt)})
             </>
           ) : (
-            '未設定'
+            t('task.detail.unset')
           )}
         </TaskDetailListItem>
         <TaskDetailListItem>
-          <TaskDetailHeading title="担当者" />
+          <TaskDetailHeading title={t('task.detail.assignees')} />
           <div className="flex flex-row flex-wrap gap-5">
             {task.assignees.length > 0
               ? task.assignees.map((assignee) => (
@@ -75,49 +81,49 @@ export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
                       key={assignee.id}
                       userId={assignee.id}
                       avatarUrl={assignee.image}
-                      alt={`${assignee.name}のアバター`}
+                      alt={t('task.avatarAlt', { name: assignee.name })}
                       className="size-8 rounded-xs"
                     />
                     {assignee.name}
                   </div>
                 ))
-              : '未設定'}
+              : t('task.detail.unset')}
           </div>
         </TaskDetailListItem>
         <TaskDetailListItem>
-          <TaskDetailHeading title="作成者" />
+          <TaskDetailHeading title={t('task.detail.creator')} />
           {task.creator ? (
             <div className="flex flex-row gap-1.5 flex-nowrap items-center">
               <UserAvatar
                 key={task.creator.id}
                 userId={task.creator.id}
                 avatarUrl={task.creator.image}
-                alt={`${task.creator.name}のアバター`}
+                alt={t('task.avatarAlt', { name: task.creator.name })}
                 className="size-8 rounded-xs"
               />
               {task.creator.name}
             </div>
           ) : (
-            '削除されたユーザ'
+            t('task.detail.deletedUser')
           )}
         </TaskDetailListItem>
         <div className="flex flex-wrap gap-5">
           <TaskDetailListItem>
-            <TaskDetailHeading title="作成日時" />
+            <TaskDetailHeading title={t('task.detail.createdAt')} />
             {formatTaskDateTime(task.createdAt)}
           </TaskDetailListItem>
           <TaskDetailListItem>
-            <TaskDetailHeading title="最終更新日時" />
+            <TaskDetailHeading title={t('task.detail.updatedAt')} />
             {formatTaskDateTime(task.updatedAt)}
           </TaskDetailListItem>
         </div>
       </div>
       <div className="flex flex-row flex-wrap gap-4">
         <Button type="button" onClick={() => onEdit('edit')}>
-          タスク情報を編集
+          {t('task.detail.editInfo')}
         </Button>
         <Button type="button" onClick={() => onEdit('edit-assignees')}>
-          担当者を編集
+          {t('task.detail.editAssignees')}
         </Button>
         {(session?.user.id === task.creator?.id || session?.user.role === 'admin') && (
           <Button
@@ -126,7 +132,7 @@ export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
             variant="transparent"
             disabled={taskDeleteMutation.isPending}
           >
-            {taskDeleteMutation.isPending ? '削除しています...' : 'タスクを削除'}
+            {taskDeleteMutation.isPending ? t('task.actions.deleting') : t('task.actions.delete')}
           </Button>
         )}
       </div>

@@ -9,6 +9,7 @@ import {
   type AdminUserRoleEditFormValues,
   toAdminUserRoleUpdateRequestBody,
 } from '../schema'
+import { useTranslation } from 'react-i18next'
 
 interface UserEditRoleInfoProps {
   user: AdminUserDetail
@@ -16,6 +17,7 @@ interface UserEditRoleInfoProps {
 }
 
 export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
+  const { t } = useTranslation()
   const adminUserUpdateMutation = useMutation(adminMutations.updateRole())
 
   const form = useAppForm({
@@ -31,7 +33,7 @@ export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
         userId: user.id,
         input: toAdminUserRoleUpdateRequestBody(value),
       })
-      toast.success('ユーザのロールを更新しました')
+      toast.success(t('admin.updatedRole'))
       onBack()
     },
   })
@@ -50,7 +52,7 @@ export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
         <form.AppField name="role">
           {(field) => (
             <field.SelectField
-              label="ロール"
+              label={t('admin.editRole.role')}
               options={[
                 { label: 'admin', value: 'admin' },
                 { label: 'user', value: 'user' },
@@ -61,12 +63,12 @@ export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
 
         <div className="flex flex-row gap-4">
           <Button type="button" onClick={() => onBack()} variant="transparent">
-            キャンセル
+            {t('common.cancel')}
           </Button>
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? '保存しています...' : '保存'}
+                {isSubmitting ? t('admin.actions.saving') : t('common.save')}
               </Button>
             )}
           </form.Subscribe>

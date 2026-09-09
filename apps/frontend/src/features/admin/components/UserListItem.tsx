@@ -1,6 +1,7 @@
 import { Badge } from 'otsukimi-ui'
 import { UserAvatar } from '@/components/ui/UserAvatar'
 import type { AdminUserSummary } from '../api'
+import { useTranslation } from 'react-i18next'
 
 interface UserListItemProps {
   user: AdminUserSummary
@@ -8,13 +9,15 @@ interface UserListItemProps {
 }
 
 export const UserListItem = ({ user, onModalOpen }: UserListItemProps) => {
+  const { t } = useTranslation()
+
   return (
     <tr key={user.id} className="border-b border-brand-primary-soft">
       <td className="px-4 py-3">
         <UserAvatar
           userId={user.id}
           avatarUrl={user.image}
-          alt={`${user.name}のアバター`}
+          alt={t('admin.avatarAlt', { name: user.name })}
           className="size-8 shrink-0 rounded-xs"
         />
       </td>
@@ -30,9 +33,9 @@ export const UserListItem = ({ user, onModalOpen }: UserListItemProps) => {
           type="button"
           className="text-cyan-600 cursor-pointer hover:underline hover:text-cyan-700 transition duration-300 "
           onClick={() => onModalOpen()}
-          aria-label={`${user.name}の詳細`}
+          aria-label={t('admin.list.detailAria', { name: user.name })}
         >
-          詳細
+          {t('admin.list.detail')}
         </button>
       </td>
     </tr>

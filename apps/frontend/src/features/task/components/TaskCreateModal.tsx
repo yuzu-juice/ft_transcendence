@@ -5,6 +5,7 @@ import { useAppForm } from '@/components/form/form'
 import { Modal } from '@/components/ui/Modal'
 import { taskMutations } from '../mutation'
 import { TaskCreateFormSchema, type TaskCreateFormValues, toTaskCreateRequestBody } from '../schema'
+import { useTranslation } from 'react-i18next'
 
 interface TaskCreateModalProps {
   open: boolean
@@ -12,6 +13,7 @@ interface TaskCreateModalProps {
 }
 
 export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps) => {
+  const { t } = useTranslation()
   const taskCreateMutation = useMutation(taskMutations.create())
 
   const defaultValues: TaskCreateFormValues = {
@@ -29,7 +31,7 @@ export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps
     },
     onSubmit: async ({ value }) => {
       await taskCreateMutation.mutateAsync(toTaskCreateRequestBody(value))
-      toast.success('タスクを作成しました')
+      toast.success(t('task.created'))
       // 送信成功時のみフォームをリセット、送信失敗時は再度modalを開いた場合前回の入力値が残る
       form.reset()
       handleOpenChange(false)
@@ -38,7 +40,7 @@ export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps
 
   return (
     <Modal
-      title="タスク作成"
+      title={t('task.modal.createTitle')}
       open={open}
       onOpenChange={handleOpenChange}
       showCloseButton={true}
@@ -55,35 +57,35 @@ export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps
           }}
         >
           <form.AppField name="title">
-            {(field) => <field.TextField type="text" label="タイトル" />}
+            {(field) => <field.TextField type="text" label={t('task.form.title')} />}
           </form.AppField>
 
           <form.AppField name="description">
-            {(field) => <field.TextAreaField label="説明" />}
+            {(field) => <field.TextAreaField label={t('task.form.description')} />}
           </form.AppField>
 
           <form.AppField name="priority">
             {(field) => (
               <field.SelectField
-                label="優先度"
+                label={t('task.form.priority')}
                 options={[
-                  { label: '未設定', value: '' },
-                  { label: 'low', value: 'low' },
-                  { label: 'medium', value: 'medium' },
-                  { label: 'high', value: 'high' },
+                  { label: t('task.detail.unset'), value: '' },
+                  { label: t('task.priority.low'), value: 'low' },
+                  { label: t('task.priority.medium'), value: 'medium' },
+                  { label: t('task.priority.high'), value: 'high' },
                 ]}
               />
             )}
           </form.AppField>
 
           <form.AppField name="dueAt">
-            {(field) => <field.TextField type="datetime-local" label="締切" />}
+            {(field) => <field.TextField type="datetime-local" label={t('task.form.dueAt')} />}
           </form.AppField>
 
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? '保存しています...' : '保存'}
+                {isSubmitting ? t('task.actions.saving') : t('common.save')}
               </Button>
             )}
           </form.Subscribe>

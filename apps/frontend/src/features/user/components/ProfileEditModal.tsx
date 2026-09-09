@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { Modal } from '@/components/ui/Modal'
 import { Button } from 'otsukimi-ui'
 import { useAppForm } from '@/components/form/form'
+import { useTranslation } from 'react-i18next'
 
 interface ProfileEditModalProps {
   name: string
@@ -14,6 +15,7 @@ interface ProfileEditModalProps {
 }
 
 export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalProps) => {
+  const { t } = useTranslation()
   const { refetch } = authClient.useSession()
 
   const profileUpdateMutation = useMutation(profileUploadMutationOptions)
@@ -29,7 +31,7 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
     onSubmit: async ({ value }) => {
       await profileUpdateMutation.mutateAsync(value)
       await refetch()
-      toast.success('ユーザ名を更新しました')
+      toast.success(t('user.profile.updated'))
       onOpenChange(false)
     },
   })
@@ -37,7 +39,7 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
   return (
     <Modal
       open={open}
-      title="プロフィール編集"
+      title={t('user.profile.editModalTitle')}
       onOpenChange={onOpenChange}
       showCloseButton={true}
       dismissible={true}
@@ -52,13 +54,15 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
         }}
       >
         <form.AppField name="name">
-          {(field) => <field.TextField label="ユーザ名" type="text" className="!w-full" />}
+          {(field) => (
+            <field.TextField label={t('user.profile.nameLabel')} type="text" className="!w-full" />
+          )}
         </form.AppField>
 
         <form.Subscribe selector={(state) => state.isSubmitting}>
           {(isSubmitting) => (
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? '保存しています...' : '保存'}
+              {isSubmitting ? t('user.profile.saving') : t('common.save')}
             </Button>
           )}
         </form.Subscribe>

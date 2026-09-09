@@ -8,6 +8,7 @@ import { Modal } from '@/components/ui/Modal'
 import { UserDetail } from './UserDetail'
 import { UserEditInfo } from './UserEditInfo'
 import { UserEditRoleInfo } from './UserEditRole'
+import { useTranslation } from 'react-i18next'
 
 interface UserModalProps {
   userId: string
@@ -17,34 +18,34 @@ interface UserModalProps {
 
 type UserModalView = 'detail' | 'edit' | 'edit-role'
 
-const viewConfig = {
-  detail: {
-    title: 'ユーザ詳細',
-    showCloseButton: true,
-    dismissible: true,
-  },
-  edit: {
-    title: 'ユーザ情報を編集',
-    showCloseButton: false,
-    dismissible: false,
-  },
-  'edit-role': {
-    title: 'ユーザのロールを編集',
-    showCloseButton: false,
-    dismissible: false,
-  },
-} satisfies Record<
-  UserModalView,
-  {
-    title: string
-    showCloseButton: boolean
-    dismissible: boolean
-  }
->
-
 export const UserModal = ({ userId, open, onOpenChange }: UserModalProps) => {
+  const { t } = useTranslation()
   const [view, setView] = useState<UserModalView>('detail')
   const query = useQuery(adminQueries.detail(userId))
+  const viewConfig = {
+    detail: {
+      title: t('admin.modal.detailTitle'),
+      showCloseButton: true,
+      dismissible: true,
+    },
+    edit: {
+      title: t('admin.modal.editTitle'),
+      showCloseButton: false,
+      dismissible: false,
+    },
+    'edit-role': {
+      title: t('admin.modal.editRoleTitle'),
+      showCloseButton: false,
+      dismissible: false,
+    },
+  } satisfies Record<
+    UserModalView,
+    {
+      title: string
+      showCloseButton: boolean
+      dismissible: boolean
+    }
+  >
   const config = viewConfig[view]
 
   const handleOpenChange = (nextOpen: boolean) => {
@@ -72,7 +73,7 @@ export const UserModal = ({ userId, open, onOpenChange }: UserModalProps) => {
                 query.refetch()
               }}
             >
-              {query.isFetching ? '再読み込み中...' : '再試行'}
+              {query.isFetching ? t('admin.actions.reloading') : t('admin.actions.retry')}
             </Button>
           </div>
         </div>

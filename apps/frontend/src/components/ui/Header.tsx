@@ -3,8 +3,10 @@
 import { authClient } from '@/lib/auth/client'
 import { UserAvatar } from './UserAvatar'
 import { Link, useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 export const Header = () => {
+  const { t } = useTranslation()
   const { data: session } = authClient.useSession()
   const navigate = useNavigate()
   return (
@@ -17,7 +19,7 @@ export const Header = () => {
         <UserAvatar
           userId={session?.user.id}
           avatarUrl={session?.user.image}
-          alt={`${session.user.name}のアバター`}
+          alt={t('user.profile.avatarAlt', { name: session.user.name })}
           className="mx-auto rounded-xs size-10"
           onClick={() =>
             navigate({
@@ -27,7 +29,7 @@ export const Header = () => {
         />
       ) : (
         <Link to="/sign-in" className="text-sm text-blue-700">
-          サインイン
+          {t('auth.signIn.submit')}
         </Link>
       )}
     </header>

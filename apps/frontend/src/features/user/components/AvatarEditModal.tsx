@@ -6,6 +6,7 @@ import { avatarDeleteMutationOptions, avatarUploadMutationOptions } from '../mut
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
 import { getFormErrorMessage, useAppForm } from '@/components/form/form'
+import { useTranslation } from 'react-i18next'
 
 interface AvatarEditModalProps {
   open: boolean
@@ -13,6 +14,7 @@ interface AvatarEditModalProps {
 }
 
 export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) => {
+  const { t } = useTranslation()
   const { refetch } = authClient.useSession()
 
   const avatarUploadMutation = useMutation(avatarUploadMutationOptions)
@@ -35,7 +37,7 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
         avatar: value.avatar,
       })
       await refetch()
-      toast.success('アバター画像を更新しました') // TODO toastがmodalの裏に隠れてしまう問題を修正
+      toast.success(t('user.avatar.updated')) // TODO toastがmodalの裏に隠れてしまう問題を修正
       onOpenChange(false)
     },
   })
@@ -44,7 +46,7 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
     onSubmit: async () => {
       await avatarDeleteMutation.mutateAsync()
       await refetch()
-      toast.success('アバター画像を削除しました')
+      toast.success(t('user.avatar.deleted'))
       onOpenChange(false)
     },
   })
@@ -52,14 +54,14 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
   return (
     <Modal
       open={open}
-      title="アバター編集"
+      title={t('user.avatar.editModalTitle')}
       onOpenChange={onOpenChange}
       showCloseButton={true}
       dismissible={true}
     >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <h3 className="text-md font-bold">画像を更新</h3>
+          <h3 className="text-md font-bold">{t('user.avatar.updateTitle')}</h3>
           <form
             noValidate
             className="flex flex-col gap-8"
@@ -94,7 +96,7 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
             <editForm.Subscribe selector={(state) => state.isSubmitting}>
               {(isSubmitting) => (
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? 'アップロードしています...' : 'アップロード'}
+                  {isSubmitting ? t('user.avatar.uploading') : t('user.avatar.upload')}
                 </Button>
               )}
             </editForm.Subscribe>
@@ -102,7 +104,7 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
         </div>
         <Divider />
         <div className="flex flex-col gap-2">
-          <h3 className="text-md font-bold">画像を削除</h3>
+          <h3 className="text-md font-bold">{t('user.avatar.deleteTitle')}</h3>
           <form
             noValidate
             className="flex flex-row gap-12"
@@ -115,7 +117,7 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
             <deleteForm.Subscribe selector={(state) => state.isSubmitting}>
               {(isSubmitting) => (
                 <Button type="submit" variant="moon" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? '削除しています...' : '画像を削除する'}
+                  {isSubmitting ? t('user.avatar.deleting') : t('user.avatar.delete')}
                 </Button>
               )}
             </deleteForm.Subscribe>
