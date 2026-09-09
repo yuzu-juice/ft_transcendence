@@ -206,6 +206,12 @@
       "deleteTitle": "Delete Image",
       "delete": "Delete Image",
       "deleting": "Deleting..."
+    },
+    "validation": {
+      "userName": {
+        "required": "Please enter a username",
+        "tooLong": "Please enter a username of 100 characters or less"
+      }
     }
   },
   "admin": {

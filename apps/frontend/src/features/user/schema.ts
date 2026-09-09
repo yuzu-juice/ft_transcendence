@@ -18,8 +18,8 @@ export type AvatarUploadInput = z.infer<typeof AvatarUploadSchema>
 export const ProfileUpdateSchema = z.object({
   name: z
     .string()
-    .min(1, 'ユーザ名を入力してください')
-    .max(100, 'ユーザ名は100文字以内で入力してください'),
+    .min(1, 'user.validation.userName.required')
+    .max(100, 'user.validation.userName.tooLong'),
 })
 
 export type ProfileUpdateInput = z.infer<typeof ProfileUpdateSchema>

@@ -206,6 +206,12 @@
       "deleteTitle": "删除图片",
       "delete": "删除图片",
       "deleting": "删除中..."
+    },
+    "validation": {
+      "userName": {
+        "required": "请输入您的用户名",
+        "tooLong": "请输入不超过100个字符的用户名"
+      }
     }
   },
   "admin": {

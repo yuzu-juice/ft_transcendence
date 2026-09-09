@@ -206,6 +206,12 @@
       "deleteTitle": "画像を削除",
       "delete": "画像を削除する",
       "deleting": "削除しています..."
+    },
+    "validation": {
+      "userName": {
+        "required": "ユーザ名を入力してください",
+        "tooLong": "ユーザ名は100文字以内で入力してください"
+      }
     }
   },
   "admin": {
