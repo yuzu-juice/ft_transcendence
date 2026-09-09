@@ -7,6 +7,7 @@ import { formatTaskDateTime } from '@/features/task/time' // TODO: 広範囲のl
 import { authClient } from '@/lib/auth/client'
 import type { AdminUserDetail } from '../api'
 import { adminMutations } from '../mutation'
+import { useTranslation } from 'react-i18next'
 
 interface UserDetailProps {
   user: AdminUserDetail
@@ -24,12 +25,13 @@ const UserDetailListItem = ({ heading, children }: { heading: string; children: 
 }
 
 export const UserDetail = ({ user, onEdit, onClose }: UserDetailProps) => {
+  const { t } = useTranslation()
   const { data: session } = authClient.useSession()
 
   const adminUserDeleteMutation = useMutation(adminMutations.delete())
   const handleDeleteUser = async () => {
     await adminUserDeleteMutation.mutateAsync(user.id)
-    toast.success('ユーザを削除しました')
+    toast.success(t('admin.deleted'))
     onClose()
   }
 
@@ -39,22 +41,22 @@ export const UserDetail = ({ user, onEdit, onClose }: UserDetailProps) => {
         <UserAvatar
           userId={user.id}
           avatarUrl={user.image}
-          alt={`${user.name}のアバター`}
+          alt={t('admin.avatarAlt', { name: user.name })}
           className="size-16 shrink-0 rounded-xs"
         />
-        <UserDetailListItem heading="ユーザID">{user.id}</UserDetailListItem>
-        <UserDetailListItem heading="ユーザ名">{user.name}</UserDetailListItem>
-        <UserDetailListItem heading="メールアドレス">{user.email}</UserDetailListItem>
-        <UserDetailListItem heading="ロール">
+        <UserDetailListItem heading={t('admin.detail.userId')}>{user.id}</UserDetailListItem>
+        <UserDetailListItem heading={t('admin.detail.userName')}>{user.name}</UserDetailListItem>
+        <UserDetailListItem heading={t('admin.detail.email')}>{user.email}</UserDetailListItem>
+        <UserDetailListItem heading={t('admin.detail.role')}>
           <Badge className="w-fit" variant={user.role === 'admin' ? 'default' : 'moonlight'}>
             {user.role}
           </Badge>
         </UserDetailListItem>
         <div className="flex flex-wrap gap-5">
-          <UserDetailListItem heading="作成日時">
+          <UserDetailListItem heading={t('admin.detail.createdAt')}>
             {formatTaskDateTime(user.createdAt)}
           </UserDetailListItem>
-          <UserDetailListItem heading="最終更新日時">
+          <UserDetailListItem heading={t('admin.detail.updatedAt')}>
             {formatTaskDateTime(user.updatedAt)}
           </UserDetailListItem>
         </div>
@@ -62,10 +64,10 @@ export const UserDetail = ({ user, onEdit, onClose }: UserDetailProps) => {
       {session?.user.id !== user.id ? (
         <div className="flex flex-row flex-wrap gap-4">
           <Button type="button" onClick={() => onEdit('edit')}>
-            ユーザ情報を編集
+            {t('admin.detail.editInfo')}
           </Button>
           <Button type="button" onClick={() => onEdit('edit-role')}>
-            ロールを編集
+            {t('admin.detail.editRole')}
           </Button>
           <Button
             type="button"
@@ -75,13 +77,13 @@ export const UserDetail = ({ user, onEdit, onClose }: UserDetailProps) => {
             variant="transparent"
             disabled={adminUserDeleteMutation.isPending}
           >
-            {adminUserDeleteMutation.isPending ? '削除しています...' : 'ユーザを削除'}
+            {adminUserDeleteMutation.isPending
+              ? t('admin.actions.deleting')
+              : t('admin.actions.delete')}
           </Button>
         </div>
       ) : (
-        <p className="text-brand-primary-deep font-bold">
-          自分自身の情報を操作することはできません
-        </p>
+        <p className="text-brand-primary-deep font-bold">{t('admin.detail.selfActionForbidden')}</p>
       )}
     </div>
   )

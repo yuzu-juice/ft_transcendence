@@ -8,6 +8,7 @@ import { Loading } from '@/components/ui/Loading'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { TaskEditAssignees } from './TaskEditAssignees'
 import { Button } from 'otsukimi-ui'
+import { useTranslation } from 'react-i18next'
 
 type TaskModalView = 'detail' | 'edit' | 'edit-assignees'
 
@@ -17,34 +18,34 @@ interface TaskModalProps {
   onOpenChange: (open: boolean) => void
 }
 
-const viewConfig = {
-  detail: {
-    title: 'タスク詳細',
-    showCloseButton: true,
-    dismissible: true,
-  },
-  edit: {
-    title: 'タスクを編集',
-    showCloseButton: false,
-    dismissible: false,
-  },
-  'edit-assignees': {
-    title: '担当者を編集',
-    showCloseButton: false,
-    dismissible: false,
-  },
-} satisfies Record<
-  TaskModalView,
-  {
-    title: string
-    showCloseButton: boolean
-    dismissible: boolean
-  }
->
-
 export const TaskModal = ({ taskId, open, onOpenChange }: TaskModalProps) => {
+  const { t } = useTranslation()
   const [view, setView] = useState<TaskModalView>('detail')
   const query = useQuery(taskQueries.detail(taskId))
+  const viewConfig = {
+    detail: {
+      title: t('task.modal.detailTitle'),
+      showCloseButton: true,
+      dismissible: true,
+    },
+    edit: {
+      title: t('task.modal.editTitle'),
+      showCloseButton: false,
+      dismissible: false,
+    },
+    'edit-assignees': {
+      title: t('task.modal.editAssigneesTitle'),
+      showCloseButton: false,
+      dismissible: false,
+    },
+  } satisfies Record<
+    TaskModalView,
+    {
+      title: string
+      showCloseButton: boolean
+      dismissible: boolean
+    }
+  >
   const config = viewConfig[view]
 
   const handleOpenChange = (nextOpen: boolean) => {
@@ -72,7 +73,7 @@ export const TaskModal = ({ taskId, open, onOpenChange }: TaskModalProps) => {
                 query.refetch()
               }}
             >
-              {query.isFetching ? '再読み込み中...' : '再試行'}
+              {query.isFetching ? t('task.actions.reloading') : t('task.actions.retry')}
             </Button>
           </div>
         </div>

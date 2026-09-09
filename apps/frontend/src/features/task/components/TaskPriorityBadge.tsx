@@ -1,4 +1,5 @@
 import type { TaskListItem } from '../api'
+import { useTranslation } from 'react-i18next'
 
 interface TaskPriorityBadgeProps {
   priority: TaskListItem['priority']
@@ -16,7 +17,10 @@ const PriorityToColor = (priority: TaskListItem['priority']) => {
 }
 
 export const TaskPriorityBadge = ({ priority }: TaskPriorityBadgeProps) => {
+  const { t } = useTranslation()
   return (
-    <div className={`${PriorityToColor(priority)} w-fit px-2 py-0.5 rounded-md`}>{priority}</div>
+    <div className={`${PriorityToColor(priority)} w-fit px-2 py-0.5 rounded-md`}>
+      {t(`task.priority.${priority}`)}
+    </div>
   )
 }

@@ -1,4 +1,5 @@
 import { Button } from 'otsukimi-ui'
+import { useTranslation } from 'react-i18next'
 
 interface PaginationProps {
   current: number
@@ -7,6 +8,8 @@ interface PaginationProps {
 }
 
 export const Pagination = ({ current, totalPages, onPageChange }: PaginationProps) => {
+  const { t } = useTranslation()
+
   if (totalPages === 0) {
     return
   }
@@ -18,19 +21,19 @@ export const Pagination = ({ current, totalPages, onPageChange }: PaginationProp
         variant="transparent"
         className={`!min-w-0 ${current === 1 ? '!invisible' : 'display'}`}
         onClick={() => onPageChange(current - 1)}
-        aria-label="前のページ"
+        aria-label={t('common.pagination.prev')}
       >
         ←
       </Button>
       <div className="flex flex-row gap-4">
-        Page {current} / {totalPages}
+        {t('common.pagination.current', { current, totalPages })}
       </div>
       <Button
         type="button"
         variant="transparent"
         className={`!min-w-0 ${current === totalPages ? '!invisible' : 'display'}`}
         onClick={() => onPageChange(current + 1)}
-        aria-label="次のページ"
+        aria-label={t('common.pagination.next')}
       >
         →
       </Button>

@@ -6,8 +6,10 @@ import { useEffect, useState } from 'react'
 import { AvatarEditModal } from './AvatarEditModal'
 import { ProfileEditModal } from './ProfileEditModal'
 import { CustomLink } from '@/components/ui/CustomLink'
+import { useTranslation } from 'react-i18next'
 
 export const UserProfile = () => {
+  const { t } = useTranslation()
   const { data: session } = authClient.useSession()
 
   const [avatarEditOpen, setAvatarEditOpen] = useState(false)
@@ -34,14 +36,14 @@ export const UserProfile = () => {
             <UserAvatar
               userId={session?.user.id}
               avatarUrl={session?.user.image}
-              alt={`${session.user.name}のアバター`}
+              alt={t('user.profile.avatarAlt', { name: session.user.name })}
               className="mx-auto rounded-xs size-40"
             />
             <Button
               onClick={() => setAvatarEditOpen(true)}
               className="!min-w-fit !h-fit absolute bottom-0 -left-2 z-10 bg-white !px-2 !py-1 !rounded-xs !text-sm"
             >
-              編集
+              {t('user.profile.avatarEdit')}
             </Button>
           </div>
           <div className="flex flex-col gap-1.5 flex-1">
@@ -57,20 +59,21 @@ export const UserProfile = () => {
             <p>email: {session.user.email}</p>
             {hasCredential && (
               <p>
-                二要素認証:
+                {t('user.profile.twoFactorLabel')}
                 {session.user.twoFactorEnabled ? (
-                  <span>有効化済み</span>
+                  <span>{t('user.profile.twoFactorEnabled')}</span>
                 ) : (
                   <span>
-                    無効（
-                    <CustomLink to="/totp">有効化する</CustomLink>）
+                    {t('user.profile.twoFactorDisabledPrefix')}
+                    <CustomLink to="/totp">{t('user.profile.twoFactorEnableLink')}</CustomLink>
+                    {t('user.profile.twoFactorDisabledSuffix')}
                   </span>
                 )}
               </p>
             )}
           </div>
           <Button type="button" onClick={() => setProfileEditOpen(true)}>
-            プロフィールを編集
+            {t('user.profile.editProfile')}
           </Button>
         </div>
       </Card>

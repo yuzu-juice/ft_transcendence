@@ -6,7 +6,16 @@
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "loadingSigningIn": "Signing in",
+    "pagination": {
+      "prev": "Previous page",
+      "next": "Next page",
+      "current": "Page {{current}} / {{totalPages}}"
+    }
+  },
+  "home": {
+    "tagline": "A super easy project management app"
   },
   "legal": {
     "privacy": {
@@ -63,6 +72,181 @@
     "deleteConfirm": "Delete \"{{name}}\"?",
     "reload": "Reloading...",
     "retry": "Retry"
+  },
+  "task": {
+    "title": "Tasks",
+    "created": "Task created",
+    "updated": "Task information updated",
+    "deleted": "Task deleted",
+    "assigneesUpdated": "Task assignees updated",
+    "avatarAlt": "{{name}}'s avatar",
+    "actions": {
+      "create": "Create Task",
+      "retry": "Retry",
+      "reloading": "Reloading...",
+      "deleting": "Deleting...",
+      "delete": "Delete Task",
+      "saving": "Saving...",
+      "reset": "Reset",
+      "search": "Search"
+    },
+    "list": {
+      "empty": "No tasks match the specified conditions",
+      "detail": "Details",
+      "detailAria": "Details for {{title}}",
+      "columns": {
+        "taskName": "Task",
+        "status": "Status",
+        "priority": "Priority",
+        "dueAt": "Due",
+        "creator": "Creator",
+        "assignees": "Assignees"
+      }
+    },
+    "modal": {
+      "createTitle": "Create Task",
+      "detailTitle": "Task Details",
+      "editTitle": "Edit Task",
+      "editAssigneesTitle": "Edit Assignees"
+    },
+    "detail": {
+      "title": "Title",
+      "description": "Summary",
+      "status": "Status",
+      "priority": "Priority",
+      "dueAt": "Due",
+      "assignees": "Assignees",
+      "creator": "Creator",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "unset": "Unset",
+      "deletedUser": "Deleted user",
+      "editInfo": "Edit Task Information",
+      "editAssignees": "Edit Assignees"
+    },
+    "form": {
+      "title": "Title",
+      "description": "Description",
+      "status": "Status",
+      "priority": "Priority",
+      "dueAt": "Due",
+      "keyword": "Keyword",
+      "createdBy": "Created By",
+      "assignee": "Assignee",
+      "unspecified": "Unspecified",
+      "dueFrom": "Due From",
+      "dueTo": "Due To",
+      "sort": "Sort By",
+      "order": "Order",
+      "sortOptions": {
+        "dueAt": "Due Date",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "status": "Status",
+        "priority": "Priority"
+      },
+      "orderOptions": {
+        "asc": "Ascending",
+        "desc": "Descending"
+      }
+    },
+    "status": {
+      "todo": "To Do",
+      "in_progress": "In Progress",
+      "done": "Done"
+    },
+    "priority": {
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    }
+  },
+  "user": {
+    "pageList": {
+      "title": "Contents",
+      "tasks": "Tasks",
+      "analytics": "Analytics",
+      "apiKeys": "API Keys",
+      "admin": "Admin"
+    },
+    "signOut": {
+      "title": "Account",
+      "button": "Sign Out",
+      "failed": "Failed to sign out",
+      "success": "Signed out"
+    },
+    "profile": {
+      "updated": "Username updated",
+      "editModalTitle": "Edit Profile",
+      "nameLabel": "Username",
+      "saving": "Saving...",
+      "avatarAlt": "{{name}}'s avatar",
+      "avatarEdit": "Edit",
+      "twoFactorLabel": "Two-factor authentication:",
+      "twoFactorEnabled": "Enabled",
+      "twoFactorDisabledPrefix": "Disabled (",
+      "twoFactorEnableLink": "Enable",
+      "twoFactorDisabledSuffix": ")",
+      "editProfile": "Edit Profile"
+    },
+    "avatar": {
+      "updated": "Avatar updated",
+      "deleted": "Avatar deleted",
+      "editModalTitle": "Edit Avatar",
+      "updateTitle": "Update Image",
+      "upload": "Upload",
+      "uploading": "Uploading...",
+      "deleteTitle": "Delete Image",
+      "delete": "Delete Image",
+      "deleting": "Deleting..."
+    }
+  },
+  "admin": {
+    "title": "Admin",
+    "unauthorized": "You do not have permission to view this page",
+    "deleted": "User deleted",
+    "updatedInfo": "User information updated",
+    "updatedRole": "User role updated",
+    "avatarAlt": "{{name}}'s avatar",
+    "actions": {
+      "retry": "Retry",
+      "reloading": "Reloading...",
+      "deleting": "Deleting...",
+      "delete": "Delete User",
+      "saving": "Saving..."
+    },
+    "list": {
+      "empty": "No users found",
+      "detail": "Details",
+      "detailAria": "Details for {{name}}",
+      "columns": {
+        "userName": "Username",
+        "email": "Email Address",
+        "role": "Role"
+      }
+    },
+    "modal": {
+      "detailTitle": "User Details",
+      "editTitle": "Edit User Information",
+      "editRoleTitle": "Edit User Role"
+    },
+    "detail": {
+      "userId": "User ID",
+      "userName": "Username",
+      "email": "Email Address",
+      "role": "Role",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "editInfo": "Edit User Information",
+      "editRole": "Edit Role",
+      "selfActionForbidden": "You cannot modify your own account here"
+    },
+    "editInfo": {
+      "userName": "Username"
+    },
+    "editRole": {
+      "role": "Role"
+    }
   },
   "error": {
     "title": "Error",
