@@ -4,8 +4,8 @@ import type { AdminUserRoleUpdateRequestBody, AdminUserUpdateRequestBody } from 
 export const AdminUserEditFormSchema = z.object({
   name: z
     .string()
-    .min(1, 'ユーザ名を入力してください')
-    .max(100, 'ユーザ名は100文字以内で入力してください'),
+    .min(1, 'admin.validation.userName.required')
+    .max(100, 'admin.validation.userName.tooLong'),
 })
 
 export type AdminUserEditFormValues = z.infer<typeof AdminUserEditFormSchema>

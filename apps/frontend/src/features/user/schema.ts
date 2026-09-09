@@ -6,10 +6,10 @@ const AVATAR_ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'im
 export const AvatarUploadSchema = z.object({
   avatar: z
     .instanceof(File)
-    .refine((file) => file.size <= AVATAR_MAX_FILE_SIZE, 'ファイルサイズは4MB以下にしてください')
+    .refine((file) => file.size <= AVATAR_MAX_FILE_SIZE, 'user.validation.avatar.fileTooLarge')
     .refine(
       (file) => AVATAR_ACCEPTED_IMAGE_TYPES.includes(file.type),
-      'jpeg, png, webp形式の画像を選択してください',
+      'user.validation.avatar.unsupportedType',
     ),
 })
 

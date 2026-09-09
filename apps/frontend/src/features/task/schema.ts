@@ -68,7 +68,7 @@ export const toTaskListQuery = (search: TaskSearchParams): TaskListQuery => ({
 
 export const TaskSearchFormSchema = z
   .object({
-    q: z.string().max(200, 'キーワードは200文字以内で入力してください'),
+    q: z.string().max(200, 'task.validation.keyword.tooLong'),
     status: z.array(TaskStatusSchema),
     priority: z.array(TaskPrioritySchema),
     dueFrom: z.string(),
@@ -82,7 +82,7 @@ export const TaskSearchFormSchema = z
     (data) =>
       !(data.dueFrom !== '' && data.dueTo !== '' && new Date(data.dueFrom) > new Date(data.dueTo)),
     {
-      message: '締切日時の期間指定が不正です',
+      message: 'task.validation.dueRange.invalid',
       path: ['dueTo'],
     },
   )
@@ -122,9 +122,9 @@ export const toTaskSearchFormValues = (search: TaskSearchParams): TaskSearchForm
 export const TaskCreateFormSchema = z.object({
   title: z
     .string()
-    .min(1, 'タスク名を入力してください')
-    .max(200, 'タスク名は200文字以内で入力してください'),
-  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください'),
+    .min(1, 'task.validation.title.required')
+    .max(200, 'task.validation.title.tooLong'),
+  description: z.string().max(2000, 'task.validation.description.tooLong'),
   priority: TaskPriorityFormSchema,
   dueAt: z.string(),
 })
@@ -141,9 +141,9 @@ export const toTaskCreateRequestBody = (form: TaskCreateFormValues): TaskCreateR
 export const TaskUpdateFormSchema = z.object({
   title: z
     .string()
-    .min(1, 'タスク名を入力してください')
-    .max(200, 'タスク名は200文字以内で入力してください'),
-  description: z.string().max(2000, 'タスクの説明は2000文字以内で入力してください'),
+    .min(1, 'task.validation.title.required')
+    .max(200, 'task.validation.title.tooLong'),
+  description: z.string().max(2000, 'task.validation.description.tooLong'),
   status: TaskStatusSchema,
   priority: TaskPriorityFormSchema,
   dueAt: z.string(),
