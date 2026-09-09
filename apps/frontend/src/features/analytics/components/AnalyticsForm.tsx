@@ -80,7 +80,7 @@ export const AnalyticsForm = () => {
             <field.SelectField
               label={t('analytics.assignee')}
               options={[
-                { label: t('analytics.notSpecified'), value: '' },
+                { label: t('analytics.unspecified'), value: '' },
                 ...query.data.map((user) => {
                   return { label: user.name, value: user.id }
                 }),

@@ -8,7 +8,7 @@
     "close": "閉じる",
     "back": "戻る",
     "search": "検索",
-    "reset": "リセット"
+    "reset": "リセット",
     "loadingSigningIn": "ログイン中",
     "pagination": {
       "prev": "前のページ",
@@ -50,9 +50,9 @@
       "unset": "未設定"
     },
     "assignee": "担当者",
-    "notSpecified": "指定しない",
-    "dueDatetimeFrom": "締切日時（開始）",
-    "dueDatetimeTo": "締切日時（終了）"
+    "unspecified": "指定しない",
+    "dueDatetimeFrom": "締切開始",
+    "dueDatetimeTo": "締切終了"
   },
   "apiKeys": {
     "title": "APIキー",

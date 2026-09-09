@@ -8,7 +8,7 @@
     "close": "Close",
     "back": "Back",
     "search": "Search",
-    "reset": "Reset"
+    "reset": "Reset",
     "loadingSigningIn": "Signing in",
     "pagination": {
       "prev": "Previous page",
@@ -50,9 +50,9 @@
       "unset": "Unset"
     },
     "assignee": "Assignee",
-    "notSpecified": "Not specified",
-    "dueDatetimeFrom": "Due Date & Time (From)",
-    "dueDatetimeTo": "Due Date & Time (To)"
+    "unspecified": "Unspecified",
+    "dueDatetimeFrom": "Due From",
+    "dueDatetimeTo": "Due To"
   },
   "apiKeys": {
     "title": "API Keys",
