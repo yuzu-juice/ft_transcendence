@@ -244,6 +244,18 @@ services:
         - elasticsearch-data:/usr/share/elasticsearch/data
       expose:
         - 9200
+      healthcheck:
+        test:
+          - CMD
+          - curl
+          - -fs
+          - -u
+          - elastic:${ELASTIC_PASSWORD}
+          - localhost:9200/_cluster/health
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 20s
       networks:
         - elastic
       post_start:
@@ -255,7 +267,8 @@ services:
 
     kibana:
       depends_on:
-        - elasticsearch
+        elasticsearch:
+          condition: service_healthy
       image: docker.elastic.co/kibana/kibana:9.5.3
       environment:
         - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
@@ -263,6 +276,16 @@ services:
         - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
         - SERVER_BASEPATH=/kibana
         - SERVER_REWRITEBASEPATH=true
+      healthcheck:
+        test:
+          - CMD
+          - curl
+          - -fs
+          - localhost:5601/kibana/api/status
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 30s
       networks:
         - elastic
         - kibana
