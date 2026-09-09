@@ -30,10 +30,14 @@ services:
         ports:
             - "127.0.0.1:8080:80"
         depends_on:
-            - frontend
-            - backend
-            - grafana
-            - kibana
+            frontend:
+              condition: service_started
+            backend:
+              condition: service_healthy
+            grafana:
+              condition: service_started
+            kibana:
+              condition: service_healthy
         networks:
             - frontend
             - backend
