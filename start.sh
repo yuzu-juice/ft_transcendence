@@ -4,4 +4,4 @@ set -eu
 
 ./scripts/generate-cert.sh
 
-docker compose --env-file .env.prod up
+docker compose --env-file .env.prod up --build

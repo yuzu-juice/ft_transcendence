@@ -12,7 +12,7 @@ x-workspace: &workspace
 services:
   reverse-proxy:
     image: nginx:alpine
-    volumes:
+    volumes: !override
       - ./infra/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
     ports: !override
       - "127.0.0.1:8080:80"
