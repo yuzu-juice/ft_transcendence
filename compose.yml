@@ -1,16 +1,5 @@
 name: ft_transcendence
 
-x-workspace: &workspace
-    image: ft_transcendence-workspace:dev
-    build:
-        context: .
-        target: development
-    init: true
-    cap_drop:
-        - ALL
-    security_opt:
-        - no-new-privileges:true
-
 x-backend-environment: &backend-environment
   DATABASE_URL: ${DATABASE_URL}
   BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
@@ -23,289 +12,240 @@ x-backend-environment: &backend-environment
   FORCE_COLOR: "1"
 
 services:
-    reverse-proxy:
-        image: nginx:alpine
-        volumes:
-            - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        ports:
-            - "127.0.0.1:8080:80"
-        depends_on:
-            frontend:
-              condition: service_started
-            backend:
-              condition: service_healthy
-            grafana:
-              condition: service_started
-            kibana:
-              condition: service_healthy
-        networks:
-            - frontend
-            - backend
-            - grafana
-            - kibana
+  reverse-proxy:
+    build:
+      context: .
+      target: reverse-proxy-production
+    container_name: reverse-proxy
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+      grafana:
+        condition: service_started
+      kibana:
+        condition: service_healthy
+    networks:
+      - backend
+      - grafana
+      - kibana
+    restart: unless-stopped
 
-    frontend:
-        <<: *workspace
-        environment:
-          FORCE_COLOR: "1"
-        command:
-            - pnpm
-            - --filter
-            - "@ft/frontend"
-            - dev
-            - --host
-            - 0.0.0.0
-        volumes:
-            - ./apps/frontend/src:/workspace/apps/frontend/src
-            - ./apps/backend/dist:/workspace/apps/backend/dist:ro
-        depends_on:
-          backend:
-            condition: service_healthy
-        develop:
-            watch:
-                - action: sync
-                  path: ./apps/frontend
-                  target: /workspace/apps/frontend
-                  initial_sync: true
-                  ignore:
-                      - node_modules/
-                      - package.json
-                      - src/
-                      - dist/
-                - action: rebuild
-                  path: ./apps/frontend/package.json
-                - action: rebuild
-                  path: ./apps/backend/package.json
-                - action: rebuild
-                  path: ./package.json
-                - action: rebuild
-                  path: ./pnpm-lock.yaml
-                - action: rebuild
-                  path: ./pnpm-workspace.yaml
-        networks:
-            - frontend
+  backend-init:
+    build:
+      context: .
+      target: production
+    container_name: backend-init
+    command:
+      - sh
+      - -ec
+      - |
+        pnpm --filter @ft/backend db:migrate
+        pnpm --filter @ft/backend db:bootstrap-admin
+    environment:
+      <<: *backend-environment
+    volumes:
+      - avatar-data:/data/avatars
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - backend
+      - database
 
-    backend-init:
-      <<: *workspace
-      command:
-        - sh
-        - -ec
-        - |
-          pnpm --filter @ft/backend db:migrate
-          pnpm --filter @ft/backend db:bootstrap-admin
-          pnpm --filter @ft/backend db:seed:dev
-      environment:
-        <<: *backend-environment
-      volumes:
-        - avatar-data:/data/avatars
-      depends_on:
-        database:
-          condition: service_healthy
-      networks:
-        - backend
-        - database
+  backend:
+    build:
+      context: .
+      target: backend-production
+    container_name: backend
+    environment:
+      <<: *backend-environment
+    volumes:
+      - avatar-data:/data/avatars
+    depends_on:
+      backend-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    networks:
+      - backend
+      - database
+    restart: unless-stopped
 
-    backend:
-      <<: *workspace
-      command:
-        - pnpm
-        - --filter
-        - "@ft/backend"
-        - dev
-      environment:
-        <<: *backend-environment
-      volumes:
-        - avatar-data:/data/avatars
-      depends_on:
-        backend-init:
-          condition: service_completed_successfully
-      healthcheck:
-        test:
-          - CMD
-          - node
-          - -e
-          - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-        interval: 3s
-        timeout: 3s
-        retries: 10
-        start_period: 5s
-      develop:
-        watch:
-          - action: sync
-            path: ./apps/backend
-            target: /workspace/apps/backend
-            initial_sync: true
-            ignore:
-              - node_modules/
-              - dist/
-              - package.json
-          - action: rebuild
-            path: ./apps/backend/package.json
-          - action: rebuild
-            path: ./package.json
-          - action: rebuild
-            path: ./pnpm-lock.yaml
-          - action: rebuild
-            path: ./pnpm-workspace.yaml
-      networks:
-        - backend
-        - database
+  database:
+    container_name: database
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test:
+          - CMD-SHELL
+          - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 3s
+    networks:
+      - database
+    restart: unless-stopped
 
-    database:
-        image: postgres:18
-        environment:
-            POSTGRES_USER: ${POSTGRES_USER}
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            POSTGRES_DB: ${POSTGRES_DB}
-        volumes:
-            - postgres-data:/var/lib/postgresql
-        healthcheck:
-            test:
-                - CMD-SHELL
-                - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
-            interval: 3s
-            timeout: 3s
-            retries: 10
-            start_period: 3s
-        networks:
-            - database
+  node-exporter:
+    image: prom/node-exporter:v1.12.1
+    container_name: node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    networks:
+      - monitoring
+    restart: unless-stopped
 
-    node-exporter:
-      image: prom/node-exporter:v1.12.1
-      container_name: node-exporter
-      restart: unless-stopped
-      volumes:
-        - /proc:/host/proc:ro
-        - /sys:/host/sys:ro
-        - /:/rootfs:ro
-      command:
-        - '--path.procfs=/host/proc'
-        - '--path.rootfs=/rootfs'
-        - '--path.sysfs=/host/sys'
-        - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-      expose:
-        - 9100
-      networks:
-        - monitoring
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /sys:/sys:ro
+      - /var/run:/var/run:rw
+      - /var/lib/docker:/var/lib/docker:ro
+    expose:
+      - "8080"
+    networks:
+      - monitoring
+    restart: unless-stopped
 
-    cadvisor:
-      image: gcr.io/cadvisor/cadvisor:latest
-      restart: unless-stopped
-      volumes:
-        - /:/rootfs:ro
-        - /sys:/sys:ro
-        - /var/run:/var/run:rw
-        - /var/lib/docker:/var/lib/docker:ro
-      expose:
-        - "8080"
-      networks:
-        - monitoring
+  prometheus:
+    image: prom/prometheus:v3.14.0
+    container_name: prometheus
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    expose:
+      - 9090
+    networks:
+      - monitoring
+    restart: unless-stopped
 
-    prometheus:
-      image: prom/prometheus:v3.14.0
-      container_name: prometheus
-      restart: unless-stopped
-      volumes:
-        - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-        - prometheus-data:/prometheus
-      command:
-        - '--config.file=/etc/prometheus/prometheus.yml'
-        - '--storage.tsdb.path=/prometheus'
-        - '--web.enable-lifecycle'
-      expose:
-        - 9090
-      networks:
-        - monitoring
+  grafana:
+    image: grafana/grafana:13.2
+    container_name: grafana
+    environment:
+      - GF_SERVER_ROOT_URL=${BASE_URL}/grafana
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_LOG_LEVEL=warn
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - GF_DISCORD_WEBHOOK_URL=${GF_DISCORD_WEBHOOK_URL}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    expose:
+      - 3000
+    user: ":"
+    networks:
+      - monitoring
+      - grafana
+    restart: unless-stopped
 
-    grafana:
-      image: grafana/grafana:13.2
-      environment:
-        - GF_SERVER_ROOT_URL=${BASE_URL}/grafana
-        - GF_SERVER_SERVE_FROM_SUB_PATH=true
-        - GF_LOG_LEVEL=warn
-        - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
-        - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-        - GF_DISCORD_WEBHOOK_URL=${GF_DISCORD_WEBHOOK_URL}
-      volumes:
-        - grafana-data:/var/lib/grafana
-        - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
-        - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
-      expose:
-        - 3000
-      user: ":"
-      networks:
-        - monitoring
-        - grafana
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.3
+    container_name: elasticsearch
+    environment:
+      - node.name=es01
+      - discovery.type=single-node
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    expose:
+      - 9200
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fs
+        - -u
+        - elastic:${ELASTIC_PASSWORD}
+        - localhost:9200/_cluster/health
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    networks:
+      - elastic
+    post_start:
+      - command: >-
+          curl -f --retry 10 --retry-delay 10 --retry-all-errors
+          -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
+          -X POST http://elasticsearch:9200/_security/user/kibana_system/_password
+          -d "{\"password\":\"${KIBANA_PASSWORD}\"}"
+    restart: unless-stopped
 
-    elasticsearch:
-      image: docker.elastic.co/elasticsearch/elasticsearch:9.5.3
-      environment:
-        - node.name=es01
-        - discovery.type=single-node
-        - xpack.security.http.ssl.enabled=false
-        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      volumes:
-        - elasticsearch-data:/usr/share/elasticsearch/data
-      expose:
-        - 9200
-      healthcheck:
-        test:
-          - CMD
-          - curl
-          - -fs
-          - -u
-          - elastic:${ELASTIC_PASSWORD}
-          - localhost:9200/_cluster/health
-        interval: 3s
-        timeout: 3s
-        retries: 10
-        start_period: 20s
-      networks:
-        - elastic
-      post_start:
-        - command: >-
-            curl -f --retry 10 --retry-delay 10 --retry-all-errors
-            -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
-            -X POST http://elasticsearch:9200/_security/user/kibana_system/_password
-            -d "{\"password\":\"${KIBANA_PASSWORD}\"}"
-
-    kibana:
-      depends_on:
-        elasticsearch:
-          condition: service_healthy
-      image: docker.elastic.co/kibana/kibana:9.5.3
-      environment:
-        - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-        - ELASTICSEARCH_USERNAME=kibana_system
-        - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
-        - SERVER_BASEPATH=/kibana
-        - SERVER_REWRITEBASEPATH=true
-      healthcheck:
-        test:
-          - CMD
-          - curl
-          - -fs
-          - localhost:5601/kibana/api/status
-        interval: 3s
-        timeout: 3s
-        retries: 10
-        start_period: 30s
-      networks:
-        - elastic
-        - kibana
+  kibana:
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    image: docker.elastic.co/kibana/kibana:9.5.3
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+      - SERVER_BASEPATH=/kibana
+      - SERVER_REWRITEBASEPATH=true
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fs
+        - localhost:5601/kibana/api/status
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    networks:
+      - elastic
+      - kibana
+    restart: unless-stopped
 
 networks:
-    frontend:
-    backend:
-    database:
-    monitoring:
-    grafana:
-    elastic:
-    kibana:
+  backend:
+  database:
+  monitoring:
+  grafana:
+  elastic:
+  kibana:
 
 volumes:
-    postgres-data:
-    avatar-data:
-    prometheus-data:
-    grafana-data:
-    elasticsearch-data:
+  postgres-data:
+  avatar-data:
+  prometheus-data:
+  grafana-data:
+  elasticsearch-data:

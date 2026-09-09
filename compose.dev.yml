@@ -1,0 +1,101 @@
+x-workspace: &workspace
+  image: ft_transcendence-workspace:dev
+  build:
+    context: .
+    target: development
+  init: true
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  reverse-proxy:
+    image: nginx:alpine
+    volumes:
+      - ./infra/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      frontend:
+        condition: service_started
+    networks:
+      - frontend
+
+  frontend:
+    <<: *workspace
+    environment:
+      FORCE_COLOR: "1"
+    command:
+      - pnpm
+      - --filter
+      - "@ft/frontend"
+      - dev
+      - --host
+      - 0.0.0.0
+    volumes:
+      - ./apps/frontend/src:/workspace/apps/frontend/src
+      - ./apps/backend/dist:/workspace/apps/backend/dist:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/frontend
+          target: /workspace/apps/frontend
+          initial_sync: true
+          ignore:
+            - node_modules/
+            - package.json
+            - src/
+            - dist/
+        - action: rebuild
+          path: ./apps/frontend/package.json
+        - action: rebuild
+          path: ./apps/backend/package.json
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./pnpm-lock.yaml
+        - action: rebuild
+          path: ./pnpm-workspace.yaml
+    networks:
+      - frontend
+
+  backend-init:
+    <<: *workspace
+    command:
+      - sh
+      - -ec
+      - |
+        pnpm --filter @ft/backend db:migrate
+        pnpm --filter @ft/backend db:bootstrap-admin
+        pnpm --filter @ft/backend db:seed:dev
+
+  backend:
+    <<: *workspace
+    command:
+      - pnpm
+      - --filter
+      - "@ft/backend"
+      - dev
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/backend
+          target: /workspace/apps/backend
+          initial_sync: true
+          ignore:
+            - node_modules/
+            - dist/
+            - package.json
+        - action: rebuild
+          path: ./apps/backend/package.json
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./pnpm-lock.yaml
+        - action: rebuild
+          path: ./pnpm-workspace.yaml
+
+networks:
+  frontend:
