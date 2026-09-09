@@ -6,8 +6,10 @@ import { Loading } from '@/components/ui/Loading'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { adminQueries } from '../query'
 import { UserModal } from './UserModal'
+import { useTranslation } from 'react-i18next'
 
 export const UserList = () => {
+  const { t } = useTranslation()
   const query = useQuery(adminQueries.users())
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
@@ -29,7 +31,7 @@ export const UserList = () => {
                 query.refetch()
               }}
             >
-              {query.isFetching ? '再読み込み中...' : '再試行'}
+              {query.isFetching ? t('admin.actions.reloading') : t('admin.actions.retry')}
             </Button>
           </div>
         </div>
@@ -39,7 +41,7 @@ export const UserList = () => {
     if (query.data.length === 0) {
       return (
         <div className="w-full flex justify-center">
-          <h2 className="font-bold text-2xl">ユーザは存在しません</h2>
+          <h2 className="font-bold text-2xl">{t('admin.list.empty')}</h2>
         </div>
       )
     }
@@ -53,13 +55,13 @@ export const UserList = () => {
             <tr>
               <th scope="col" className="px-4 py-3 whitespace-nowrap"></th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap">
-                ユーザ名
+                {t('admin.list.columns.userName')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap">
-                メールアドレス
+                {t('admin.list.columns.email')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap">
-                ロール
+                {t('admin.list.columns.role')}
               </th>
               <th scope="col" className="px-4 py-3"></th>
             </tr>

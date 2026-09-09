@@ -9,6 +9,15 @@
     "back": "返回",
     "search": "搜索",
     "reset": "重置"
+    "loadingSigningIn": "登录中",
+    "pagination": {
+      "prev": "上一页",
+      "next": "下一页",
+      "current": "第 {{current}} / {{totalPages}} 页"
+    }
+  },
+  "home": {
+    "tagline": "一款超易用的项目管理应用"
   },
   "legal": {
     "privacy": {
@@ -70,6 +79,181 @@
     "deleteConfirm": "确定要删除“{{name}}”吗？",
     "reload": "重新加载中...",
     "retry": "重试"
+  },
+  "task": {
+    "title": "任务",
+    "created": "任务已创建",
+    "updated": "任务信息已更新",
+    "deleted": "任务已删除",
+    "assigneesUpdated": "任务负责人信息已更新",
+    "avatarAlt": "{{name}}的头像",
+    "actions": {
+      "create": "创建任务",
+      "retry": "重试",
+      "reloading": "正在重新加载...",
+      "deleting": "删除中...",
+      "delete": "删除任务",
+      "saving": "保存中...",
+      "reset": "重置",
+      "search": "搜索"
+    },
+    "list": {
+      "empty": "不存在符合指定条件的任务",
+      "detail": "详情",
+      "detailAria": "{{title}}的详情",
+      "columns": {
+        "taskName": "任务名",
+        "status": "状态",
+        "priority": "优先级",
+        "dueAt": "截止时间",
+        "creator": "创建者",
+        "assignees": "负责人"
+      }
+    },
+    "modal": {
+      "createTitle": "创建任务",
+      "detailTitle": "任务详情",
+      "editTitle": "编辑任务",
+      "editAssigneesTitle": "编辑负责人"
+    },
+    "detail": {
+      "title": "标题",
+      "description": "概要",
+      "status": "状态",
+      "priority": "优先级",
+      "dueAt": "截止时间",
+      "assignees": "负责人",
+      "creator": "创建者",
+      "createdAt": "创建时间",
+      "updatedAt": "最后更新时间",
+      "unset": "未设置",
+      "deletedUser": "已删除用户",
+      "editInfo": "编辑任务信息",
+      "editAssignees": "编辑负责人"
+    },
+    "form": {
+      "title": "标题",
+      "description": "说明",
+      "status": "状态",
+      "priority": "优先级",
+      "dueAt": "截止时间",
+      "keyword": "关键词",
+      "createdBy": "创建者",
+      "assignee": "负责人",
+      "unspecified": "未指定",
+      "dueFrom": "截止开始",
+      "dueTo": "截止结束",
+      "sort": "排序依据",
+      "order": "排序顺序",
+      "sortOptions": {
+        "dueAt": "截止时间",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间",
+        "status": "状态",
+        "priority": "优先级"
+      },
+      "orderOptions": {
+        "asc": "升序",
+        "desc": "降序"
+      }
+    },
+    "status": {
+      "todo": "未开始",
+      "in_progress": "进行中",
+      "done": "已完成"
+    },
+    "priority": {
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    }
+  },
+  "user": {
+    "pageList": {
+      "title": "内容列表",
+      "tasks": "任务",
+      "analytics": "分析",
+      "apiKeys": "API 密钥",
+      "admin": "管理页面"
+    },
+    "signOut": {
+      "title": "账号",
+      "button": "退出登录",
+      "failed": "退出登录失败",
+      "success": "已退出登录"
+    },
+    "profile": {
+      "updated": "用户名已更新",
+      "editModalTitle": "编辑个人资料",
+      "nameLabel": "用户名",
+      "saving": "保存中...",
+      "avatarAlt": "{{name}}的头像",
+      "avatarEdit": "编辑",
+      "twoFactorLabel": "双重身份验证:",
+      "twoFactorEnabled": "已启用",
+      "twoFactorDisabledPrefix": "未启用（",
+      "twoFactorEnableLink": "启用",
+      "twoFactorDisabledSuffix": "）",
+      "editProfile": "编辑个人资料"
+    },
+    "avatar": {
+      "updated": "头像已更新",
+      "deleted": "头像已删除",
+      "editModalTitle": "编辑头像",
+      "updateTitle": "更新图片",
+      "upload": "上传",
+      "uploading": "上传中...",
+      "deleteTitle": "删除图片",
+      "delete": "删除图片",
+      "deleting": "删除中..."
+    }
+  },
+  "admin": {
+    "title": "管理页面",
+    "unauthorized": "您无权查看此页面",
+    "deleted": "用户已删除",
+    "updatedInfo": "用户信息已更新",
+    "updatedRole": "用户角色已更新",
+    "avatarAlt": "{{name}}的头像",
+    "actions": {
+      "retry": "重试",
+      "reloading": "正在重新加载...",
+      "deleting": "删除中...",
+      "delete": "删除用户",
+      "saving": "保存中..."
+    },
+    "list": {
+      "empty": "不存在用户",
+      "detail": "详情",
+      "detailAria": "{{name}}的详情",
+      "columns": {
+        "userName": "用户名",
+        "email": "邮箱地址",
+        "role": "角色"
+      }
+    },
+    "modal": {
+      "detailTitle": "用户详情",
+      "editTitle": "编辑用户信息",
+      "editRoleTitle": "编辑用户角色"
+    },
+    "detail": {
+      "userId": "用户ID",
+      "userName": "用户名",
+      "email": "邮箱地址",
+      "role": "角色",
+      "createdAt": "创建时间",
+      "updatedAt": "最后更新时间",
+      "editInfo": "编辑用户信息",
+      "editRole": "编辑角色",
+      "selfActionForbidden": "无法在此处操作您自己的账户"
+    },
+    "editInfo": {
+      "userName": "用户名"
+    },
+    "editRole": {
+      "role": "角色"
+    }
   },
   "error": {
     "title": "错误",

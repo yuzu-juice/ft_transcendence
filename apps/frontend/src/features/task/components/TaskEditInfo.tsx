@@ -6,6 +6,7 @@ import type { TaskDetail } from '../api'
 import { taskMutations } from '../mutation'
 import { TaskUpdateFormSchema, type TaskUpdateFormValues, toTaskUpdateRequestBody } from '../schema'
 import { toDateTimeLocal } from '../time'
+import { useTranslation } from 'react-i18next'
 
 interface TaskEditInfoProps {
   task: TaskDetail
@@ -13,6 +14,7 @@ interface TaskEditInfoProps {
 }
 
 export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
+  const { t } = useTranslation()
   const taskUpdateMutation = useMutation(taskMutations.update())
 
   const defaultValues: TaskUpdateFormValues = {
@@ -34,7 +36,7 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
         taskId: task.id,
         input: toTaskUpdateRequestBody(value),
       })
-      toast.success('タスク情報を更新しました')
+      toast.success(t('task.updated'))
       onBack()
     },
   })
@@ -51,21 +53,21 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
         }}
       >
         <form.AppField name="title">
-          {(field) => <field.TextField type="text" label="タイトル" />}
+          {(field) => <field.TextField type="text" label={t('task.form.title')} />}
         </form.AppField>
 
         <form.AppField name="description">
-          {(field) => <field.TextAreaField label="説明" />}
+          {(field) => <field.TextAreaField label={t('task.form.description')} />}
         </form.AppField>
 
         <form.AppField name="status">
           {(field) => (
             <field.SelectField
-              label="ステータス"
+              label={t('task.form.status')}
               options={[
-                { label: 'todo', value: 'todo' },
-                { label: 'in_progress', value: 'in_progress' },
-                { label: 'done', value: 'done' },
+                { label: t('task.status.todo'), value: 'todo' },
+                { label: t('task.status.in_progress'), value: 'in_progress' },
+                { label: t('task.status.done'), value: 'done' },
               ]}
             />
           )}
@@ -74,29 +76,29 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
         <form.AppField name="priority">
           {(field) => (
             <field.SelectField
-              label="優先度"
+              label={t('task.form.priority')}
               options={[
-                { label: '未設定', value: '' },
-                { label: 'low', value: 'low' },
-                { label: 'medium', value: 'medium' },
-                { label: 'high', value: 'high' },
+                { label: t('task.detail.unset'), value: '' },
+                { label: t('task.priority.low'), value: 'low' },
+                { label: t('task.priority.medium'), value: 'medium' },
+                { label: t('task.priority.high'), value: 'high' },
               ]}
             />
           )}
         </form.AppField>
 
         <form.AppField name="dueAt">
-          {(field) => <field.TextField type="datetime-local" label="締切" />}
+          {(field) => <field.TextField type="datetime-local" label={t('task.form.dueAt')} />}
         </form.AppField>
 
         <div className="flex flex-row gap-4">
           <Button type="button" onClick={() => onBack()} variant="transparent">
-            キャンセル
+            {t('common.cancel')}
           </Button>
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? '保存しています...' : '保存'}
+                {isSubmitting ? t('task.actions.saving') : t('common.save')}
               </Button>
             )}
           </form.Subscribe>

@@ -9,6 +9,15 @@
     "back": "戻る",
     "search": "検索",
     "reset": "リセット"
+    "loadingSigningIn": "ログイン中",
+    "pagination": {
+      "prev": "前のページ",
+      "next": "次のページ",
+      "current": "ページ {{current}} / {{totalPages}}"
+    }
+  },
+  "home": {
+    "tagline": "ちょー簡単に操作できるプロジェクト管理アプリ"
   },
   "legal": {
     "privacy": {
@@ -70,6 +79,181 @@
     "deleteConfirm": "「{{name}}」を削除しますか？",
     "reload": "再読み込み中...",
     "retry": "再試行"
+  },
+  "task": {
+    "title": "タスク",
+    "created": "タスクを作成しました",
+    "updated": "タスク情報を更新しました",
+    "deleted": "タスクを削除しました",
+    "assigneesUpdated": "タスク担当者情報を更新しました",
+    "avatarAlt": "{{name}}のアバター",
+    "actions": {
+      "create": "タスクを作成する",
+      "retry": "再試行",
+      "reloading": "再読み込み中...",
+      "deleting": "削除しています...",
+      "delete": "タスクを削除",
+      "saving": "保存しています...",
+      "reset": "リセット",
+      "search": "検索"
+    },
+    "list": {
+      "empty": "指定された条件を満たすタスクは存在しません",
+      "detail": "詳細",
+      "detailAria": "{{title}}の詳細",
+      "columns": {
+        "taskName": "タスク名",
+        "status": "ステータス",
+        "priority": "優先度",
+        "dueAt": "締切",
+        "creator": "作成者",
+        "assignees": "担当者"
+      }
+    },
+    "modal": {
+      "createTitle": "タスク作成",
+      "detailTitle": "タスク詳細",
+      "editTitle": "タスクを編集",
+      "editAssigneesTitle": "担当者を編集"
+    },
+    "detail": {
+      "title": "タイトル",
+      "description": "概要",
+      "status": "ステータス",
+      "priority": "優先度",
+      "dueAt": "締切",
+      "assignees": "担当者",
+      "creator": "作成者",
+      "createdAt": "作成日時",
+      "updatedAt": "最終更新日時",
+      "unset": "未設定",
+      "deletedUser": "削除されたユーザ",
+      "editInfo": "タスク情報を編集",
+      "editAssignees": "担当者を編集"
+    },
+    "form": {
+      "title": "タイトル",
+      "description": "説明",
+      "status": "ステータス",
+      "priority": "優先度",
+      "dueAt": "締切",
+      "keyword": "キーワード",
+      "createdBy": "作成者",
+      "assignee": "担当者",
+      "unspecified": "未指定",
+      "dueFrom": "締切開始",
+      "dueTo": "締切終了",
+      "sort": "並べ替え基準",
+      "order": "並び順",
+      "sortOptions": {
+        "dueAt": "締切日時",
+        "createdAt": "作成日時",
+        "updatedAt": "更新日時",
+        "status": "ステータス",
+        "priority": "優先度"
+      },
+      "orderOptions": {
+        "asc": "昇順",
+        "desc": "降順"
+      }
+    },
+    "status": {
+      "todo": "todo",
+      "in_progress": "in_progress",
+      "done": "done"
+    },
+    "priority": {
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    }
+  },
+  "user": {
+    "pageList": {
+      "title": "コンテンツ一覧",
+      "tasks": "タスク",
+      "analytics": "アナリティクス",
+      "apiKeys": "APIキー",
+      "admin": "管理画面"
+    },
+    "signOut": {
+      "title": "アカウント",
+      "button": "サインアウト",
+      "failed": "サインアウトに失敗しました",
+      "success": "サインアウトしました"
+    },
+    "profile": {
+      "updated": "ユーザ名を更新しました",
+      "editModalTitle": "プロフィール編集",
+      "nameLabel": "ユーザ名",
+      "saving": "保存しています...",
+      "avatarAlt": "{{name}}のアバター",
+      "avatarEdit": "編集",
+      "twoFactorLabel": "二要素認証:",
+      "twoFactorEnabled": "有効化済み",
+      "twoFactorDisabledPrefix": "無効（",
+      "twoFactorEnableLink": "有効化する",
+      "twoFactorDisabledSuffix": "）",
+      "editProfile": "プロフィールを編集"
+    },
+    "avatar": {
+      "updated": "アバター画像を更新しました",
+      "deleted": "アバター画像を削除しました",
+      "editModalTitle": "アバター編集",
+      "updateTitle": "画像を更新",
+      "upload": "アップロード",
+      "uploading": "アップロードしています...",
+      "deleteTitle": "画像を削除",
+      "delete": "画像を削除する",
+      "deleting": "削除しています..."
+    }
+  },
+  "admin": {
+    "title": "管理画面",
+    "unauthorized": "このページを表示する権限がありません",
+    "deleted": "ユーザを削除しました",
+    "updatedInfo": "ユーザ情報を更新しました",
+    "updatedRole": "ユーザのロールを更新しました",
+    "avatarAlt": "{{name}}のアバター",
+    "actions": {
+      "retry": "再試行",
+      "reloading": "再読み込み中...",
+      "deleting": "削除しています...",
+      "delete": "ユーザを削除",
+      "saving": "保存しています..."
+    },
+    "list": {
+      "empty": "ユーザは存在しません",
+      "detail": "詳細",
+      "detailAria": "{{name}}の詳細",
+      "columns": {
+        "userName": "ユーザ名",
+        "email": "メールアドレス",
+        "role": "ロール"
+      }
+    },
+    "modal": {
+      "detailTitle": "ユーザ詳細",
+      "editTitle": "ユーザ情報を編集",
+      "editRoleTitle": "ユーザのロールを編集"
+    },
+    "detail": {
+      "userId": "ユーザID",
+      "userName": "ユーザ名",
+      "email": "メールアドレス",
+      "role": "ロール",
+      "createdAt": "作成日時",
+      "updatedAt": "最終更新日時",
+      "editInfo": "ユーザ情報を編集",
+      "editRole": "ロールを編集",
+      "selfActionForbidden": "自分自身の情報を操作することはできません"
+    },
+    "editInfo": {
+      "userName": "ユーザ名"
+    },
+    "editRole": {
+      "role": "ロール"
+    }
   },
   "error": {
     "title": "エラー",

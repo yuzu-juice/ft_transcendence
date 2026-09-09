@@ -30,13 +30,19 @@ services:
         ports:
             - "127.0.0.1:8080:80"
         depends_on:
-            - frontend
-            - backend
-            - grafana
+            frontend:
+              condition: service_started
+            backend:
+              condition: service_healthy
+            grafana:
+              condition: service_started
+            kibana:
+              condition: service_healthy
         networks:
             - frontend
             - backend
             - grafana
+            - kibana
 
     frontend:
         <<: *workspace
@@ -231,15 +237,75 @@ services:
         - monitoring
         - grafana
 
+    elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:9.5.3
+      environment:
+        - node.name=es01
+        - discovery.type=single-node
+        - xpack.security.http.ssl.enabled=false
+        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
+      expose:
+        - 9200
+      healthcheck:
+        test:
+          - CMD
+          - curl
+          - -fs
+          - -u
+          - elastic:${ELASTIC_PASSWORD}
+          - localhost:9200/_cluster/health
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 20s
+      networks:
+        - elastic
+      post_start:
+        - command: >-
+            curl -f --retry 10 --retry-delay 10 --retry-all-errors
+            -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
+            -X POST http://elasticsearch:9200/_security/user/kibana_system/_password
+            -d "{\"password\":\"${KIBANA_PASSWORD}\"}"
+
+    kibana:
+      depends_on:
+        elasticsearch:
+          condition: service_healthy
+      image: docker.elastic.co/kibana/kibana:9.5.3
+      environment:
+        - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+        - ELASTICSEARCH_USERNAME=kibana_system
+        - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+        - SERVER_BASEPATH=/kibana
+        - SERVER_REWRITEBASEPATH=true
+      healthcheck:
+        test:
+          - CMD
+          - curl
+          - -fs
+          - localhost:5601/kibana/api/status
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 30s
+      networks:
+        - elastic
+        - kibana
+
 networks:
     frontend:
     backend:
     database:
     monitoring:
     grafana:
+    elastic:
+    kibana:
 
 volumes:
     postgres-data:
     avatar-data:
     prometheus-data:
     grafana-data:
+    elasticsearch-data:

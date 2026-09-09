@@ -8,6 +8,7 @@ import { Pagination } from '@/components/ui/Pagination'
 import { Loading } from '@/components/ui/Loading'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { getRouteApi } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
 
@@ -17,6 +18,7 @@ const tasksRoute = getRouteApi('/_authenticated/tasks')
 // 検索条件を変更すると、taskQueryKeys.list(search)に渡る値が変化することで
 // query keyが変わるため、新しいapiリクエストが自動的に発行される
 export const TaskList = () => {
+  const { t } = useTranslation()
   const search = tasksRoute.useSearch()
   const navigate = tasksRoute.useNavigate()
 
@@ -52,7 +54,7 @@ export const TaskList = () => {
                 query.refetch()
               }}
             >
-              {query.isFetching ? '再読み込み中...' : '再試行'}
+              {query.isFetching ? t('task.actions.reloading') : t('task.actions.retry')}
             </Button>
           </div>
         </div>
@@ -62,7 +64,7 @@ export const TaskList = () => {
     if (query.data.data.length === 0) {
       return (
         <div className="w-full flex justify-center">
-          <h2 className="font-bold text-2xl">指定された条件を満たすタスクは存在しません</h2>
+          <h2 className="font-bold text-2xl">{t('task.list.empty')}</h2>
         </div>
       )
     }
@@ -73,22 +75,22 @@ export const TaskList = () => {
           <thead className="bg-purple-50 border-b border-brand-primary">
             <tr>
               <th scope="col" className="px-4 py-3 whitespace-nowrap">
-                タスク名
+                {t('task.list.columns.taskName')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap">
-                ステータス
+                {t('task.list.columns.status')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap hidden sm:table-cell">
-                優先度
+                {t('task.list.columns.priority')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap">
-                締切
+                {t('task.list.columns.dueAt')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap hidden sm:table-cell">
-                作成者
+                {t('task.list.columns.creator')}
               </th>
               <th scope="col" className="px-4 py-3 whitespace-nowrap min-w-24">
-                担当者
+                {t('task.list.columns.assignees')}
               </th>
               <th scope="col" className="px-4 py-3"></th>
             </tr>

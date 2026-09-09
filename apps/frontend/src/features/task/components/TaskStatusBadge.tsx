@@ -1,4 +1,5 @@
 import type { TaskListItem } from '../api'
+import { useTranslation } from 'react-i18next'
 
 interface TaskStatusBadgeProps {
   status: TaskListItem['status']
@@ -16,5 +17,11 @@ const StatusToColor = (status: TaskListItem['status']) => {
 }
 
 export const TaskStatusBadge = ({ status }: TaskStatusBadgeProps) => {
-  return <div className={`${StatusToColor(status)} w-fit px-2 py-0.5 rounded-md`}>{status}</div>
+  const { t } = useTranslation()
+
+  return (
+    <div className={`${StatusToColor(status)} w-fit px-2 py-0.5 rounded-md`}>
+      {t(`task.status.${status}`)}
+    </div>
+  )
 }
