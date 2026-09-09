@@ -5,8 +5,9 @@ import { useMutation } from '@tanstack/react-query'
 import { avatarDeleteMutationOptions, avatarUploadMutationOptions } from '../mutation'
 import { toast } from 'sonner'
 import { authClient } from '@/lib/auth/client'
-import { getFormErrorMessage, useAppForm } from '@/components/form/form'
+import { useAppForm } from '@/components/form/form'
 import { useTranslation } from 'react-i18next'
+import { FormErrorMessage } from '@/components/form/FormErrorMessage'
 
 interface AvatarEditModalProps {
   open: boolean
@@ -84,10 +85,8 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
                       field.handleChange(e.target.files?.[0] ?? null)
                     }}
                   />
-                  {field.state.meta.errors[0] && (
-                    <p className="text-sm text-red-600">
-                      {getFormErrorMessage(field.state.meta.errors[0])}
-                    </p>
+                  {field.state.meta.isTouched && !field.state.meta.isValid && (
+                    <FormErrorMessage error={field.state.meta.errors[0]} />
                   )}
                 </div>
               )}

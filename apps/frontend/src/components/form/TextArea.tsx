@@ -1,6 +1,6 @@
 import { useId, type ComponentPropsWithRef } from 'react'
 import { useFieldContext } from './form-context'
-import { getFormErrorMessage } from './form'
+import { useFormErrorMessage } from './form-error'
 
 type TextAreaProps = ComponentPropsWithRef<'textarea'>
 
@@ -58,11 +58,9 @@ type FormTextAreaFieldProps = Omit<
 export const FormTextAreaField = (props: FormTextAreaFieldProps) => {
   const field = useFieldContext<string>()
 
-  const firstError = field.state.meta.errors[0]
+  const translatedError = useFormErrorMessage(field.state.meta.errors[0])
   const error =
-    field.state.meta.isTouched && !field.state.meta.isValid
-      ? getFormErrorMessage(firstError)
-      : undefined
+    field.state.meta.isTouched && !field.state.meta.isValid ? translatedError : undefined
 
   return (
     <TextAreaField

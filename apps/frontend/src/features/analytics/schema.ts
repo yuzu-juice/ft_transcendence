@@ -25,7 +25,7 @@ export const AnalyticsSummaryFormSchema = z
     (data) =>
       !(data.dueFrom !== '' && data.dueTo !== '' && new Date(data.dueFrom) > new Date(data.dueTo)),
     {
-      message: '締切日時の期間指定が不正です',
+      message: 'analytics.validation.dueRange.invalid',
       path: ['dueTo'],
     },
   )

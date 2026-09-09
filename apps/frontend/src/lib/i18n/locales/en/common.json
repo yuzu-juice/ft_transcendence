@@ -52,7 +52,12 @@
     "assignee": "Assignee",
     "unspecified": "Unspecified",
     "dueDatetimeFrom": "Due From",
-    "dueDatetimeTo": "Due To"
+    "dueDatetimeTo": "Due To",
+    "validation": {
+      "dueRange": {
+        "invalid": "Invalid due date range"
+      }
+    }
   },
   "apiKeys": {
     "title": "API Keys",
@@ -166,6 +171,21 @@
       "low": "low",
       "medium": "medium",
       "high": "high"
+    },
+    "validation": {
+      "keyword": {
+        "tooLong": "Please enter 200 characters or fewer for keyword"
+      },
+      "dueRange": {
+        "invalid": "Invalid due date range"
+      },
+      "title": {
+        "required": "Please enter a task title",
+        "tooLong": "Please enter a task title of 200 characters or less"
+      },
+      "description": {
+        "tooLong": "Please enter a task description of 2000 characters or less"
+      }
     }
   },
   "user": {
@@ -206,6 +226,16 @@
       "deleteTitle": "Delete Image",
       "delete": "Delete Image",
       "deleting": "Deleting..."
+    },
+    "validation": {
+      "avatar": {
+        "fileTooLarge": "Please select an image of 4MB or less",
+        "unsupportedType": "Please select an image in jpeg, png, or webp format"
+      },
+      "userName": {
+        "required": "Please enter a username",
+        "tooLong": "Please enter a username of 100 characters or less"
+      }
     }
   },
   "admin": {
@@ -253,6 +283,12 @@
     },
     "editRole": {
       "role": "Role"
+    },
+    "validation": {
+      "userName": {
+        "required": "Please enter a username",
+        "tooLong": "Please enter a username of 100 characters or less"
+      }
     }
   },
   "error": {
@@ -335,6 +371,29 @@
       "totpAlreadyEnabled": "Two-factor authentication is already enabled",
       "totpNotEnabled": "Two-factor authentication is not enabled",
       "invalidTwoFactorCookie": "Your two-factor authentication session is invalid. Please sign in again."
+    },
+    "validation": {
+      "email": {
+        "invalid": "Please enter a valid email address"
+      },
+      "userName": {
+        "required": "Please enter a username",
+        "tooLong": "Please enter a username of 100 characters or less"
+      },
+      "password": {
+        "required": "Please enter a password",
+        "minLength": "Please enter a password of at least 8 characters"
+      },
+      "confirmPassword": {
+        "required": "Please enter a confirmation password",
+        "mismatch": "Confirmation password does not match"
+      },
+      "agreement": {
+        "required": "You must agree to the Terms of Service and Privacy Policy"
+      },
+      "totpCode": {
+        "format": "Please enter a 6-digit code"
+      }
     },
     "github": {
       "title": "Continue with GitHub",

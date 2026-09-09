@@ -52,7 +52,12 @@
     "assignee": "担当者",
     "unspecified": "指定しない",
     "dueDatetimeFrom": "締切開始",
-    "dueDatetimeTo": "締切終了"
+    "dueDatetimeTo": "締切終了",
+    "validation": {
+      "dueRange": {
+        "invalid": "締切日時の期間指定が不正です"
+      }
+    }
   },
   "apiKeys": {
     "title": "APIキー",
@@ -166,6 +171,21 @@
       "low": "low",
       "medium": "medium",
       "high": "high"
+    },
+    "validation": {
+      "keyword": {
+        "tooLong": "キーワードは200文字以内で入力してください"
+      },
+      "dueRange": {
+        "invalid": "締切日時の期間指定が不正です"
+      },
+      "title": {
+        "required": "タスク名を入力してください",
+        "tooLong": "タスク名は200文字以内で入力してください"
+      },
+      "description": {
+        "tooLong": "タスクの説明は2000文字以内で入力してください"
+      }
     }
   },
   "user": {
@@ -206,6 +226,16 @@
       "deleteTitle": "画像を削除",
       "delete": "画像を削除する",
       "deleting": "削除しています..."
+    },
+    "validation": {
+      "avatar": {
+        "fileTooLarge": "ファイルサイズは4MB以下にしてください",
+        "unsupportedType": "jpeg, png, webp形式の画像を選択してください"
+      },
+      "userName": {
+        "required": "ユーザ名を入力してください",
+        "tooLong": "ユーザ名は100文字以内で入力してください"
+      }
     }
   },
   "admin": {
@@ -253,6 +283,12 @@
     },
     "editRole": {
       "role": "ロール"
+    },
+    "validation": {
+      "userName": {
+        "required": "ユーザ名を入力してください",
+        "tooLong": "ユーザ名は100文字以内で入力してください"
+      }
     }
   },
   "error": {
@@ -335,6 +371,29 @@
       "totpAlreadyEnabled": "二要素認証はすでに有効になっています",
       "totpNotEnabled": "二要素認証が有効になっていません",
       "invalidTwoFactorCookie": "二要素認証のセッションが無効です。もう一度サインインしてください"
+    },
+    "validation": {
+      "email": {
+        "invalid": "有効なメールアドレスを入力してください"
+      },
+      "userName": {
+        "required": "ユーザ名を入力してください",
+        "tooLong": "ユーザ名は100文字以内で入力してください"
+      },
+      "password": {
+        "required": "パスワードを入力してください",
+        "minLength": "パスワードは8文字以上で入力してください"
+      },
+      "confirmPassword": {
+        "required": "確認用パスワードを入力してください",
+        "mismatch": "確認用パスワードが一致しません"
+      },
+      "agreement": {
+        "required": "利用規約・プライバシーポリシーへの同意が必須です"
+      },
+      "totpCode": {
+        "format": "6桁の数字を入力してください"
+      }
     },
     "github": {
       "title": "GitHubで続行",

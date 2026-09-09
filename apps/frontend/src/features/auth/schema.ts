@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
 export const SignInSchema = z.object({
-  email: z.email('有効なメールアドレスを入力してください'),
-  password: z.string().min(1, 'パスワードを入力してください'),
+  email: z.email('auth.validation.email.invalid'),
+  password: z.string().min(1, 'auth.validation.password.required'),
 })
 
 export type SignInInput = z.infer<typeof SignInSchema>
@@ -11,19 +11,19 @@ export const SignUpSchema = z
   .object({
     name: z
       .string()
-      .min(1, 'ユーザ名を入力してください')
-      .max(100, 'ユーザ名は100文字以内で入力してください'),
-    email: z.email('有効なメールアドレスを入力してください'),
-    password: z.string().min(8, 'パスワードは8文字以上で入力してください'),
-    confirmPassword: z.string().min(1, '確認用パスワードを入力してください'),
+      .min(1, 'auth.validation.userName.required')
+      .max(100, 'auth.validation.userName.tooLong'),
+    email: z.email('auth.validation.email.invalid'),
+    password: z.string().min(8, 'auth.validation.password.minLength'),
+    confirmPassword: z.string().min(1, 'auth.validation.confirmPassword.required'),
     agreement: z.boolean(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: '確認用パスワードが一致しません',
+    message: 'auth.validation.confirmPassword.mismatch',
     path: ['confirmPassword'],
   })
   .refine((data) => data.agreement === true, {
-    message: '利用規約・プライバシーポリシーへの同意が必須です',
+    message: 'auth.validation.agreement.required',
     path: ['agreement'],
   })
 
@@ -36,13 +36,13 @@ export const SignInSearchSchema = z.object({
 })
 
 export const TotpEnableSchema = z.object({
-  password: z.string().min(1, 'パスワードを入力してください'),
+  password: z.string().min(1, 'auth.validation.password.required'),
 })
 
 export type TotpEnableInput = z.infer<typeof TotpEnableSchema>
 
 export const TotpCodeSchema = z.object({
-  code: z.string().regex(/^\d{6}$/, '6桁の数字を入力してください'),
+  code: z.string().regex(/^\d{6}$/, 'auth.validation.totpCode.format'),
 })
 
 export type TotpCodeInput = z.infer<typeof TotpCodeSchema>

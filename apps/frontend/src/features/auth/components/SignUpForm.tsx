@@ -3,7 +3,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { Button, Divider } from 'otsukimi-ui'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { getFormErrorMessage, useAppForm } from '@/components/form/form'
+import { useAppForm } from '@/components/form/form'
 import { CustomLink } from '@/components/ui/CustomLink'
 import { authClient } from '@/lib/auth/client'
 import { getBetterAuthErrorMessage, signUpMutationOptions } from '../mutation'
@@ -11,6 +11,7 @@ import { SignUpSchema } from '../schema'
 import { AuthErrorAlert } from './AuthErrorAlert'
 import { AuthLayout } from './AuthLayout'
 import { GitHubSignIn } from './GitHubSignIn'
+import { FormErrorMessage } from '@/components/form/FormErrorMessage'
 
 export const SignUpForm = () => {
   const { t } = useTranslation()
@@ -117,10 +118,8 @@ export const SignUpForm = () => {
                 </span>
               </div>
 
-              {field.state.meta.errors[0] && (
-                <p className="text-sm text-red-600">
-                  {getFormErrorMessage(field.state.meta.errors[0])}
-                </p>
+              {field.state.meta.isTouched && !field.state.meta.isValid && (
+                <FormErrorMessage error={field.state.meta.errors[0]} />
               )}
             </div>
           )}

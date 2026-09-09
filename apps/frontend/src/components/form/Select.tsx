@@ -1,5 +1,5 @@
 import { useId, type ComponentPropsWithRef } from 'react'
-import { getFormErrorMessage } from './form'
+import { useFormErrorMessage } from './form-error'
 import { useFieldContext } from './form-context'
 
 type SelectOption<T extends string> = {
@@ -74,11 +74,9 @@ export function FormSelectField<T extends string>({
 }) {
   const field = useFieldContext<T>()
 
-  const firstError = field.state.meta.errors[0]
+  const translatedError = useFormErrorMessage(field.state.meta.errors[0])
   const error =
-    field.state.meta.isTouched && !field.state.meta.isValid
-      ? getFormErrorMessage(firstError)
-      : undefined
+    field.state.meta.isTouched && !field.state.meta.isValid ? translatedError : undefined
 
   return (
     <SelectField

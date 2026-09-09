@@ -1,6 +1,6 @@
 # Terms of Service
 
-*Last updated: August 2026*
+_Last updated: August 2026_
 
 These Terms of Service ("Terms") govern your use of our ft_transcendence ("the Application"), a task management service created as part of the 42 Tokyo curriculum. By creating an account or using the Application, you agree to these Terms.
 
@@ -88,6 +88,6 @@ To the fullest extent permitted by law, the creators of this Application shall n
 
 ## 9. Contact
 
-This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, and <!-- login_name -->.
+This Application was created as part of the 42 Tokyo curriculum by takitaga, ssoeno, genomoto, tamatsuu.
 
 If you have questions about these Terms, please open an issue in our [GitHub repository](https://github.com/yuzu-juice/ft_transcendence).
