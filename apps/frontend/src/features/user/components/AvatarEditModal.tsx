@@ -10,11 +10,12 @@ import { useTranslation } from 'react-i18next'
 import { FormErrorMessage } from '@/components/form/FormErrorMessage'
 
 interface AvatarEditModalProps {
+  hasAvatarImage: boolean
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) => {
+export const AvatarEditModal = ({ hasAvatarImage, open, onOpenChange }: AvatarEditModalProps) => {
   const { t } = useTranslation()
   const { refetch } = authClient.useSession()
 
@@ -101,27 +102,31 @@ export const AvatarEditModal = ({ open, onOpenChange }: AvatarEditModalProps) =>
             </editForm.Subscribe>
           </form>
         </div>
-        <Divider />
-        <div className="flex flex-col gap-2">
-          <h3 className="text-md font-bold">{t('user.avatar.deleteTitle')}</h3>
-          <form
-            noValidate
-            className="flex flex-row gap-12"
-            onSubmit={(event) => {
-              event.preventDefault()
-              event.stopPropagation()
-              deleteForm.handleSubmit()
-            }}
-          >
-            <deleteForm.Subscribe selector={(state) => state.isSubmitting}>
-              {(isSubmitting) => (
-                <Button type="submit" variant="moon" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? t('user.avatar.deleting') : t('user.avatar.delete')}
-                </Button>
-              )}
-            </deleteForm.Subscribe>
-          </form>
-        </div>
+        {hasAvatarImage && (
+          <>
+            <Divider />
+            <div className="flex flex-col gap-2">
+              <h3 className="text-md font-bold">{t('user.avatar.deleteTitle')}</h3>
+              <form
+                noValidate
+                className="flex flex-row gap-12"
+                onSubmit={(event) => {
+                  event.preventDefault()
+                  event.stopPropagation()
+                  deleteForm.handleSubmit()
+                }}
+              >
+                <deleteForm.Subscribe selector={(state) => state.isSubmitting}>
+                  {(isSubmitting) => (
+                    <Button type="submit" variant="moon" className="w-full" disabled={isSubmitting}>
+                      {isSubmitting ? t('user.avatar.deleting') : t('user.avatar.delete')}
+                    </Button>
+                  )}
+                </deleteForm.Subscribe>
+              </form>
+            </div>
+          </>
+        )}
       </div>
     </Modal>
   )

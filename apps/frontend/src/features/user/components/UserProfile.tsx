@@ -77,7 +77,11 @@ export const UserProfile = () => {
           </Button>
         </div>
       </Card>
-      <AvatarEditModal open={avatarEditOpen} onOpenChange={setAvatarEditOpen} />
+      <AvatarEditModal
+        hasAvatarImage={!!session?.user.image}
+        open={avatarEditOpen}
+        onOpenChange={setAvatarEditOpen}
+      />
       <ProfileEditModal
         name={session.user.name}
         open={profileEditOpen}
