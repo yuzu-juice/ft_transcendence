@@ -217,6 +217,8 @@
       "editProfile": "Edit Profile"
     },
     "avatar": {
+      "select": "Select",
+      "unselectedMessage": "Select an image",
       "updated": "Avatar updated",
       "deleted": "Avatar deleted",
       "editModalTitle": "Edit Avatar",

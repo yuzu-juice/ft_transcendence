@@ -76,16 +76,23 @@ export const AvatarEditModal = ({ hasAvatarImage, open, onOpenChange }: AvatarEd
             <editForm.AppField name="avatar">
               {(field) => (
                 <div className="flex flex-col gap-1 w-full">
-                  <input
-                    type="file"
-                    className="block w-full text-sm bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none
-         file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold
-         file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
-                    accept="image/jpeg, image/jpg, image/png, image/webp"
-                    onChange={(e) => {
-                      field.handleChange(e.target.files?.[0] ?? null)
-                    }}
-                  />
+                  <div className="w-full h-[3em] rounded-md flex flex-row items-center gap-4 border border-border">
+                    <span className="pl-4 flex-1 truncate">
+                      {field.state.value?.name ?? t('user.avatar.unselectedMessage')}
+                    </span>
+                    <label className="h-full flex items-center bg-brand-primary-soft border-l-brand-primary-deep pl-4 pr-6 rounded-r-md cursor-pointer">
+                      <input
+                        type="file"
+                        className="sr-only"
+                        accept="image/jpeg, image/jpg, image/png, image/webp"
+                        onChange={(e) => {
+                          field.handleChange(e.target.files?.[0] ?? null)
+                        }}
+                      />
+                      <span className="">{t('user.avatar.select')}</span>
+                    </label>
+                  </div>
+
                   {field.state.meta.isTouched && !field.state.meta.isValid && (
                     <FormErrorMessage error={field.state.meta.errors[0]} />
                   )}
