@@ -90,6 +90,10 @@ services:
     networks:
       - backend
       - database
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://127.0.0.1:12201
     restart: unless-stopped
 
   database:
@@ -256,6 +260,11 @@ services:
     container_name: logstash
     environment:
       - LS_JAVA_OPTS=-Xms1g -Xmx1g
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    volumes:
+      - ./infra/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    ports:
+      - "127.0.0.1:12201:12201/udp"
     healthcheck:
       test:
         - CMD
