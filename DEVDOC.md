@@ -191,6 +191,6 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 ## 本番環境の検証をする場合
 
 - envファイルとして `.env.prod` を作成してください
-- `BETTER_AUTH_URL` や `BASE_URL` を `https://localhost` に設定してください
-- GitHub OAuth App の設定項目 `Authorization callback URL` に `https://localhost/api/auth/callback/github` を追加してください
+- `BETTER_AUTH_URL` や `BASE_URL` を `https://localhost:4443` に設定してください
+- GitHub OAuth App の設定項目 `Authorization callback URL` に `https://localhost:4443/api/auth/callback/github` を追加してください
 - `./start.sh`を実行すると本番環境が立ち上がります
