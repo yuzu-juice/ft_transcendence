@@ -26,14 +26,14 @@ const TextField = ({
     [ariaDescribedBy, error ? errorId : undefined].filter(Boolean).join(' ') || undefined
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 min-w-0 max-w-full">
       <label htmlFor={inputId} className="text-sm font-bold text-brand-primary">
         {label}
       </label>
       <Input
         {...props}
         id={inputId}
-        className={`w-full ${className ?? ''}`}
+        className={`w-full min-w-0 max-w-full ${className ?? ''}`}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedby}
       />

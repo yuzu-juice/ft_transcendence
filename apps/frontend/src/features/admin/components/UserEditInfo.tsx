@@ -49,13 +49,18 @@ export const UserEditInfo = ({ user, onBack }: UserEditInfoProps) => {
           {(field) => <field.TextField type="text" label={t('admin.editInfo.userName')} />}
         </form.AppField>
 
-        <div className="flex flex-row gap-4">
-          <Button type="button" onClick={() => onBack()} variant="transparent">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full sm:w-auto">
+          <Button
+            type="button"
+            onClick={() => onBack()}
+            className="w-full sm:w-auto"
+            variant="transparent"
+          >
             {t('common.cancel')}
           </Button>
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button type="submit" className="w-full sm:w-auto" disabled={isSubmitting}>
                 {isSubmitting ? t('admin.actions.saving') : t('common.save')}
               </Button>
             )}

@@ -89,7 +89,7 @@ export const AnalyticsForm = () => {
           )}
         </form.AppField>
 
-        <div className="flex flex-row flex-wrap items-center gap-y-6 gap-x-12">
+        <div className="min-w-0 max-w-full flex flex-row flex-wrap items-center gap-y-6 gap-x-12">
           <form.AppField name="dueFrom">
             {(field) => (
               <field.TextField type="datetime-local" label={t('analytics.dueDatetimeFrom')} />
@@ -102,10 +102,10 @@ export const AnalyticsForm = () => {
           </form.AppField>
         </div>
 
-        <div className="flex flex-row gap-4 ml-auto mt-auto">
+        <div className="flex flex-col sm:flex-row gap-4 flex-wrap md:ml-auto mt-auto w-full sm:w-auto">
           <Button
             type="button"
-            className="w-full"
+            className="w-full sm:w-auto"
             variant="transparent"
             onClick={() => {
               form.reset({
@@ -115,7 +115,7 @@ export const AnalyticsForm = () => {
           >
             {t('common.reset')}
           </Button>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full sm:w-auto">
             {t('common.search')}
           </Button>
         </div>
