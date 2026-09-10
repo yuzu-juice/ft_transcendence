@@ -22,8 +22,7 @@ services:
       - ./secrets/nginx/server.key:/etc/nginx/ssl/server.key:ro
       - ./secrets/nginx/server.crt:/etc/nginx/ssl/server.crt:ro
     ports:
-      - "127.0.0.1:443:443"
-      - "127.0.0.1:80:80"
+      - "127.0.0.1:4443:443"
     depends_on:
       backend:
         condition: service_healthy
