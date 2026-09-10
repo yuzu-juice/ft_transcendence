@@ -12,6 +12,7 @@ import {
   toAnalyticsSummaryParams,
 } from '@/features/analytics/schema'
 import { userSearchQueries } from '@/features/task/query'
+import { useEffect } from 'react'
 
 const analyticsSummaryRoute = getRouteApi('/_authenticated/analytics')
 
@@ -38,8 +39,10 @@ export const AnalyticsForm = () => {
     },
   })
 
-  // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
-  form.reset(toAnalyticsSummaryFormValues(search))
+  useEffect(() => {
+    // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
+    form.reset(toAnalyticsSummaryFormValues(search))
+  }, [form, search])
 
   if (query.isLoading) {
     return <Loading />

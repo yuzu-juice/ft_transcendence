@@ -13,6 +13,7 @@ import {
   toTaskSearchParams,
 } from '../schema'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
 
@@ -38,8 +39,10 @@ export const TaskSearchForm = () => {
     },
   })
 
-  // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
-  form.reset(toTaskSearchFormValues(search))
+  useEffect(() => {
+    // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
+    form.reset(toTaskSearchFormValues(search))
+  }, [form, search])
 
   if (query.isLoading) {
     return <Loading />
