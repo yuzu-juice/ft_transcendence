@@ -248,6 +248,29 @@ services:
     mem_limit: 2g
     restart: unless-stopped
 
+  logstash:
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    image: docker.elastic.co/logstash/logstash:9.5.3
+    container_name: logstash
+    environment:
+      - LS_JAVA_OPTS=-Xms1g -Xmx1g
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fs
+        - localhost:9600/_health_report
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - elastic
+    mem_limit: 2g
+    restart: unless-stopped
+
 networks:
   backend:
   database:
