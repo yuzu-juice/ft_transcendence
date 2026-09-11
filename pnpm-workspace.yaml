@@ -9,6 +9,5 @@ minimumReleaseAge: 1440
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - "semver"
+  - "chokidar"
 blockExoticSubdeps: true
-minimumReleaseAgeExclude:
-  - otsukimi-ui@1.2.1

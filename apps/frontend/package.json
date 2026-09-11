@@ -22,7 +22,7 @@
     "boring-avatars": "^2.0.4",
     "hono": "^4.13.2",
     "i18next": "^26.4.0",
-    "otsukimi-ui": "^1.2.1",
+    "otsukimi-ui": "workspace:*",
     "react": "^19.2.8",
     "react-csv": "^2.2.2",
     "react-dom": "^19.2.8",

@@ -1,0 +1,17 @@
+node_modules
+dist
+*.tgz
+
+.DS_Store
+.env
+.env.*
+!.env.example
+
+.vscode
+.idea
+
+coverage
+.turbo
+.next
+
+storybook-static/

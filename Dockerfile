@@ -43,6 +43,10 @@ ENV NODE_ENV="production"
 # Hono RPC型を含む backend/dist を先に生成
 RUN pnpm --filter @ft/backend build
 
+RUN pnpm --filter otsukimi-ui build
+
+RUN pnpm --filter otsukimi-ui build-storybook
+
 RUN pnpm --filter @ft/frontend build
 
 
@@ -58,3 +62,5 @@ CMD ["pnpm", "--filter", "@ft/backend", "start"]
 FROM nginx:alpine AS reverse-proxy-production
 
 COPY --from="builder" /workspace/apps/frontend/dist /usr/share/nginx/html
+
+COPY --from="builder" /workspace/packages/otsukimi-ui/storybook-static /usr/share/nginx/html/storybook

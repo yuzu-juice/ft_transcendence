@@ -5,8 +5,9 @@
   "scripts": {
     "rpc:build": "pnpm --filter @ft/backend build",
     "rpc:watch": "pnpm --filter @ft/backend build:watch",
+    "ui:build": "pnpm --filter otsukimi-ui build",
     "compose:dev": "docker compose --ansi always -f compose.yml -f compose.dev.yml --env-file .env.dev up --watch",
-    "dev": "pnpm rpc:build && concurrently -k -s first -n rpc,docker -c cyan,magenta \"pnpm rpc:watch\" \"pnpm compose:dev\"",
+    "dev": "pnpm ui:build && pnpm rpc:build && concurrently -k -s first -n rpc,docker -c cyan,magenta \"pnpm rpc:watch\" \"pnpm compose:dev\"",
     "check": "biome check .",
     "lint": "biome lint .",
     "format": "biome format --write .",
