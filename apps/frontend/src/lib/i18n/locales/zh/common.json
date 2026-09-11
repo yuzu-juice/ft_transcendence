@@ -19,6 +19,9 @@
   "home": {
     "tagline": "一款超易用的项目管理应用"
   },
+  "notFound": {
+    "goToHome": "返回首页"
+  },
   "legal": {
     "privacy": {
       "title": "隐私政策"

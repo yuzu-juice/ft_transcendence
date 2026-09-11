@@ -19,6 +19,9 @@
   "home": {
     "tagline": "A super easy project management app"
   },
+  "notFound": {
+    "goToHome": "Go to Home"
+  },
   "legal": {
     "privacy": {
       "title": "Privacy Policy"
