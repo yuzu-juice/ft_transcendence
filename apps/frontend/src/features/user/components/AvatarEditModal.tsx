@@ -80,7 +80,7 @@ export const AvatarEditModal = ({ hasAvatarImage, open, onOpenChange }: AvatarEd
                     <span className="pl-4 flex-1 truncate">
                       {field.state.value?.name ?? t('user.avatar.unselectedMessage')}
                     </span>
-                    <label className="h-full flex items-center bg-brand-primary-soft border-l-brand-primary-deep pl-4 pr-6 rounded-r-md cursor-pointer">
+                    <label className="h-full flex items-center bg-brand-primary border-l-brand-primary-deep pl-4 pr-6 rounded-r-md cursor-pointer">
                       <input
                         type="file"
                         className="sr-only"
@@ -89,7 +89,7 @@ export const AvatarEditModal = ({ hasAvatarImage, open, onOpenChange }: AvatarEd
                           field.handleChange(e.target.files?.[0] ?? null)
                         }}
                       />
-                      <span className="">{t('user.avatar.select')}</span>
+                      <span className="text-white">{t('user.avatar.select')}</span>
                     </label>
                   </div>
 
