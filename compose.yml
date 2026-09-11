@@ -220,6 +220,11 @@ services:
           -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
           -X POST http://elasticsearch:9200/_security/user/kibana_system/_password
           -d "{\"password\":\"${KIBANA_PASSWORD}\"}"
+      - command: >-
+          curl -f --retry 10 --retry-delay 10 --retry-all-errors
+          -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
+          -X PUT http://elasticsearch:9200/_component_template/logs@custom
+          -d "{\"template\":{\"settings\":{\"index.lifecycle.prefer_ilm\":false},\"lifecycle\":{\"data_retention\":\"7d\"}}}"
     mem_limit: 2g
     restart: unless-stopped
 
@@ -236,6 +241,8 @@ services:
       - SERVER_BASEPATH=/kibana
       - SERVER_REWRITEBASEPATH=true
       - NODE_OPTIONS=--max-old-space-size=1024
+    volumes:
+      - ./infra/kibana/saved_objects.ndjson:/usr/share/kibana/saved_objects.ndjson:ro
     healthcheck:
       test:
         - CMD
@@ -249,6 +256,12 @@ services:
     networks:
       - elastic
       - kibana
+    post_start:
+      - command: >-
+          curl -f --retry 10 --retry-delay 10 --retry-all-errors
+          -u "elastic:${ELASTIC_PASSWORD}" -H "kbn-xsrf: true"
+          --form file=@/usr/share/kibana/saved_objects.ndjson
+          "http://localhost:5601/kibana/api/saved_objects/_import?overwrite=true"
     mem_limit: 2g
     restart: unless-stopped
 
