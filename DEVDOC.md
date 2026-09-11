@@ -16,6 +16,7 @@
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
 - `BETTER_AUTH_SECRET` : `openssl rand -base64 32`により生成された値
 - `INITIAL_ADMIN_PASSWORD` : 8文字以上128文字以下の文字列
+- `ELASTIC_PASSWORD`・`KIBANA_PASSWORD` : 6文字以上の文字列
 - `GF_DISCORD_WEBHOOK_URL` : Discordのwebhook URL（[webhookの作成手順](https://support.discord.com/hc/ja/articles/228383668-%E3%82%A6%E3%82%A7%E3%83%96%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%81%94%E7%B4%B9%E4%BB%8B)）
 
 ### GitHub OAuth Appの準備
@@ -186,7 +187,9 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 
 - Kibana へは、`http://localhost:8080/kibana` からアクセスします。
 - Kibana へのログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。
+- Kibana の起動時に、`infra/kibana/saved_objects.ndjson` からデータビューとダッシュボード `Sample dashboard` が作成されます。既にある場合はこのファイルの内容で上書きされます。Kibana 上で変更した場合は、Saved Objects の画面からエクスポートしてこのファイルを置き換えてください。
 - Kibana は elasticsearch への内部的な接続で、ログイン名 `kibana_system` 、パスワードは環境変数 `KIBANA_PASSWORD` を使います
+- ログ（`logs-*-*`）は7日を過ぎると削除されます。
 
 ## 本番環境の検証をする場合
 
