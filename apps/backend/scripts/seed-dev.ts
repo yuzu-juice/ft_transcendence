@@ -8,7 +8,7 @@ import { task, taskAssignment } from '../src/db/schema/tasks.js'
 import { avatarUrl, storeAvatar } from '../src/features/avatar/storage.js'
 
 async function seedAvatar(filepath: string): Promise<string> {
-  const avatarDir = process.env.AVATAR_DIR!
+  const avatarDir = process.env.AVATAR_DIR
   if (!avatarDir) {
     console.error('AVATAR_DIR is not set')
     process.exit(1)

@@ -36,13 +36,15 @@ export const TotpSetup = () => {
       onSubmit: hasCredential ? TotpEnableSchema : undefined,
     },
     onSubmit: async ({ value }) => {
-      const data = await totpEnableMutation.mutateAsync(value)
-      if (data.method !== 'totp') {
-        return
-      }
+      try {
+        const data = await totpEnableMutation.mutateAsync(value)
+        if (data.method !== 'totp') {
+          return
+        }
 
-      toast.info(t('auth.totp.setup.passwordVerified'))
-      setTotpURI(data.totpURI)
+        toast.info(t('auth.totp.setup.passwordVerified'))
+        setTotpURI(data.totpURI)
+      } catch {}
     },
   })
 
@@ -53,6 +55,7 @@ export const TotpSetup = () => {
       toast.info(t('auth.totp.setup.enabled'))
       await router.navigate({ to: '/mypage', replace: true })
     },
+    onError: () => {},
   })
 
   // accountのproviderIdがcredential（email・パスワードによる認証）の場合、

@@ -19,6 +19,7 @@ export const TotpChallenge = () => {
       toast.info(t('auth.totp.challenge.success'))
       await router.navigate({ to: '/mypage', replace: true })
     },
+    onError: () => {},
   })
 
   return (

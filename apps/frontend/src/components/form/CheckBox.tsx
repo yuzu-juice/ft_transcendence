@@ -1,5 +1,5 @@
-import { useId } from 'react'
 import { Checkbox, type CheckboxProps } from 'otsukimi-ui'
+import { useId } from 'react'
 import { useFieldContext } from './form-context'
 
 type CheckboxFieldProps = CheckboxProps & {

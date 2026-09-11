@@ -1,7 +1,7 @@
 import { Badge } from 'otsukimi-ui'
+import { useTranslation } from 'react-i18next'
 import { UserAvatar } from '@/components/ui/UserAvatar'
 import type { AdminUserSummary } from '../api'
-import { useTranslation } from 'react-i18next'
 
 interface UserListItemProps {
   user: AdminUserSummary

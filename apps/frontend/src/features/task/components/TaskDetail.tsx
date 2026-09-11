@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
 import { Button } from 'otsukimi-ui'
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { UserAvatar } from '@/components/ui/UserAvatar'
 import { authClient } from '@/lib/auth/client'
+import { formatTaskDateTime, getRelativeDueTime } from '@/lib/utils/time'
 import type { TaskDetail as TaskDetailResponse } from '../api'
 import { taskMutations } from '../mutation'
-import { formatTaskDateTime, getRelativeDueTime } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
-import { useTranslation } from 'react-i18next'
 
 interface TaskDetailProps {
   task: TaskDetailResponse
@@ -31,9 +31,11 @@ export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
 
   const taskDeleteMutation = useMutation(taskMutations.delete())
   const handleDeleteTask = async () => {
-    await taskDeleteMutation.mutateAsync(task.id)
-    toast.success(t('task.deleted'))
-    onClose()
+    try {
+      await taskDeleteMutation.mutateAsync(task.id)
+      toast.success(t('task.deleted'))
+      onClose()
+    } catch {}
   }
 
   return (

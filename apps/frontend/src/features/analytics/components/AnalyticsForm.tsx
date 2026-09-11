@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { Button, Card } from 'otsukimi-ui'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppForm } from '@/components/form/form'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -30,16 +31,20 @@ export const AnalyticsForm = () => {
       onSubmit: AnalyticsSummaryFormSchema,
     },
     onSubmit: async ({ value }) => {
-      navigate({
-        search: () => ({
-          ...toAnalyticsSummaryParams(value),
-        }),
-      })
+      try {
+        navigate({
+          search: () => ({
+            ...toAnalyticsSummaryParams(value),
+          }),
+        })
+      } catch {}
     },
   })
 
-  // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
-  form.reset(toAnalyticsSummaryFormValues(search))
+  useEffect(() => {
+    // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
+    form.reset(toAnalyticsSummaryFormValues(search))
+  }, [form, search])
 
   if (query.isLoading) {
     return <Loading />

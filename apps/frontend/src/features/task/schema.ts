@@ -1,11 +1,11 @@
 import z from 'zod'
+import { toDateTimeLocal } from '@/lib/utils/time'
 import type {
   TaskAssigneesUpdateRequestBody,
   TaskCreateRequestBody,
   TaskListQuery,
   TaskUpdateRequestBody,
 } from './api'
-import { toDateTimeLocal } from './time'
 
 export const TaskStatusSchema = z.enum(['todo', 'in_progress', 'done'])
 export const TaskPrioritySchema = z.enum(['low', 'medium', 'high'])

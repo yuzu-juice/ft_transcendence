@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { Button, Card } from 'otsukimi-ui'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CheckboxField } from '@/components/form/CheckBox'
 import { useAppForm } from '@/components/form/form'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -12,7 +14,6 @@ import {
   toTaskSearchFormValues,
   toTaskSearchParams,
 } from '../schema'
-import { useTranslation } from 'react-i18next'
 
 const tasksRoute = getRouteApi('/_authenticated/tasks')
 
@@ -30,16 +31,20 @@ export const TaskSearchForm = () => {
       onSubmit: TaskSearchFormSchema,
     },
     onSubmit: async ({ value }) => {
-      navigate({
-        search: () => ({
-          ...toTaskSearchParams(value),
-        }),
-      })
+      try {
+        navigate({
+          search: () => ({
+            ...toTaskSearchParams(value),
+          }),
+        })
+      } catch {}
     },
   })
 
-  // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
-  form.reset(toTaskSearchFormValues(search))
+  useEffect(() => {
+    // 戻る/進むなどでURL側の条件が変わった場合にフォームも同期する
+    form.reset(toTaskSearchFormValues(search))
+  }, [form, search])
 
   if (query.isLoading) {
     return <Loading />

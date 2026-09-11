@@ -1,6 +1,6 @@
-import { useId, type ComponentPropsWithRef } from 'react'
-import { useFormErrorMessage } from './form-error'
+import { type ComponentPropsWithRef, useId } from 'react'
 import { useFieldContext } from './form-context'
+import { useFormErrorMessage } from './form-error'
 
 type SelectOption<T extends string> = {
   value: T

@@ -1,19 +1,23 @@
+import i18n from '../i18n/config'
+
 export const formatTaskDateTime = (date: string) => {
-  // TODO(i18n): 使用言語に合わせてlocalesを変更
-  return new Date(date).toLocaleString('ja-JP')
+  const currentLanguage = i18n.language
+
+  return new Date(date).toLocaleString(currentLanguage)
 }
 
 export const formatTaskDate = (date: string) => {
-  // TODO(i18n): 使用言語に合わせてlocalesを変更
-  return new Date(date).toLocaleDateString('ja-JP')
+  const currentLanguage = i18n.language
+
+  return new Date(date).toLocaleDateString(currentLanguage)
 }
 
 export const getRelativeDueTime = (date: string) => {
   const d = new Date(date)
   const offsetDay = Math.trunc((d.getTime() - Date.now()) / 1000 / 60 / 60 / 24)
+  const currentLanguage = i18n.language
 
-  // TODO(i18n): 使用言語に合わせてlocalesを変更
-  return new Intl.RelativeTimeFormat('ja-JP', { style: 'short' }).format(offsetDay, 'day')
+  return new Intl.RelativeTimeFormat(currentLanguage, { style: 'short' }).format(offsetDay, 'day')
 }
 
 export const isOverDue = (date: string) => {

@@ -217,6 +217,8 @@
       "editProfile": "プロフィールを編集"
     },
     "avatar": {
+      "select": "選択",
+      "unselectedMessage": "画像を選択してください",
       "updated": "アバター画像を更新しました",
       "deleted": "アバター画像を削除しました",
       "editModalTitle": "アバター編集",

@@ -217,6 +217,8 @@
       "editProfile": "编辑个人资料"
     },
     "avatar": {
+      "select": "选择",
+      "unselectedMessage": "选择图像",
       "updated": "头像已更新",
       "deleted": "头像已删除",
       "editModalTitle": "编辑头像",

@@ -1,7 +1,7 @@
-import { AdminPage } from '@/features/admin/components/AdminPage'
-import i18n from '@/lib/i18n/config'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { toast } from 'sonner'
+import { AdminPage } from '@/features/admin/components/AdminPage'
+import i18n from '@/lib/i18n/config'
 
 export const Route = createFileRoute('/_authenticated/admin')({
   beforeLoad: ({ context }) => {

@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { adminQueries } from '../query'
-import { Loading } from '@/components/ui/Loading'
-import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Button } from 'otsukimi-ui'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { Loading } from '@/components/ui/Loading'
 import { Modal } from '@/components/ui/Modal'
+import { adminQueries } from '../query'
 import { UserDetail } from './UserDetail'
 import { UserEditInfo } from './UserEditInfo'
 import { UserEditRoleInfo } from './UserEditRole'
-import { useTranslation } from 'react-i18next'
 
 interface UserModalProps {
   userId: string

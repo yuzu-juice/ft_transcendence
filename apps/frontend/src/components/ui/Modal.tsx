@@ -1,5 +1,5 @@
 import { Button } from 'otsukimi-ui'
-import { useEffect, useId, useRef, type ReactNode } from 'react'
+import { type ReactNode, useEffect, useId, useRef } from 'react'
 
 interface ModalProps {
   open: boolean

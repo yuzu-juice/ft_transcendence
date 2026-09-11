@@ -1,5 +1,5 @@
-import { UserList } from './UserList'
 import { useTranslation } from 'react-i18next'
+import { UserList } from './UserList'
 
 export const AdminPage = () => {
   const { t } = useTranslation()

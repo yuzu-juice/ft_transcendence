@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-
-import { SignOutButton } from '@/features/user/components/SignOutButton'
 import { PageList } from '@/features/user/components/PageList'
+import { SignOutButton } from '@/features/user/components/SignOutButton'
 import { UserProfile } from '@/features/user/components/UserProfile'
 
 export const Route = createFileRoute('/_authenticated/mypage')({

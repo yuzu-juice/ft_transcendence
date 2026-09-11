@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
 import { Button } from 'otsukimi-ui'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAppForm } from '@/components/form/form'
 import type { AdminUserDetail } from '../api'
 import { adminMutations } from '../mutation'
 import { AdminUserEditFormSchema, toAdminUserUpdateRequestBody } from '../schema'
-import { useTranslation } from 'react-i18next'
 
 interface UserEditInfoProps {
   user: AdminUserDetail
@@ -25,12 +25,14 @@ export const UserEditInfo = ({ user, onBack }: UserEditInfoProps) => {
       onSubmit: AdminUserEditFormSchema,
     },
     onSubmit: async ({ value }) => {
-      await adminUserUpdateMutation.mutateAsync({
-        userId: user.id,
-        input: toAdminUserUpdateRequestBody(value),
-      })
-      toast.success(t('admin.updatedInfo'))
-      onBack()
+      try {
+        await adminUserUpdateMutation.mutateAsync({
+          userId: user.id,
+          input: toAdminUserUpdateRequestBody(value),
+        })
+        toast.success(t('admin.updatedInfo'))
+        onBack()
+      } catch {}
     },
   })
 

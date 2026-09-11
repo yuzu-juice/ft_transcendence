@@ -1,8 +1,8 @@
-import { authClient } from '@/lib/auth/client'
 import { Link } from '@tanstack/react-router'
 import { Button } from 'otsukimi-ui'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { authClient } from '@/lib/auth/client'
 
 // sign-in/sign-upに関わらず同一の動線としてGitHubSignInを使用する
 // エラーメッセージを表示する場合は、全て/sign-in側に遷移する

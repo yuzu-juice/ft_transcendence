@@ -1,9 +1,9 @@
+import { useTranslation } from 'react-i18next'
 import { UserAvatar } from '@/components/ui/UserAvatar'
+import { formatTaskDate, isOverDue } from '@/lib/utils/time'
 import type { TaskListItem as TaskListItemResponse } from '../api'
-import { formatTaskDate, isOverDue } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
-import { useTranslation } from 'react-i18next'
 
 interface TaskListItemProps {
   task: TaskListItemResponse

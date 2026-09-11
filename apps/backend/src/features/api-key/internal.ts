@@ -1,7 +1,7 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import type { AuthEnv } from '../../middleware/auth.js'
-import { apiKeyService } from './service.js'
 import { apiKeyIdParamSchema, createApiKeyBodySchema } from './schema.js'
+import { apiKeyService } from './service.js'
 
 const errorResponseSchema = z
   .object({
@@ -138,7 +138,7 @@ const deleteApiKeyRoute = createRoute({
 
 export const apiKeys = new OpenAPIHono<AuthEnv>()
   .openapi(createApiKeyRoute, async (c) => {
-    const { id: userId } = c.get('user')!
+    const { id: userId } = c.get('user')
     const { name } = c.req.valid('json')
 
     const apiKey = await apiKeyService.create(userId, name)
@@ -146,14 +146,14 @@ export const apiKeys = new OpenAPIHono<AuthEnv>()
     return c.json(apiKey, 201)
   })
   .openapi(listApiKeysRoute, async (c) => {
-    const { id: userId } = c.get('user')!
+    const { id: userId } = c.get('user')
 
     const apiKeyList = await apiKeyService.listByUserId(userId)
 
     return c.json(apiKeyList, 200)
   })
   .openapi(deleteApiKeyRoute, async (c) => {
-    const { id: userId } = c.get('user')!
+    const { id: userId } = c.get('user')
     const { apiKeyId } = c.req.valid('param')
 
     await apiKeyService.remove(apiKeyId, userId)

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { Header } from '@/components/ui/Header'
 import { Footer } from '@/components/ui/Footer'
+import { Header } from '@/components/ui/Header'
 
 interface CommonLayoutProps {
   children: ReactNode
