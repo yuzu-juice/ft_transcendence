@@ -55,6 +55,6 @@ COPY --from="builder" /workspace/apps/backend/dist /workspace/apps/backend/dist
 CMD ["pnpm", "--filter", "@ft/backend", "start"]
 
 
-FROM nginx:alpine AS reverse-proxy-production
+FROM owasp/modsecurity-crs:nginx@sha256:ccec5e3ecd1dcf6b48903268f4fe415fd17914e8bf30fc21263fd05cc7045f29 AS reverse-proxy-production
 
 COPY --from="builder" /workspace/apps/frontend/dist /usr/share/nginx/html

@@ -18,11 +18,18 @@ services:
       target: reverse-proxy-production
     container_name: reverse-proxy
     volumes:
-      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/nginx.conf:/etc/nginx/custom-nginx.conf:ro
       - ./secrets/nginx/server.key:/etc/nginx/ssl/server.key:ro
       - ./secrets/nginx/server.crt:/etc/nginx/ssl/server.crt:ro
     ports:
-      - "127.0.0.1:4443:443"
+      - "127.0.0.1:4443:8443"
+    environment:
+      MODSEC_RULE_ENGINE: DetectionOnly
+      MODSEC_AUDIT_ENGINE: RelevantOnly
+      MODSEC_AUDIT_LOG: /dev/stderr
+      BLOCKING_PARANOIA: "1"
+      ALLOWED_METHODS: "GET HEAD POST PUT PATCH DELETE OPTIONS"
+    command: ["nginx", "-c", "/etc/nginx/custom-nginx.conf", "-g", "daemon off;"]
     depends_on:
       backend:
         condition: service_healthy

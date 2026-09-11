@@ -37,6 +37,15 @@ pnpm dev
 
 内部的にはDocker Composeを使用して起動します。ソースコードの変更を監視してコンテナへ反映し、同期・再ビルドを行います。
 
+開発用reverse-proxyにはModSecurity v3とOWASP CRSが有効化されています。通常操作の誤検知を確認するため、初期状態では`DetectionOnly`で動作します。
+WAFのログを確認する場合は、別ターミナルで以下を実行してください。
+
+```sh
+docker compose -f compose.yml -f compose.dev.yml --env-file .env.dev logs -f reverse-proxy
+```
+
+`/healthz`と`/api/health`が`200 OK`になることを確認し、SQLiやXSSのテスト入力がログに記録されることを確認します。誤検知調整後に`MODSEC_RULE_ENGINE: On`へ変更すると、検知したリクエストが`403`でブロックされます。
+
 ログを確認する場合:
 
 ```sh
@@ -187,6 +196,14 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 - Kibana へは、`http://localhost:8080/kibana` からアクセスします。
 - Kibana へのログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。
 - Kibana は elasticsearch への内部的な接続で、ログイン名 `kibana_system` 、パスワードは環境変数 `KIBANA_PASSWORD` を使います
+
+## ModSecurity
+
+- 開発用 reverse-proxy では ModSecurity v3 と OWASP CRS が有効になっています。
+- WAF のログは `docker compose logs -f reverse-proxy` で確認できます。
+- `http://localhost:8080/healthz` と `http://localhost:8080/api/health` が `200 OK` になることを確認してください。
+- 初期状態は `DetectionOnly` のため、SQLi や XSS のテスト入力はログに記録されますが、リクエストはブロックされません。
+- 誤検知を調整した後に `MODSEC_RULE_ENGINE: On` へ変更すると、検知したリクエストが `403 Forbidden` になります。
 
 ## 本番環境の検証をする場合
 
