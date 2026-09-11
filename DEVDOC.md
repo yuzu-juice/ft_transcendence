@@ -16,7 +16,7 @@
 - `DATABASE_URL` : `postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@database:5432/<POSTGRES_DB>`
 - `BETTER_AUTH_SECRET` : `openssl rand -base64 32`により生成された値
 - `INITIAL_ADMIN_PASSWORD` : 8文字以上128文字以下の文字列
-- `ELASTIC_PASSWORD`・`KIBANA_PASSWORD` : 6文字以上の文字列
+- `ELASTIC_PASSWORD` / `KIBANA_PASSWORD` : 6文字以上の文字列
 - `GF_DISCORD_WEBHOOK_URL` : Discordのwebhook URL（[webhookの作成手順](https://support.discord.com/hc/ja/articles/228383668-%E3%82%A6%E3%82%A7%E3%83%96%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%81%94%E7%B4%B9%E4%BB%8B)）
 
 ### GitHub OAuth Appの準備
