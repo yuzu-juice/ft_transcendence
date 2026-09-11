@@ -56,7 +56,7 @@ ENV NODE_ENV="production"
 
 COPY --from="builder" /workspace/apps/backend/dist /workspace/apps/backend/dist
 
-CMD ["pnpm", "--filter", "@ft/backend", "start"]
+CMD ["node", "/workspace/apps/backend/dist/index.js"]
 
 
 FROM owasp/modsecurity-crs:3.3.10-nginx-202608131208@sha256:ccec5e3ecd1dcf6b48903268f4fe415fd17914e8bf30fc21263fd05cc7045f29 AS reverse-proxy-production

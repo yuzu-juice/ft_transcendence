@@ -2,6 +2,7 @@ import { serve } from '@hono/node-server'
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import { requestId } from 'hono/request-id'
 import { auth } from './auth/index.js'
+import { pool } from './db/index.js'
 import { logger } from './logger/index.js'
 import { onError } from './middleware/error.js'
 import avatar from './routes/avatar.js'
@@ -74,7 +75,7 @@ app.route('/internal', internal)
 app.route('/v1', publicApi)
 app.route('/avatar', avatar)
 
-serve(
+const server = serve(
   {
     fetch: (req) => {
       const url = new URL(req.url)
@@ -87,3 +88,22 @@ serve(
     console.log(`Server is running on http://localhost:${info.port}`)
   },
 )
+
+// graceful shutdown
+const shutdown = () => {
+  server.close(async (err) => {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+    try {
+      await pool.end()
+    } catch {
+      process.exit(1)
+    }
+  })
+  process.exit(0)
+}
+
+process.on('SIGINT', shutdown)
+process.on('SIGTERM', shutdown)
