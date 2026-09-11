@@ -18,5 +18,3 @@ vite.config.ts.timestamp-*
 .env.prod
 
 secrets/
-memo*
-.gitignore
