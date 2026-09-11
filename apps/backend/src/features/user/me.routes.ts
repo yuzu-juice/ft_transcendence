@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { env } from 'hono/adapter'
+import { env } from '../../config/env.js'
 import { bodyLimit } from 'hono/body-limit'
 
 import type { AuthEnv } from '../../middleware/auth.js'
@@ -12,14 +12,14 @@ const MAX_AVATAR_SIZE = 4 * 1024 * 1024
 
 export const me = new Hono<AuthEnv>()
   .get('/', async (c) => {
-    const user = c.get('user')!
+    const user = c.get('user')
 
     const result = await userService.get(user.id)
 
     return c.json(result)
   })
   .patch('/', validate('json', patchMeSchema), async (c) => {
-    const user = c.get('user')!
+    const user = c.get('user')
     const { name } = c.req.valid('json')
 
     const result = await userService.update(user.id, name)
@@ -71,13 +71,11 @@ export const me = new Hono<AuthEnv>()
         )
       }
 
-      const { id } = c.get('user')!
-
-      const { AVATAR_DIR } = env<{ AVATAR_DIR: string }>(c)
+      const { id } = c.get('user')
 
       const input = new Uint8Array(await file.arrayBuffer())
 
-      const image = await avatarService.update(id, input, AVATAR_DIR)
+      const image = await avatarService.update(id, input, env.AVATAR_DIR)
 
       return c.json({
         image,
@@ -85,10 +83,9 @@ export const me = new Hono<AuthEnv>()
     },
   )
   .delete('/avatar', async (c) => {
-    const { id } = c.get('user')!
-    const { AVATAR_DIR } = env<{ AVATAR_DIR: string }>(c)
+    const { id } = c.get('user')
 
-    await avatarService.remove(id, AVATAR_DIR)
+    await avatarService.remove(id, env.AVATAR_DIR)
 
     return c.body(null, 204)
   })

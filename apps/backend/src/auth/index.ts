@@ -4,6 +4,7 @@ import { admin, twoFactor } from 'better-auth/plugins'
 
 import { db } from '../db/index.js'
 import { betterAuthSchema } from '../db/schema/auth.js'
+import { env } from '../config/env.js'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -25,8 +26,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      clientId: env.GITHUB_CLIENT_ID || '',
+      clientSecret: env.GITHUB_CLIENT_SECRET || '',
     },
   },
   advanced: {

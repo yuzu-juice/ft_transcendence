@@ -19,7 +19,7 @@ export const tasks = new Hono<AuthEnv>()
     return c.json(tasks)
   })
   .post('/', validate('json', createTaskSchema), async (c) => {
-    const { id } = c.get('user')!
+    const { id } = c.get('user')
     const { title, description, priority, dueAt } = c.req.valid('json')
 
     const task = await taskService.create({
@@ -54,7 +54,7 @@ export const tasks = new Hono<AuthEnv>()
   )
   .delete('/:taskId', validate('param', taskIdParamSchema), async (c) => {
     const { taskId } = c.req.valid('param')
-    const { id: userId, role } = c.get('user')!
+    const { id: userId, role } = c.get('user')
 
     await taskService.delete(taskId, userId, role === 'admin')
 

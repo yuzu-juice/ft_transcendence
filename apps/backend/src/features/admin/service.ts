@@ -102,7 +102,7 @@ export const adminService = {
       headers,
     })
 
-    const imageKey = avatarKeyFromUrl(user.image!)
+    const imageKey = avatarKeyFromUrl(user.image)
 
     if (imageKey !== null) {
       await removeAvatar(imageKey, avatarDir).catch((error) => {

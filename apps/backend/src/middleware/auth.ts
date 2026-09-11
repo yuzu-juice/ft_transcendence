@@ -4,8 +4,8 @@ import { AppError } from '../errors/app-error.js'
 
 export type AuthEnv = {
   Variables: {
-    session: typeof auth.$Infer.Session.session | null
-    user: typeof auth.$Infer.Session.user | null
+    session: typeof auth.$Infer.Session.session
+    user: typeof auth.$Infer.Session.user
   }
 }
 
@@ -25,7 +25,7 @@ export const requireAuth = createMiddleware<AuthEnv>(async (c, next) => {
 })
 
 export const requireAdmin = createMiddleware<AuthEnv>(async (c, next) => {
-  const user = c.get('user')!
+  const user = c.get('user')
 
   if (user.role !== 'admin') {
     throw new AppError('ADMIN_REQUIRED', 403, 'Administrator privileges are required')

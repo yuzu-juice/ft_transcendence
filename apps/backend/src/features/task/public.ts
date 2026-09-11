@@ -264,7 +264,7 @@ publicTasks.openapi(listTasksRoute, async (c) => {
 })
 
 publicTasks.openapi(createTaskRoute, async (c) => {
-  const { userId } = c.get('apiKey')!
+  const { userId } = c.get('apiKey')
   const { title, description, priority, dueAt } = c.req.valid('json')
 
   const task = await taskService.create({
@@ -307,7 +307,7 @@ publicTasks.openapi(patchTaskRoute, async (c) => {
 // APIキーの持ち主が、他人の作成したタスクを削除しようとする → 403エラーで拒否（adminという抜け道が無いので）
 publicTasks.openapi(deleteTaskRoute, async (c) => {
   const { taskId } = c.req.valid('param')
-  const { userId } = c.get('apiKey')!
+  const { userId } = c.get('apiKey')
 
   await taskService.delete(taskId, userId, false)
 

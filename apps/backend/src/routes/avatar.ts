@@ -1,16 +1,15 @@
 import { Hono } from 'hono'
-import { env } from 'hono/adapter'
 import { avatarKeyParamSchema } from '../features/avatar/schema.js'
 import { readAvatar } from '../features/avatar/storage.js'
 import { validate } from '../middleware/validator.js'
+import { env } from '../config/env.js'
 
 const avatar = new Hono()
 
 avatar.get('/:avatarKey', validate('param', avatarKeyParamSchema), async (c) => {
   const { avatarKey } = c.req.valid('param')
-  const { AVATAR_DIR } = env<{ AVATAR_DIR: string }>(c)
 
-  const image = await readAvatar(avatarKey, AVATAR_DIR)
+  const image = await readAvatar(avatarKey, env.AVATAR_DIR)
 
   if (image === null) {
     return c.json(
