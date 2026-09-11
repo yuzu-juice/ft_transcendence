@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { Button } from 'otsukimi-ui'
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { UserAvatar } from '@/components/ui/UserAvatar'
 import { authClient } from '@/lib/auth/client'
@@ -9,7 +10,6 @@ import { taskMutations } from '../mutation'
 import { formatTaskDateTime, getRelativeDueTime } from '../time'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 import { TaskStatusBadge } from './TaskStatusBadge'
-import { useTranslation } from 'react-i18next'
 
 interface TaskDetailProps {
   task: TaskDetailResponse

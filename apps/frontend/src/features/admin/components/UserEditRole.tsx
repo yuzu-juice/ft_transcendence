@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { Button } from 'otsukimi-ui'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAppForm } from '@/components/form/form'
 import type { AdminUserDetail } from '../api'
@@ -9,7 +10,6 @@ import {
   type AdminUserRoleEditFormValues,
   toAdminUserRoleUpdateRequestBody,
 } from '../schema'
-import { useTranslation } from 'react-i18next'
 
 interface UserEditRoleInfoProps {
   user: AdminUserDetail

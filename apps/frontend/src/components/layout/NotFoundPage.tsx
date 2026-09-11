@@ -1,6 +1,6 @@
-import { Header } from '@/components/ui/Header'
-import { Footer } from '@/components/ui/Footer'
 import { CustomLink } from '@/components/ui/CustomLink'
+import { Footer } from '@/components/ui/Footer'
+import { Header } from '@/components/ui/Header'
 
 export const NotFoundPage = () => {
   return (

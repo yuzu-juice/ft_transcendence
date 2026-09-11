@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import commonJa from './locales/ja/common.json'
 import commonEn from './locales/en/common.json'
+import commonJa from './locales/ja/common.json'
 import commonZh from './locales/zh/common.json'
 
 const supportedLangs = ['ja', 'en', 'zh'] as const

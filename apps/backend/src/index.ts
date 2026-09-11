@@ -1,12 +1,12 @@
 import { serve } from '@hono/node-server'
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
+import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
+import { requestId } from 'hono/request-id'
 import { auth } from './auth/index.js'
+import { logger } from './logger/index.js'
 import { onError } from './middleware/error.js'
 import avatar from './routes/avatar.js'
 import internal from './routes/internal.js'
 import publicApi from './routes/public.js'
-import { logger } from './logger/index.js'
-import { requestId } from 'hono/request-id'
 
 const healthResponseSchema = z.object({
   ok: z.boolean().openapi({ example: true }),

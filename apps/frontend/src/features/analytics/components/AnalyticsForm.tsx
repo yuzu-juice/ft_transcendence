@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { Button, Card } from 'otsukimi-ui'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppForm } from '@/components/form/form'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -12,7 +13,6 @@ import {
   toAnalyticsSummaryParams,
 } from '@/features/analytics/schema'
 import { userSearchQueries } from '@/features/task/query'
-import { useEffect } from 'react'
 
 const analyticsSummaryRoute = getRouteApi('/_authenticated/analytics')
 

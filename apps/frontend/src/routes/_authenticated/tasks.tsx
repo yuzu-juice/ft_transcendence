@@ -1,6 +1,6 @@
+import { createFileRoute, stripSearchParams } from '@tanstack/react-router'
 import { TaskPage } from '@/features/task/components/TaskPage'
 import { DEFAULT_TASK_SEARCH, TaskSearchParamsSchema } from '@/features/task/schema'
-import { createFileRoute, stripSearchParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/tasks')({
   // Tanstack Routerの機能により、serach paramsをシリアライズする

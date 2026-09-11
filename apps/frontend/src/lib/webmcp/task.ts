@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { taskApi } from '@/features/task/api'
-import { TaskSearchParamsSchema, toTaskListQuery } from '@/features/task/schema'
+import { toTaskListQuery } from '@/features/task/schema'
 
 const nullableString = (maxLength: number) => ({
   anyOf: [{ type: 'string', maxLength }, { type: 'null' }],
@@ -173,66 +173,66 @@ export async function registerTaskTools(signal: AbortSignal) {
       },
     },
     { signal },
-  ),
-    await document.modelContext.registerTool(
-      {
-        name: 'update_task',
-        title: 'タスクを編集',
-        description:
-          'Update the specified task. Only supplied fields are changed. null clears description, priority, or dueAt.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            taskId: {
-              type: 'string',
-              format: 'uuid',
-              description: '更新するタスクのID',
-            },
-            title: {
-              type: 'string',
-              minLength: 1,
-              maxLength: 200,
-              description: 'タスク名',
-            },
-            description: {
-              ...nullableString(2000),
-              description: 'タスクの説明。nullを指定すると説明を削除する。',
-            },
-            status: {
-              type: 'string',
-              enum: ['todo', 'in_progress', 'done'],
-              description: 'タスクの状態',
-            },
-            priority: {
-              ...nullablePriority,
-              description: 'タスクの優先度。nullを指定すると優先度を解除する。',
-            },
-            dueAt: {
-              ...nullableDateTime,
-              description: '締切日時。nullを指定すると締切を解除する。',
-            },
+  )
+  await document.modelContext.registerTool(
+    {
+      name: 'update_task',
+      title: 'タスクを編集',
+      description:
+        'Update the specified task. Only supplied fields are changed. null clears description, priority, or dueAt.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          taskId: {
+            type: 'string',
+            format: 'uuid',
+            description: '更新するタスクのID',
           },
-          required: ['taskId'],
-          // taskId 以外に最低1つ変更項目が必要
-          anyOf: [
-            { required: ['title'] },
-            { required: ['description'] },
-            { required: ['status'] },
-            { required: ['priority'] },
-            { required: ['dueAt'] },
-          ],
-          additionalProperties: false,
+          title: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 200,
+            description: 'タスク名',
+          },
+          description: {
+            ...nullableString(2000),
+            description: 'タスクの説明。nullを指定すると説明を削除する。',
+          },
+          status: {
+            type: 'string',
+            enum: ['todo', 'in_progress', 'done'],
+            description: 'タスクの状態',
+          },
+          priority: {
+            ...nullablePriority,
+            description: 'タスクの優先度。nullを指定すると優先度を解除する。',
+          },
+          dueAt: {
+            ...nullableDateTime,
+            description: '締切日時。nullを指定すると締切を解除する。',
+          },
         },
-        annotations: {
-          readOnlyHint: false,
-          untrustedContentHint: true,
-        },
-        async execute({ taskId, ...updates }, { signal }) {
-          return await taskApi.update(taskId, updates, signal)
-        },
+        required: ['taskId'],
+        // taskId 以外に最低1つ変更項目が必要
+        anyOf: [
+          { required: ['title'] },
+          { required: ['description'] },
+          { required: ['status'] },
+          { required: ['priority'] },
+          { required: ['dueAt'] },
+        ],
+        additionalProperties: false,
       },
-      { signal },
-    )
+      annotations: {
+        readOnlyHint: false,
+        untrustedContentHint: true,
+      },
+      async execute({ taskId, ...updates }, { signal }) {
+        return await taskApi.update(taskId, updates, signal)
+      },
+    },
+    { signal },
+  )
 
   await document.modelContext.registerTool(
     {

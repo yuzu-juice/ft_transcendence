@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { env } from '../../config/env.js'
 import { bodyLimit } from 'hono/body-limit'
+import { env } from '../../config/env.js'
 
 import type { AuthEnv } from '../../middleware/auth.js'
 import { validate } from '../../middleware/validator.js'

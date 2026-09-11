@@ -1,12 +1,12 @@
-import { authClient } from '@/lib/auth/client'
-import { Loading } from '@/components/ui/Loading'
-import { UserAvatar } from '@/components/ui/UserAvatar'
 import { Badge, Button, Card } from 'otsukimi-ui'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CustomLink } from '@/components/ui/CustomLink'
+import { Loading } from '@/components/ui/Loading'
+import { UserAvatar } from '@/components/ui/UserAvatar'
+import { authClient } from '@/lib/auth/client'
 import { AvatarEditModal } from './AvatarEditModal'
 import { ProfileEditModal } from './ProfileEditModal'
-import { CustomLink } from '@/components/ui/CustomLink'
-import { useTranslation } from 'react-i18next'
 
 export const UserProfile = () => {
   const { t } = useTranslation()

@@ -1,13 +1,13 @@
-import { Modal } from '@/components/ui/Modal'
-import { Button, Divider } from 'otsukimi-ui'
-import { AvatarUploadSchema } from '../schema'
 import { useMutation } from '@tanstack/react-query'
-import { avatarDeleteMutationOptions, avatarUploadMutationOptions } from '../mutation'
-import { toast } from 'sonner'
-import { authClient } from '@/lib/auth/client'
-import { useAppForm } from '@/components/form/form'
+import { Button, Divider } from 'otsukimi-ui'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import { FormErrorMessage } from '@/components/form/FormErrorMessage'
+import { useAppForm } from '@/components/form/form'
+import { Modal } from '@/components/ui/Modal'
+import { authClient } from '@/lib/auth/client'
+import { avatarDeleteMutationOptions, avatarUploadMutationOptions } from '../mutation'
+import { AvatarUploadSchema } from '../schema'
 
 interface AvatarEditModalProps {
   hasAvatarImage: boolean

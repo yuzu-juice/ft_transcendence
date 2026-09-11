@@ -1,8 +1,7 @@
 import { useRouter } from '@tanstack/react-router'
-
-import { authClient } from '@/lib/auth/client'
-import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { authClient } from '@/lib/auth/client'
 
 export const SignOutButton = () => {
   const { t } = useTranslation()

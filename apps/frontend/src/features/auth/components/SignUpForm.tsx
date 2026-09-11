@@ -3,6 +3,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { Button, Divider } from 'otsukimi-ui'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { FormErrorMessage } from '@/components/form/FormErrorMessage'
 import { useAppForm } from '@/components/form/form'
 import { CustomLink } from '@/components/ui/CustomLink'
 import { authClient } from '@/lib/auth/client'
@@ -11,7 +12,6 @@ import { SignUpSchema } from '../schema'
 import { AuthErrorAlert } from './AuthErrorAlert'
 import { AuthLayout } from './AuthLayout'
 import { GitHubSignIn } from './GitHubSignIn'
-import { FormErrorMessage } from '@/components/form/FormErrorMessage'
 
 export const SignUpForm = () => {
   const { t } = useTranslation()

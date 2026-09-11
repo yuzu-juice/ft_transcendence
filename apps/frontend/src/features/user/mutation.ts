@@ -1,7 +1,7 @@
 import { mutationOptions } from '@tanstack/react-query'
-import type { AvatarUploadInput, ProfileUpdateInput } from './schema'
 import { parseResponse } from 'hono/client'
 import { client } from '@/lib/api/client'
+import type { AvatarUploadInput, ProfileUpdateInput } from './schema'
 
 export const avatarUploadMutationOptions = mutationOptions({
   mutationKey: ['user', 'avatar', 'put'],

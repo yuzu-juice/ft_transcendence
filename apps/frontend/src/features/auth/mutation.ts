@@ -1,12 +1,7 @@
-import { authClient } from '@/lib/auth/client'
 import { mutationOptions } from '@tanstack/react-query'
-import {
-  type SignInInput,
-  type SignUpInput,
-  type TotpCodeInput,
-  type TotpEnableInput,
-} from './schema'
+import { authClient } from '@/lib/auth/client'
 import i18n from '@/lib/i18n/config'
+import type { SignInInput, SignUpInput, TotpCodeInput, TotpEnableInput } from './schema'
 
 export class BetterAuthError extends Error {
   readonly code?: string

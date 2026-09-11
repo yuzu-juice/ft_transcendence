@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
 import type { AuthEnv } from '../../middleware/auth.js'
-import { taskService } from './service.js'
 import { validate } from '../../middleware/validator.js'
 import { getAnalyticsSummarySchema } from './schema.js'
+import { taskService } from './service.js'
 
 export const analytics = new Hono<AuthEnv>().get(
   '/summary',

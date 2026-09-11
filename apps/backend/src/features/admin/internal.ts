@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { env } from '../../config/env.js'
 import { type AuthEnv, requireAdmin } from '../../middleware/auth.js'
 import { validate } from '../../middleware/validator.js'
 import {
@@ -8,7 +9,6 @@ import {
   userIdParamSchema,
 } from './schema.js'
 import { adminService } from './service.js'
-import { env } from '../../config/env.js'
 
 export const admin = new Hono<AuthEnv>()
   .use(requireAdmin)

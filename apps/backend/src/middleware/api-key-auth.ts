@@ -1,7 +1,6 @@
-import { AppError } from '../errors/app-error.js'
+import { bearerAuth } from 'hono/bearer-auth'
 import { apiKeyService } from '../features/api-key/service.js'
 import { userRepository } from '../features/user/repository.js'
-import { bearerAuth } from 'hono/bearer-auth'
 
 export type ApiKeyAuthEnv = {
   Variables: {

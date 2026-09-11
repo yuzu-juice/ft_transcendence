@@ -1,6 +1,6 @@
-import { authClient } from '@/lib/auth/client'
 import { Link, type LinkOptions, type RegisteredRouter } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { authClient } from '@/lib/auth/client'
 
 const pages: {
   path: LinkOptions<RegisteredRouter>['to']

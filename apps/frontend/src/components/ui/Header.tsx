@@ -1,9 +1,9 @@
 // いい感じにプロフィール画像は抽象化する（サイズとlink, useridを渡せるようにする）
 
-import { authClient } from '@/lib/auth/client'
-import { UserAvatar } from './UserAvatar'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { authClient } from '@/lib/auth/client'
+import { UserAvatar } from './UserAvatar'
 
 export const Header = () => {
   const { t } = useTranslation()

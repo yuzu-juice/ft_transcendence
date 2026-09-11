@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { createLink, type LinkComponent } from '@tanstack/react-router'
 import { Link as OtsukimiLink } from 'otsukimi-ui'
+import * as React from 'react'
 
 // Ostukimi UIのLinkコンポーネントのデザインと
 // Tanstack Routerで使用するLinkコンポーネントによる型安全なルーティングを両立させる

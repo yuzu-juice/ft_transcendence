@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
+import { env } from '../config/env.js'
 import { avatarKeyParamSchema } from '../features/avatar/schema.js'
 import { readAvatar } from '../features/avatar/storage.js'
 import { validate } from '../middleware/validator.js'
-import { env } from '../config/env.js'
 
 const avatar = new Hono()
 

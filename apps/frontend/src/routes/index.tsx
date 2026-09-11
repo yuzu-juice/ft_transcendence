@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { CommonLayout } from '@/components/layout/CommonLayout'
 import { useTranslation } from 'react-i18next'
+import { CommonLayout } from '@/components/layout/CommonLayout'
 
 export const Route = createFileRoute('/')({
   component: Index,

@@ -1,12 +1,12 @@
-import { authClient } from '@/lib/auth/client'
-import { ProfileUpdateSchema } from '../schema'
 import { useMutation } from '@tanstack/react-query'
-import { profileUploadMutationOptions } from '../mutation'
-import { toast } from 'sonner'
-import { Modal } from '@/components/ui/Modal'
 import { Button } from 'otsukimi-ui'
-import { useAppForm } from '@/components/form/form'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form/form'
+import { Modal } from '@/components/ui/Modal'
+import { authClient } from '@/lib/auth/client'
+import { profileUploadMutationOptions } from '../mutation'
+import { ProfileUpdateSchema } from '../schema'
 
 interface ProfileEditModalProps {
   name: string
