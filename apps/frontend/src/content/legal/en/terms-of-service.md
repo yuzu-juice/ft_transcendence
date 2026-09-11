@@ -22,7 +22,7 @@ You may create an account using an email address and password, or by signing in 
 
 All accounts are assigned one of the following roles:
 
-- **User**: can create, view, edit, and delete their own tasks; can view tasks created by others
+- **User**: can create, view, edit, and delete their own tasks; can view and edit tasks created by others
 - **Admin**: can manage all tasks and all user accounts within the Application
 
 Role assignments are managed by administrators.
