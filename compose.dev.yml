@@ -11,10 +11,10 @@ x-workspace: &workspace
 
 services:
   reverse-proxy:
-    image: owasp/modsecurity-crs:nginx@sha256:ccec5e3ecd1dcf6b48903268f4fe415fd17914e8bf30fc21263fd05cc7045f29
+    image: owasp/modsecurity-crs:3.3.10-nginx-202608131208@sha256:ccec5e3ecd1dcf6b48903268f4fe415fd17914e8bf30fc21263fd05cc7045f29
     build: !reset null
     environment:
-      MODSEC_RULE_ENGINE: DetectionOnly
+      MODSEC_RULE_ENGINE: ${MODSEC_RULE_ENGINE:-DetectionOnly}
       MODSEC_AUDIT_ENGINE: RelevantOnly
       MODSEC_AUDIT_LOG: /dev/stderr
       BLOCKING_PARANOIA: "1"

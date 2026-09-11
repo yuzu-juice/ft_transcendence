@@ -25,5 +25,5 @@ openssl req \
     -subj "/C=JP/ST=Tokyo/L=Shinjuku-ku/O=42Tokyo/OU=still_alive/CN=localhost" \
     -addext "subjectAltName=DNS:localhost,IP:127.0.0.1" \
 
-chmod 600 "$CERT_DIR/server.key"
+chmod 644 "$CERT_DIR/server.key"
 chmod 644 "$CERT_DIR/server.crt"

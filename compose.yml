@@ -24,7 +24,7 @@ services:
     ports:
       - "127.0.0.1:4443:8443"
     environment:
-      MODSEC_RULE_ENGINE: DetectionOnly
+      MODSEC_RULE_ENGINE: ${MODSEC_RULE_ENGINE:-DetectionOnly}
       MODSEC_AUDIT_ENGINE: RelevantOnly
       MODSEC_AUDIT_LOG: /dev/stderr
       BLOCKING_PARANOIA: "1"

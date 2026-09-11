@@ -37,14 +37,14 @@ pnpm dev
 
 内部的にはDocker Composeを使用して起動します。ソースコードの変更を監視してコンテナへ反映し、同期・再ビルドを行います。
 
-開発用reverse-proxyにはModSecurity v3とOWASP CRSが有効化されています。通常操作の誤検知を確認するため、初期状態では`DetectionOnly`で動作します。
+開発用reverse-proxyにはModSecurity v3とOWASP CRSが有効化されています。`MODSEC_RULE_ENGINE`で動作モードを指定でき、未指定または空文字の場合は通常操作の誤検知を確認するため`DetectionOnly`で動作します。
 WAFのログを確認する場合は、別ターミナルで以下を実行してください。
 
 ```sh
 docker compose -f compose.yml -f compose.dev.yml --env-file .env.dev logs -f reverse-proxy
 ```
 
-`/healthz`と`/api/health`が`200 OK`になることを確認し、SQLiやXSSのテスト入力がログに記録されることを確認します。誤検知調整後に`MODSEC_RULE_ENGINE: On`へ変更すると、検知したリクエストが`403`でブロックされます。
+`/healthz`と`/api/health`が`200 OK`になることを確認し、SQLiやXSSのテスト入力がログに記録されることを確認します。誤検知調整後は`.env.dev`に`MODSEC_RULE_ENGINE=On`を設定して再起動すると、検知したリクエストが`403`でブロックされます。
 
 ログを確認する場合:
 
@@ -203,7 +203,7 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 - WAF のログは `docker compose logs -f reverse-proxy` で確認できます。
 - `http://localhost:8080/healthz` と `http://localhost:8080/api/health` が `200 OK` になることを確認してください。
 - 初期状態は `DetectionOnly` のため、SQLi や XSS のテスト入力はログに記録されますが、リクエストはブロックされません。
-- 誤検知を調整した後に `MODSEC_RULE_ENGINE: On` へ変更すると、検知したリクエストが `403 Forbidden` になります。
+- `MODSEC_RULE_ENGINE`には`DetectionOnly`、`On`、`Off`などを指定できます。`.env.dev`に`MODSEC_RULE_ENGINE=On`を設定すると、検知したリクエストが`403 Forbidden`になります。未指定または空文字の場合は`DetectionOnly`です。
 
 ## 本番環境の検証をする場合
 
