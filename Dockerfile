@@ -30,6 +30,8 @@ FROM deps AS development
 
 ENV NODE_ENV="development"
 
+RUN pnpm --filter otsukimi-ui build
+
 
 FROM deps AS production
 
