@@ -29,10 +29,12 @@ export const ProfileEditModal = ({ name, open, onOpenChange }: ProfileEditModalP
       onSubmit: ProfileUpdateSchema,
     },
     onSubmit: async ({ value }) => {
-      await profileUpdateMutation.mutateAsync(value)
-      await refetch()
-      toast.success(t('user.profile.updated'))
-      onOpenChange(false)
+      try {
+        await profileUpdateMutation.mutateAsync(value)
+        await refetch()
+        toast.success(t('user.profile.updated'))
+        onOpenChange(false)
+      } catch {}
     },
   })
 

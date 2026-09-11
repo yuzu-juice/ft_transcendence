@@ -30,9 +30,11 @@ export const UserDetail = ({ user, onEdit, onClose }: UserDetailProps) => {
 
   const adminUserDeleteMutation = useMutation(adminMutations.delete())
   const handleDeleteUser = async () => {
-    await adminUserDeleteMutation.mutateAsync(user.id)
-    toast.success(t('admin.deleted'))
-    onClose()
+    try {
+      await adminUserDeleteMutation.mutateAsync(user.id)
+      toast.success(t('admin.deleted'))
+      onClose()
+    } catch {}
   }
 
   return (

@@ -31,9 +31,11 @@ export const TaskDetail = ({ task, onEdit, onClose }: TaskDetailProps) => {
 
   const taskDeleteMutation = useMutation(taskMutations.delete())
   const handleDeleteTask = async () => {
-    await taskDeleteMutation.mutateAsync(task.id)
-    toast.success(t('task.deleted'))
-    onClose()
+    try {
+      await taskDeleteMutation.mutateAsync(task.id)
+      toast.success(t('task.deleted'))
+      onClose()
+    } catch {}
   }
 
   return (

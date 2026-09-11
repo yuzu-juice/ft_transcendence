@@ -31,11 +31,13 @@ export const AnalyticsForm = () => {
       onSubmit: AnalyticsSummaryFormSchema,
     },
     onSubmit: async ({ value }) => {
-      navigate({
-        search: () => ({
-          ...toAnalyticsSummaryParams(value),
-        }),
-      })
+      try {
+        navigate({
+          search: () => ({
+            ...toAnalyticsSummaryParams(value),
+          }),
+        })
+      } catch {}
     },
   })
 

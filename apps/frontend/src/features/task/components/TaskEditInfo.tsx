@@ -32,12 +32,14 @@ export const TaskEditInfo = ({ task, onBack }: TaskEditInfoProps) => {
       onSubmit: TaskUpdateFormSchema,
     },
     onSubmit: async ({ value }) => {
-      await taskUpdateMutation.mutateAsync({
-        taskId: task.id,
-        input: toTaskUpdateRequestBody(value),
-      })
-      toast.success(t('task.updated'))
-      onBack()
+      try {
+        await taskUpdateMutation.mutateAsync({
+          taskId: task.id,
+          input: toTaskUpdateRequestBody(value),
+        })
+        toast.success(t('task.updated'))
+        onBack()
+      } catch {}
     },
   })
 

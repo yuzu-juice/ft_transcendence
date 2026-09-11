@@ -25,12 +25,14 @@ export const UserEditInfo = ({ user, onBack }: UserEditInfoProps) => {
       onSubmit: AdminUserEditFormSchema,
     },
     onSubmit: async ({ value }) => {
-      await adminUserUpdateMutation.mutateAsync({
-        userId: user.id,
-        input: toAdminUserUpdateRequestBody(value),
-      })
-      toast.success(t('admin.updatedInfo'))
-      onBack()
+      try {
+        await adminUserUpdateMutation.mutateAsync({
+          userId: user.id,
+          input: toAdminUserUpdateRequestBody(value),
+        })
+        toast.success(t('admin.updatedInfo'))
+        onBack()
+      } catch {}
     },
   })
 

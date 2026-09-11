@@ -31,11 +31,13 @@ export const TaskSearchForm = () => {
       onSubmit: TaskSearchFormSchema,
     },
     onSubmit: async ({ value }) => {
-      navigate({
-        search: () => ({
-          ...toTaskSearchParams(value),
-        }),
-      })
+      try {
+        navigate({
+          search: () => ({
+            ...toTaskSearchParams(value),
+          }),
+        })
+      } catch {}
     },
   })
 

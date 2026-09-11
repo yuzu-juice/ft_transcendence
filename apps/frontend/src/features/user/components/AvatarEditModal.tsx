@@ -35,21 +35,25 @@ export const AvatarEditModal = ({ hasAvatarImage, open, onOpenChange }: AvatarEd
         return
       }
 
-      await avatarUploadMutation.mutateAsync({
-        avatar: value.avatar,
-      })
-      await refetch()
-      toast.success(t('user.avatar.updated')) // TODO toastがmodalの裏に隠れてしまう問題を修正
-      onOpenChange(false)
+      try {
+        await avatarUploadMutation.mutateAsync({
+          avatar: value.avatar,
+        })
+        await refetch()
+        toast.success(t('user.avatar.updated')) // TODO toastがmodalの裏に隠れてしまう問題を修正
+        onOpenChange(false)
+      } catch {}
     },
   })
 
   const deleteForm = useAppForm({
     onSubmit: async () => {
-      await avatarDeleteMutation.mutateAsync()
-      await refetch()
-      toast.success(t('user.avatar.deleted'))
-      onOpenChange(false)
+      try {
+        await avatarDeleteMutation.mutateAsync()
+        await refetch()
+        toast.success(t('user.avatar.deleted'))
+        onOpenChange(false)
+      } catch {}
     },
   })
 

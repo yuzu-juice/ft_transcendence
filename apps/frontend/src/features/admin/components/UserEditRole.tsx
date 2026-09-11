@@ -29,12 +29,14 @@ export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
       onSubmit: AdminUserRoleEditFormSchema,
     },
     onSubmit: async ({ value }) => {
-      await adminUserUpdateMutation.mutateAsync({
-        userId: user.id,
-        input: toAdminUserRoleUpdateRequestBody(value),
-      })
-      toast.success(t('admin.updatedRole'))
-      onBack()
+      try {
+        await adminUserUpdateMutation.mutateAsync({
+          userId: user.id,
+          input: toAdminUserRoleUpdateRequestBody(value),
+        })
+        toast.success(t('admin.updatedRole'))
+        onBack()
+      } catch {}
     },
   })
 

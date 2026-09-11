@@ -30,11 +30,13 @@ export const TaskCreateModal = ({ open, handleOpenChange }: TaskCreateModalProps
       onSubmit: TaskCreateFormSchema,
     },
     onSubmit: async ({ value }) => {
-      await taskCreateMutation.mutateAsync(toTaskCreateRequestBody(value))
-      toast.success(t('task.created'))
-      // 送信成功時のみフォームをリセット、送信失敗時は再度modalを開いた場合前回の入力値が残る
-      form.reset()
-      handleOpenChange(false)
+      try {
+        await taskCreateMutation.mutateAsync(toTaskCreateRequestBody(value))
+        toast.success(t('task.created'))
+        // 送信成功時のみフォームをリセット、送信失敗時は再度modalを開いた場合前回の入力値が残る
+        form.reset()
+        handleOpenChange(false)
+      } catch {}
     },
   })
 
