@@ -4,8 +4,8 @@ import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { UserAvatar } from '@/components/ui/UserAvatar'
-import { formatTaskDateTime } from '@/features/task/time' // TODO: 広範囲のlibにする
 import { authClient } from '@/lib/auth/client'
+import { formatTaskDateTime } from '@/lib/utils/time'
 import type { AdminUserDetail } from '../api'
 import { adminMutations } from '../mutation'
 

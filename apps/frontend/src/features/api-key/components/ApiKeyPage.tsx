@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Loading } from '@/components/ui/Loading'
-import { formatTaskDateTime } from '@/features/task/time'
+import { formatTaskDateTime } from '@/lib/utils/time'
 import { apiKeyMutations } from '../mutation'
 import { apiKeyQueries } from '../query'
 
