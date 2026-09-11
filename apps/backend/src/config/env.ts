@@ -8,6 +8,7 @@ const EnvSchema = z
     GITHUB_CLIENT_ID: z.string().min(1).optional(),
     GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
     AVATAR_DIR: z.string().min(1),
+    LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
   })
   .refine((env) => !!env.GITHUB_CLIENT_ID === !!env.GITHUB_CLIENT_SECRET, {
     message: 'GITHUB_CLIENT_IDとGITHUB_CLIENT_SECRETは同時に設定する必要があります',
