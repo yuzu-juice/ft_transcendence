@@ -12,7 +12,7 @@ export const TaskPage = () => {
   return (
     <>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center gap-4">
           <h2 className="text-2xl font-heading font-bold">{t('task.title')}</h2>
           <Button onClick={() => setCreateModalOpen(true)} className="ml-auto">
             {t('task.actions.create')}

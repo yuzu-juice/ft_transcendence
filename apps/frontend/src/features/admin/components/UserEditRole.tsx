@@ -61,13 +61,18 @@ export const UserEditRoleInfo = ({ user, onBack }: UserEditRoleInfoProps) => {
           )}
         </form.AppField>
 
-        <div className="flex flex-row gap-4">
-          <Button type="button" onClick={() => onBack()} variant="transparent">
+        <div className="flex flex-col sm:flex-row flex-warp gap-4 w-full sm:w-auto">
+          <Button
+            type="button"
+            onClick={() => onBack()}
+            className="w-full sm:w-auto"
+            variant="transparent"
+          >
             {t('common.cancel')}
           </Button>
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button type="submit" className="w-full sm:w-auto" disabled={isSubmitting}>
                 {isSubmitting ? t('admin.actions.saving') : t('common.save')}
               </Button>
             )}

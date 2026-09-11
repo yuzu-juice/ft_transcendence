@@ -168,7 +168,7 @@ export const TaskSearchForm = () => {
           </form.AppField>
         </div>
 
-        <div className="flex flex-row flex-wrap items-center gap-y-6 gap-x-12">
+        <div className="min-w-0 max-w-full flex flex-row flex-wrap items-center gap-y-6 gap-x-12">
           <form.AppField name="dueFrom">
             {(field) => <field.TextField type="datetime-local" label={t('task.form.dueFrom')} />}
           </form.AppField>
@@ -206,10 +206,10 @@ export const TaskSearchForm = () => {
           </form.AppField>
         </div>
 
-        <div className="flex flex-row gap-4 ml-auto mt-auto">
+        <div className="flex flex-col sm:flex-row flex-wrap w-full sm:w-auto gap-4 md:ml-auto mt-auto">
           <Button
             type="button"
-            className="w-full"
+            className="w-full sm:w-auto"
             variant="transparent"
             onClick={() => {
               form.reset({
@@ -220,7 +220,7 @@ export const TaskSearchForm = () => {
           >
             {t('task.actions.reset')}
           </Button>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full sm:w-auto">
             {t('task.actions.search')}
           </Button>
         </div>
