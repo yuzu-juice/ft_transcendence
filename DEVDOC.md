@@ -189,7 +189,8 @@ Internal APIのリファレンスとしてOpenAPI形式のファイル（`backen
 - Kibana へのログイン名は `elastic`、パスワードは環境変数へ設定した `ELASTIC_PASSWORD` です。
 - Kibana の起動時に、`infra/kibana/saved_objects.ndjson` からデータビューとダッシュボード `Sample dashboard` が作成されます。既にある場合はこのファイルの内容で上書きされます。Kibana 上で変更した場合は、Saved Objects の画面からエクスポートしてこのファイルを置き換えてください。
 - Kibana は elasticsearch への内部的な接続で、ログイン名 `kibana_system` 、パスワードは環境変数 `KIBANA_PASSWORD` を使います
-- ログ（`logs-*-*`）は7日を過ぎると削除されます。
+- ログは 7 日を過ぎると削除されます。
+- ログは毎日 1:00（UTC）にスナップショットとして保存され、スナップショットは 30 日で削除されます。
 
 ## 本番環境の検証をする場合
 

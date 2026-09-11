@@ -189,6 +189,7 @@ services:
       - xpack.security.http.ssl.enabled=false
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - path.repo=/usr/share/elasticsearch/data/snapshots
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     expose:
@@ -214,10 +215,17 @@ services:
           -X POST http://elasticsearch:9200/_security/user/kibana_system/_password
           -d "{\"password\":\"${KIBANA_PASSWORD}\"}"
       - command: >-
-          curl -f --retry 10 --retry-delay 10 --retry-all-errors
-          -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
+          curl -f -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
           -X PUT http://elasticsearch:9200/_component_template/logs@custom
           -d "{\"template\":{\"settings\":{\"index.lifecycle.prefer_ilm\":false},\"lifecycle\":{\"data_retention\":\"7d\"}}}"
+      - command: >-
+          curl -f -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
+          -X PUT http://elasticsearch:9200/_snapshot/logs
+          -d "{\"type\":\"fs\",\"settings\":{\"location\":\"logs\"}}"
+      - command: >-
+          curl -f -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
+          -X PUT http://elasticsearch:9200/_slm/policy/logs
+          -d "{\"schedule\":\"0 0 1 * * ?\",\"name\":\"<logs-{now/d}>\",\"repository\":\"logs\",\"config\":{\"indices\":\"logs-*-*\",\"include_global_state\":false},\"retention\":{\"expire_after\":\"30d\"}}"
     mem_limit: 2g
     restart: unless-stopped
 
