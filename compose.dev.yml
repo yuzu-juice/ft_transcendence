@@ -11,11 +11,27 @@ x-workspace: &workspace
 
 services:
   reverse-proxy:
-    image: nginx:alpine
+    image: owasp/modsecurity-crs:3.3.10-nginx-202608131208@sha256:ccec5e3ecd1dcf6b48903268f4fe415fd17914e8bf30fc21263fd05cc7045f29
+    build: !reset null
+    environment:
+      MODSEC_RULE_ENGINE: ${MODSEC_RULE_ENGINE:-DetectionOnly}
+      MODSEC_AUDIT_ENGINE: RelevantOnly
+      MODSEC_AUDIT_LOG: /dev/stderr
+      BLOCKING_PARANOIA: "1"
+      ALLOWED_METHODS: "GET HEAD POST PUT PATCH DELETE OPTIONS"
+    command: ["nginx", "-c", "/etc/nginx/custom-nginx.conf", "-g", "daemon off;"]
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - curl -fsS http://localhost:8080/healthz
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     volumes: !override
-      - ./infra/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/nginx.dev.conf:/etc/nginx/custom-nginx.conf:ro
     ports: !override
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:8080:8080"
     depends_on:
       frontend:
         condition: service_started
