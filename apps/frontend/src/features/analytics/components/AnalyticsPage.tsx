@@ -130,7 +130,10 @@ const BreakdownItem = ({ label, count, total, countLabel }: BreakdownItemProps) 
         <span className="font-bold">{label}</span>
         <span className="text-gray-600">{countLabel}</span>
       </div>
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div
+        className="w-full h-2 bg-gray-200 rounded-full overflow-hidden"
+        title={`${clampedRatio}%`}
+      >
         <div className="h-full bg-brand-primary-soft" style={{ width: `${clampedRatio}%` }} />
       </div>
     </div>
