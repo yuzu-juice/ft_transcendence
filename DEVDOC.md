@@ -59,6 +59,12 @@ docker compose logs -f
 docker compose down
 ```
 
+Dockerのvolumeを全て削除する場合:
+
+```sh
+docker volume rm ft_transcendence_postgres-data ft_transcendence_avatar-data ft_transcendence_elasticsearch-data ft_transcendence_grafana-data ft_transcendence_prometheus-data
+```
+
 ## アクセス先
 
 開発環境では以下の通りアクセスすることができます。
@@ -125,7 +131,7 @@ Docker Composeを使用してはじめて起動する際には、初期adminユ�
 その後でDocker Composeを使用してコンテナを起動すると、再度シード値が作成されます。
 
 ```sh
-docker volume rm ft_transcendence_postgres-data
+docker volume rm ft_transcendence_postgres-data ft_transcendence_avatar-data
 ```
 
 バックエンドの挙動を確認する際には[HTTPie](https://httpie.io/)を使用することをお勧めします。`curl`コマンドと比較してリクエストのための記述が容易であり、レスポンスも整形されて表示されるためです。
