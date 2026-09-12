@@ -50,17 +50,13 @@ npm install -g pnpm
 1. Clone the repository:
 
 ```bash
-git clone <!-- TODO: リポジトリURL -->
-cd <!-- TODO: リポジトリ名 -->
+git clone <URL of the assignment repository>
+cd <cloned repository directory>
 ```
 
 2. Copy the environment variables file and fill in the values:
 
-```bash
-cp .env.example .env.dev <!-- TODO: 本番環境での立ち上げ方が変わってるぽいので後ほど更新 -->
-```
-
-For production deployment, create `.env.prod` as documented in `compose.prod.yaml`.
+For production deployment, create `.env.prod` as documented in `DEVDOC.md`.
 
 3. Install dependencies:
 
@@ -74,11 +70,17 @@ pnpm install
 docker compose up --build
 ```
 
-The application will be available at:
+The application and supporting services are available through the reverse proxy at:
 
-- Frontend: `https://localhost:5173`
-- Backend API: `https://localhost:3000`
-- API Documentation (Swagger UI): `http://localhost:8080/api/v1/docs`
+- Production: `https://localhost:4443`
+- Development: `http://localhost:8080`
+
+The following paths provide access to the respective services:
+
+- Storybook: `/storybook`
+- Kibana: `/kibana`
+- Grafana: `/grafana`
+- API Documentation (Swagger UI): `/api/v1/docs`
 
 ---
 
@@ -295,7 +297,7 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 
 ## Modules
 
-Total claimed points: 19
+Total claimed points: 20
 
 | Module                                                                                                                                         | Category                               | Type  | Points                              | Implemented by   |
 | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----- | ----------------------------------- | ---------------- |
@@ -313,6 +315,7 @@ Total claimed points: 19
 | Infrastructure for log management using ELK (Elasticsearch, Logstash, Kibana).                                                                 | Devops                                 | Major | 2                                   | takitaga         |
 | Monitoring system with Prometheus and Grafana.                                                                                                 | Devops                                 | Major | 2                                   | genomoto         |
 | Advanced analytics dashboard with data visualization.                                                                                          | Data and Analytics                     | Major | 2                                   | ssoeno, genomoto |
+| WebMCP custom module.                                                                                                                            | Custom Module                          | Minor | 1                                   | ssoeno           |
 
 ### Module Justifications
 

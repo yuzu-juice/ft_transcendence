@@ -65,7 +65,7 @@ APIキーは `ft_<prefix>_<secret>` の形式で発行し、SHA-256でハッシ�
 
 ## Accessibility and Internationalization
 
-### 多言語対応 — Minor, 1pt
+### Support for multiple languages (at least 3 languages) — Minor, 1pt
 
 **実装内容:** `react-i18next` により、日本語・英語・中国語の3言語の完全な翻訳セット（`apps/frontend/src/lib/i18n/locales/{ja,en,zh}/common.json`）と、UI上の言語切り替えを実装した。ユーザーに表示される主要な文字列は翻訳レイヤーを経由する。
 
@@ -73,7 +73,7 @@ APIキーは `ft_<prefix>_<secret>` の形式で発行し、SHA-256でハッシ�
 
 ---
 
-### 追加ブラウザ対応 — Minor, 1pt
+### Support for additional browsers — Minor, 1pt
 
 Chromeに加えてEdge・Brave・Chromiumで手動テストを実施し、認証・タスクCRUD・管理画面・分析ダッシュボードなど主要フローを確認した。特別対応が必要なブラウザ固有のレイアウト崩れや、機能不具合は見つかっていない。
 
@@ -115,19 +115,18 @@ Chromeに加えてEdge・Brave・Chromiumで手動テストを実施し、認証
 
 ## Devops
 
-### ログ管理基盤（ELK）— Major, 2pt
+### Infrastructure for log management using ELK (Elasticsearch, Logstash,
+Kibana) — Major, 2pt
 
 複数サービスがコンテナ上で動く構成では、`docker logs` だけでは調査やパターン把握のスケーラビリティに欠けるため、検索可能な集約ログストアが用意した。
 
-**実装内容:** バックエンドは `pino` と `@elastic/ecs-pino-format` により、Elastic Common Schema（ECS）形式の構造化ログを出力（`apps/backend/src/logger/index.ts`）。ElasticsearchとKibanaを `compose.yml` の専用サービスとして起動し、Kibanaはリバースプロキシ経由で、ログ閲覧・検索用に公開している。
+**実装内容:** バックエンドは `pino` と `@elastic/ecs-pino-format` により、Elastic Common Schema（ECS）形式の構造化ログを出力（`apps/backend/src/logger/index.ts`）。DockerのGELFロギングドライバーでバックエンドのコンテナログをLogstashへ転送し、LogstashのGELF入力で受信した後、JSONの解析とフィールド変換を行い、Elasticsearchへ出力するパイプライン（`infra/logstash/logstash.conf`）を構成している。ElasticsearchとKibanaも `compose.yml` の専用サービスとして起動し、Kibanaはリバースプロキシ経由でログ閲覧用に公開している。
 
 **担当:** takitaga
 
-> **補足:** ログはECS形式に整形されているが、Logstashによる収集・変換段階は未実装。課題ではElasticsearch・Logstash・Kibanaの3点セットが求められているため、ディフェンスでの説明が必要。
-
 ---
 
-### PrometheusとGrafanaによる監視システム — Major, 2pt
+### Monitoring system with Prometheus and Grafana — Major, 2pt
 
 ログだけでなく、リソース使用状況やサービスの健全性（CPU/メモリ、コンテナ統計）を可視化し、障害が起きる前に気づける状態にした。評価者にシステムの健全性を具体的に示せる材料にもなる。
 
@@ -139,9 +138,9 @@ Chromeに加えてEdge・Brave・Chromiumで手動テストを実施し、認証
 
 ## Data and Analytics
 
-### データ可視化を伴う高度な分析ダッシュボード — Major, 2pt
+### Advanced analytics dashboard with data visualization — Major, 2pt
 
-タスクのステータス・優先度などを、一目で把握できるサマリービューを実装した。
+タスクのステータスや優先度などを集計し、全体の状況を把握できるサマリービューを実装した。
 
 **実装内容:** `GET /analytics/summary`（`apps/backend/src/features/task/analytics.routes.ts`）が、タスク総数・完了率・期限超過数、ステータス別・優先度別の内訳を、期限範囲でのフィルタ付きで集計。フロントエンド（`apps/frontend/src/features/analytics/components/AnalyticsPage.tsx`）はこれをサマリーカードと割合バーとして表示し、`react-csv` によるCSVエクスポートにも対応している。
 
