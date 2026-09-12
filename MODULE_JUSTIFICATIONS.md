@@ -175,3 +175,5 @@ We introduced WebMCP, which exposes the web application's functionality to AI ag
 **Why it deserves module status:** In this implementation, we selected which operations to expose to AI agents and organized the responsibilities and input fields of each tool. We also combined it with the application's existing implementation so that it would not conflict with the human-facing UI. We succeeded in accepting AI agents safely without adding complexity to the codebase.
 
 **Implementation:** As WebMCP tools, we expose the logged-in user's information as well as task search, detail retrieval, creation, editing, and assignee-assignment functionality. Each tool has a defined description of its behavior and an input schema.
+
+**Owner:** genomoto
