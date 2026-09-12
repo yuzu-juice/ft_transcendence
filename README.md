@@ -232,7 +232,7 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 | Delete own tasks                         | Regular users can delete only tasks they created; admins can delete any task                                  | genomoto       |
 | Change task status                       | Three stages: todo → in_progress → done                                                                      | genomoto       |
 | Assign users to a task                   | Multiple users can be assigned to a single task via assignee update API                                      | genomoto       |
-| Search, filter, sort, and paginate tasks | Supports `status[]`, `priority[]`, `dueFrom`, `dueTo`, `query`, `sortBy`, and `sortOrder`; 20 items per page | genomoto       |
+| Search, filter, sort, and paginate tasks | Supports `q`, `status`, `priority`, `dueFrom`, `dueTo`, `createdBy`, `assigneeId`, `sort`, and `order`; 20 items per page | genomoto       |
 
 #### Data and Analytics
 
