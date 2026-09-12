@@ -58,22 +58,15 @@ cd <cloned repository directory>
 
 For production deployment, create `.env.prod` as documented in `DEVDOC.md`.
 
-3. Install dependencies:
+3. Start the application (single command):
 
 ```bash
-pnpm install
-```
-
-4. Start the application (single command):
-
-```bash
-docker compose up --build
+./start.sh
 ```
 
 The application and supporting services are available through the reverse proxy at:
 
 - Production: `https://localhost:4443`
-- Development: `http://localhost:8080`
 
 The following paths provide access to the respective services:
 
@@ -204,7 +197,7 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 
 ---
 
-## Feature list
+## Features list
 
 ### Features Available to All Users
 
