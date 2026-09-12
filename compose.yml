@@ -94,6 +94,7 @@ services:
       driver: gelf
       options:
         gelf-address: udp://127.0.0.1:12201
+        gelf-compression-type: none
     restart: unless-stopped
 
   database:
@@ -196,9 +197,10 @@ services:
       - xpack.security.http.ssl.enabled=false
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - path.repo=/usr/share/elasticsearch/data/snapshots
+      - path.repo=/usr/share/elasticsearch/snapshots
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-snapshots:/usr/share/elasticsearch/snapshots
     expose:
       - 9200
     healthcheck:
@@ -215,31 +217,30 @@ services:
       start_period: 20s
     networks:
       - elastic
-    post_start:
-      - command: >-
-          curl -f --retry 10 --retry-delay 10 --retry-all-errors
-          -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
-          -X POST http://elasticsearch:9200/_security/user/kibana_system/_password
-          -d "{\"password\":\"${KIBANA_PASSWORD}\"}"
-      - command: >-
-          curl -f -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
-          -X PUT http://elasticsearch:9200/_component_template/logs@custom
-          -d "{\"template\":{\"settings\":{\"index.lifecycle.prefer_ilm\":false},\"lifecycle\":{\"data_retention\":\"7d\"}}}"
-      - command: >-
-          curl -f -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
-          -X PUT http://elasticsearch:9200/_snapshot/logs
-          -d "{\"type\":\"fs\",\"settings\":{\"location\":\"logs\"}}"
-      - command: >-
-          curl -f -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json"
-          -X PUT http://elasticsearch:9200/_slm/policy/logs
-          -d "{\"schedule\":\"0 0 1 * * ?\",\"name\":\"<logs-{now/d}>\",\"repository\":\"logs\",\"config\":{\"indices\":\"logs-*-*\",\"include_global_state\":false},\"retention\":{\"expire_after\":\"30d\"}}"
     mem_limit: 2g
     restart: unless-stopped
 
-  kibana:
+  elasticsearch-init:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.3
+    container_name: elasticsearch-init
+    user: root
+    command: bash /init.sh
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - KIBANA_PASSWORD=${KIBANA_PASSWORD}
+    volumes:
+      - ./infra/elasticsearch/init.sh:/init.sh:ro
+      - elasticsearch-snapshots:/usr/share/elasticsearch/snapshots
     depends_on:
       elasticsearch:
         condition: service_healthy
+    networks:
+      - elastic
+
+  kibana:
+    depends_on:
+      elasticsearch-init:
+        condition: service_completed_successfully
     image: docker.elastic.co/kibana/kibana:9.5.3
     container_name: kibana
     environment:
@@ -275,8 +276,8 @@ services:
 
   logstash:
     depends_on:
-      elasticsearch:
-        condition: service_healthy
+      elasticsearch-init:
+        condition: service_completed_successfully
     image: docker.elastic.co/logstash/logstash:9.5.3
     container_name: logstash
     environment:
@@ -315,3 +316,4 @@ volumes:
   prometheus-data:
   grafana-data:
   elasticsearch-data:
+  elasticsearch-snapshots:
