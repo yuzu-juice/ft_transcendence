@@ -11,7 +11,7 @@ const totpRoute = getRouteApi('/totp')
 export const TotpPage = () => {
   const { t } = useTranslation()
   // 検証成功時のセッション更新でチャレンジ画面を設定画面に切り替えない
-  const { data: session } = totpRoute.useLoaderData()
+  const session = totpRoute.useLoaderData()
   const navigate = useNavigate()
 
   // toastが2重に出てしまう問題の回避策
