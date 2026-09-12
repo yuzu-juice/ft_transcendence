@@ -1,12 +1,13 @@
 # モジュール選定理由（日本語版）
 
-申告ポイント合計: **19点**（必須14点 + ボーナス5点）
+申告ポイント合計: **20点**（必須14点 + ボーナス6点）
 
 ---
 
 ## Web
 
 ### Use a framework for both the frontend and backend. — Major, 2pt
+
 Webアプリケーション開発の基盤として既存のフレームワークを採用することで、一般的なWebアプリケーションに必要な仕組みを0から再実装せず、機能開発に集中する構成とした。多くの機能において、フレームワークに合わせた既存のライブラリを活用することで開発者体験や開発速度の向上を図った。
 
 実装内容: フロントエンドではReact19を採用し、コンポーネント単位として画面の状態を構成している。バックエンドではhonoを採用し、HTTPリクエストのルーティングを中心としたWeb APIを構成している。
@@ -67,6 +68,8 @@ APIキーは `ft_<prefix>_<secret>` の形式で発行し、SHA-256でハッシ�
 
 ### Support for multiple languages (at least 3 languages) — Minor, 1pt
 
+利用者の言語に依存せず、同じタスク管理機能を利用できるようにするため、多言語対応を実装した。
+
 **実装内容:** `react-i18next` により、日本語・英語・中国語の3言語の完全な翻訳セット（`apps/frontend/src/lib/i18n/locales/{ja,en,zh}/common.json`）と、UI上の言語切り替えを実装した。ユーザーに表示される主要な文字列は翻訳レイヤーを経由する。
 
 **担当:** ssoeno, genomoto
@@ -74,6 +77,8 @@ APIキーは `ft_<prefix>_<secret>` の形式で発行し、SHA-256でハッシ�
 ---
 
 ### Support for additional browsers — Minor, 1pt
+
+利用者が使用するブラウザに左右されず、安定してアプリケーションを利用できるようにするため、主要なブラウザへの対応を確認した。
 
 Chromeに加えてEdge・Brave・Chromiumで手動テストを実施し、認証・タスクCRUD・管理画面・分析ダッシュボードなど主要フローを確認した。特別対応が必要なブラウザ固有のレイアウト崩れや、機能不具合は見つかっていない。
 
@@ -118,9 +123,9 @@ Chromeに加えてEdge・Brave・Chromiumで手動テストを実施し、認証
 ### Infrastructure for log management using ELK (Elasticsearch, Logstash,
 Kibana) — Major, 2pt
 
-複数サービスがコンテナ上で動く構成では、`docker logs` だけでは調査やパターン把握のスケーラビリティに欠けるため、検索可能な集約ログストアが用意した。
+複数サービスがコンテナ上で動く構成では、`docker logs` だけでは調査やパターン把握のスケーラビリティに欠けるため、検索可能な集約ログストアを用意した。
 
-**実装内容:** バックエンドは `pino` と `@elastic/ecs-pino-format` により、Elastic Common Schema（ECS）形式の構造化ログを出力（`apps/backend/src/logger/index.ts`）。DockerのGELFロギングドライバーでバックエンドのコンテナログをLogstashへ転送し、LogstashのGELF入力で受信した後、JSONの解析とフィールド変換を行い、Elasticsearchへ出力するパイプライン（`infra/logstash/logstash.conf`）を構成している。ElasticsearchとKibanaも `compose.yml` の専用サービスとして起動し、Kibanaはリバースプロキシ経由でログ閲覧用に公開している。
+**実装内容:** バックエンドは `pino` と `@elastic/ecs-pino-format` により、Elastic Common Schema（ECS）形式の構造化ログを出力（`apps/backend/src/logger/index.ts`）。DockerのGELFロギングドライバーでバックエンドのコンテナログをLogstashへ転送し、LogstashのGELF入力で受信した後、JSONの解析とフィールド変換を行い、Elasticsearchへ出力するパイプライン（`infra/logstash/logstash.conf`）を構成している。ElasticsearchとKibanaも `compose.yml` の専用サービスとして起動し、Kibanaはリバースプロキシ経由でログ閲覧用に公開している。ElasticSearchが取得したログデータは7日保持したのち削除している。また、毎日データのスナップショットを作成しており、30日間保持したのち削除している。
 
 **担当:** takitaga
 
@@ -142,7 +147,7 @@ Kibana) — Major, 2pt
 
 タスクのステータスや優先度などを集計し、全体の状況を把握できるサマリービューを実装した。
 
-**実装内容:** `GET /analytics/summary`（`apps/backend/src/features/task/analytics.routes.ts`）が、タスク総数・完了率・期限超過数、ステータス別・優先度別の内訳を、期限範囲でのフィルタ付きで集計。フロントエンド（`apps/frontend/src/features/analytics/components/AnalyticsPage.tsx`）はこれをサマリーカードと割合バーとして表示し、`react-csv` によるCSVエクスポートにも対応している。
+**実装内容:** `GET /analytics/summary`（`apps/backend/src/features/task/analytics.routes.ts`）が、タスク総数・完了率・期限超過数、ステータス別・優先度別の内訳を、期限範囲でのフィルタ付きで集計。フロントエンド（`apps/frontend/src/features/analytics/components/AnalyticsPage.tsx`）はこれをサマリーカードと割合バーとして表示し、`react-csv` によるCSVエクスポートにも対応している。ポーリングによりデータの30秒ごとのリアルタイム更新、Tanstack Chartsを利用したインタラクティブな円グラフも実装した。
 
 **担当:** ssoeno, genomoto
 

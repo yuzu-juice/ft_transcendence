@@ -9,7 +9,7 @@ This project is a task management web app built with React and Hono. It combines
 
 ---
 
-## Team
+## Team Information
 
 | Login    | Role                        | Responsibilities                               |
 | -------- | --------------------------- | ---------------------------------------------- |
@@ -38,8 +38,8 @@ Discord for daily communication
 ### Prerequisites
 
 - [Docker](https://www.docker.com/) and Docker Compose
-- [Node.js](https://nodejs.org/) 24 LTS or later
-- [pnpm](https://pnpm.io/) 9 or later
+- [OpenSSL](https://www.openssl.org/) for HTTPS support
+
 
 ```bash
 npm install -g pnpm
@@ -90,6 +90,9 @@ The following paths provide access to the respective services:
 | TanStack Query  | v5      | Simplifies data fetching and caching; prevents unnecessary re-fetches compared to plain useEffect/useState |
 | TanStack Form   | latest  | Form implementation with type-safe validation                                                              |
 | TanStack Charts | latest  | Chart rendering for analytics and data visualization                                                       |
+| Zod             | 4.4.3   | Validates and parses form input values and URL parameters                                                   |
+| Fontsource      | 5.3.0   | Provides the LINE Seed JP and Zen Maru Gothic fonts used by otsukimi-ui                                    |
+| Hono            | 4.13.2  | Communicates with the backend through Hono RPC                                                             |
 | react-i18next   | latest  | React integration of i18next for multi-language support                                                    |
 | Sonner          | 2.0.8   | Toast notifications for API key issuance/revocation and user feedback                                      |
 | react-csv       | 2.2.2   | CSV export for analytics and report-like downloads                                                         |
@@ -106,7 +109,7 @@ The following paths provide access to the respective services:
 | Drizzle ORM              | 1.0.0-rc.4 | TypeScript-first ORM with SQL-like query syntax; first example in official docs uses PostgreSQL |
 | Better Auth              | 1.7.0-rc.6 | Supports Email+Password, OAuth, and 2FA (TOTP); integrates with Hono and Drizzle                |
 | Zod                      | v4         | Runtime validation and automatic OpenAPI spec generation via @hono/zod-openapi                  |
-| PostgreSQL               | 17         | Relational DB; used as the base for Better Auth schema design                                   |
+| pg                       | 8.23.0     | Connects the backend to PostgreSQL                                                              |
 | Pino                     | 9.13.1     | Structured logging for backend services                                                         |
 | @elastic/ecs-pino-format | 1.5.0      | ECS-compliant JSON logs for Elasticsearch/Kibana integration                                    |
 | sharp                    | 0.34.4     | Server-side image processing for uploaded avatars                                               |
@@ -118,6 +121,16 @@ Note: Better Auth and Drizzle ORM are currently RC versions in this project.
 | Technology              | Reason                                                         |
 | ----------------------- | -------------------------------------------------------------- |
 | Docker / Docker Compose | Single-command deployment as required by the subject           |
+| Nginx                   | Reverse proxy for the application                              |
+| ModSecurity + CRS       | Detects and blocks attacks against the application             |
+| node-exporter           | Collects metrics from the host environment                     |
+| cAdvisor                | Collects metrics from running containers                       |
+| Prometheus              | Aggregates and stores metrics collected by node-exporter and cAdvisor |
+| Grafana                 | Visualizes metrics and sends alert notifications               |
+| Logstash                | Transforms logs collected from the backend                     |
+| Elasticsearch            | Stores, archives, and provides search for logs                  |
+| Kibana                  | Visualizes logs                                                |
+| PostgreSQL              | Relational database selected because Drizzle ORM natively supports it and it has extensive documentation among free database options |
 | pnpm workspace          | Monorepo management; built-in support reduces tooling overhead |
 | Node.js                 | 24 LTS runtime for the backend                                 |
 
@@ -386,7 +399,7 @@ AI tools (Codex and GitHub Copilot) were used in this project for the following 
 | Design discussion | Discussing and validating design ideas and implementation decisions                                                          |
 | Localization  | Drafting English and Chinese translation dictionaries for i18n; Chinese output was additionally reviewed by a native speaker |
 | API docs      | Drafting the public API specification document                                                                               |
-| Documentation | Drafting Privacy Policy and Terms of Service pages                                                                           |
+| Documentation | Drafting Privacy Policy, Terms of Service pages and README.md                                                                      |
 
 All AI-generated content was reviewed, tested, and understood by the team members before being included in the project. No code was copied without understanding its behavior.
 
