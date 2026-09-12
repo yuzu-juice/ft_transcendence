@@ -195,7 +195,6 @@ Note: Better Auth and Drizzle ORM are currently RC versions in this project.
 | backupCodes             | text                | Serialized backup code list      |
 | verified                | boolean             | Whether 2FA setup is completed   |
 | failedVerificationCount | integer             | Consecutive failed code attempts |
-| lastFailedAt            | timestamp, nullable | Last failed verification time    |
 | lockedUntil             | timestamp, nullable | Temporary lock expiration        |
 
 Drizzle migrations are tracked in 6 migration directories under `apps/backend/drizzle`.
