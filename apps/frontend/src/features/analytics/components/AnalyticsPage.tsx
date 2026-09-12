@@ -1,6 +1,12 @@
+import { colorLegend, defineChart } from '@tanstack/charts'
+import { pie, polar, radialArc } from '@tanstack/charts/polar'
+import { Chart } from '@tanstack/charts/react/tooltip'
+import { scaleOrdinal } from '@tanstack/charts/scales/ordinal'
+import { tooltip } from '@tanstack/charts/tooltip'
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { Button, Card } from 'otsukimi-ui'
+import { useMemo } from 'react'
 import { CSVLink } from 'react-csv'
 import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -27,6 +33,86 @@ const SummaryItem = ({ label, value }: SummaryItemProps) => {
   )
 }
 
+const STATUS_COLORS = [
+  '#F7A8C4', // todo: pink
+  '#F6D95B', // in_progress: yellow
+  '#A8E66B', // done: yellow-green
+]
+
+export const PRIORITY_COLORS = [
+  '#8EC5F4', // low: blue
+  '#F7B55A', // medium: orange
+  '#F47F7F', // high: red
+  '#C9CDD3', // unset: gray
+]
+
+type PieChartProps = {
+  data: Record<string, number>
+  colors: string[]
+  ariaLabel: string
+}
+
+const PieChartCard = ({ data, colors, ariaLabel }: PieChartProps) => {
+  const definition = useMemo(() => {
+    const rows = Object.entries(data).map(([name, value]) => ({ name, value }))
+    const slices = pie(rows, {
+      value: 'value',
+    })
+
+    return defineChart(
+      {
+        marks: [
+          polar({
+            inset: 0,
+            radiusRatio: 0.8,
+            scales: {
+              angle: null,
+              radius: null,
+            },
+            marks: [
+              radialArc(slices, {
+                id: 'status-slices',
+                key: 'name',
+                color: 'name',
+              }),
+            ],
+          }),
+        ],
+        scales: {
+          x: null,
+          y: null,
+        },
+        color: {
+          scale: scaleOrdinal(
+            rows.map((row) => row.name),
+            colors,
+          ),
+          legend: colorLegend({
+            placement: 'bottom',
+          }),
+        },
+        margin: { top: 10, right: 10, left: 10, bottom: 40 },
+      },
+      {
+        keyboard: true,
+        tooltip: {
+          use: tooltip,
+          ...{
+            format: ({ datum }) => `${datum.name} · ${datum.value}`,
+          },
+        },
+      },
+    )
+  }, [data, colors])
+
+  return (
+    <Card>
+      <h3 className="text-lg font-heading font-bold">{ariaLabel}</h3>
+      <Chart ariaLabel={ariaLabel} definition={definition} height={300} />
+    </Card>
+  )
+}
+
 type BreakdownItemProps = {
   label: string
   count: number
@@ -44,7 +130,10 @@ const BreakdownItem = ({ label, count, total, countLabel }: BreakdownItemProps) 
         <span className="font-bold">{label}</span>
         <span className="text-gray-600">{countLabel}</span>
       </div>
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div
+        className="w-full h-2 bg-gray-200 rounded-full overflow-hidden"
+        title={`${clampedRatio}%`}
+      >
         <div className="h-full bg-brand-primary-soft" style={{ width: `${clampedRatio}%` }} />
       </div>
     </div>
@@ -169,6 +258,19 @@ export const AnalyticsPage = () => {
         <SummaryItem
           label={t('analytics.overdue')}
           value={t('analytics.taskCount', { count: overdueCount })}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <PieChartCard
+          data={byStatus}
+          colors={STATUS_COLORS}
+          ariaLabel={t('analytics.statusBreakdown')}
+        />
+        <PieChartCard
+          data={byPriority}
+          colors={PRIORITY_COLORS}
+          ariaLabel={t('analytics.priorityBreakdown')}
         />
       </div>
 

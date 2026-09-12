@@ -19,6 +19,9 @@
   "home": {
     "tagline": "ちょー簡単に操作できるプロジェクト管理アプリ"
   },
+  "notFound": {
+    "goToHome": "トップページへ"
+  },
   "legal": {
     "privacy": {
       "title": "プライバシーポリシー"
