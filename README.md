@@ -476,7 +476,7 @@ tamatsuu (Developer)
 
 ### AI Usage
 
-AI tools (Codex and GitHub Copilot) were used in this project for the following purposes:
+AI tools (Codex, GitHub Copilot, and Claude Code) were used in this project for the following purposes:
 
 | Task          | How AI was used                                                                                                              |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -486,6 +486,7 @@ AI tools (Codex and GitHub Copilot) were used in this project for the following 
 | Localization  | Drafting English and Chinese translation dictionaries for i18n; Chinese output was additionally reviewed by a native speaker |
 | API docs      | Drafting the public API specification document                                                                               |
 | Documentation | Drafting Privacy Policy, Terms of Service pages and README.md                                                                      |
+| ER diagram    | Generated the database Entity Relationship Diagram in README.md using Claude Code                                            |
 
 All AI-generated content was reviewed, tested, and understood by the team members before being included in the project. No code was copied without understanding its behavior.
 
