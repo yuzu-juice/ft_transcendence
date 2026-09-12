@@ -1,11 +1,11 @@
 _This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, and tamatsuu._
 
-# LunaPhase
+# ft_transcendence
 ---
 
 ## Description
 
-This project is a task management web app built with React and Hono. It combines authentication, permissions management, a public API, and a data visualization dashboard to help teams manage their tasks efficiently.
+This project (LunaPhase; Derived from the phases of the moon) is a task management web app built with React and Hono. It combines authentication, permissions management, a public API, and a data visualization dashboard to help teams manage their tasks efficiently.
 
 ---
 
