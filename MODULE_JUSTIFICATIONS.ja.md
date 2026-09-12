@@ -68,7 +68,7 @@ APIキーは `ft_<prefix>_<secret>` の形式で発行し、SHA-256でハッシ�
 
 ### 多言語対応 — Minor, 1pt
 
-**実装内容:** `react-i18next` により、日本語・英語・中国語の3言語の完全な翻訳セット（`apps/frontend/src/lib/i18n/locales/{ja,en,zh}/common.json`）と、UI上の言語切り替えを実装した。ユーザーに表示される文字列は、すべて翻訳レイヤーを経由する。
+**実装内容:** `react-i18next` により、日本語・英語・中国語の3言語の完全な翻訳セット（`apps/frontend/src/lib/i18n/locales/{ja,en,zh}/common.json`）と、UI上の言語切り替えを実装した。ユーザーに表示される主要な文字列は翻訳レイヤーを経由する。
 
 **担当:** ssoeno, genomoto
 
