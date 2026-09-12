@@ -94,6 +94,7 @@ The application will be available at:
 | TanStack Router | v1      | Type-safe file-based routing with built-in devtools and performance optimization                           |
 | TanStack Query  | v5      | Simplifies data fetching and caching; prevents unnecessary re-fetches compared to plain useEffect/useState |
 | TanStack Form   | latest  | Form implementation with type-safe validation                                                              |
+| TanStack Charts | latest  | Chart rendering for analytics and data visualization                                                       |
 | react-i18next   | latest  | React integration of i18next for multi-language support                                                    |
 | Sonner          | 2.0.8   | Toast notifications for API key issuance/revocation and user feedback                                      |
 | react-csv       | 2.2.2   | CSV export for analytics and report-like downloads                                                         |
@@ -272,7 +273,7 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 | Feature                         | Description                                                                      | Implemented by |
 | ------------------------------- | -------------------------------------------------------------------------------- | -------------- |
 | Metrics visualization (Grafana) | Task and service metrics are collected and visualized for operational monitoring | genomoto       |
-| Centralized log search (Kibana) | Backend logs are indexed and searchable for troubleshooting and audit support    | takitaga       |
+| Centralized log search (Kibana) | Backend Docker logs are collected through GELF and Logstash, indexed in Elasticsearch, and searchable in Kibana for troubleshooting and audit support    | takitaga       |
 
 ### Features Available to Admins Only
 
@@ -358,6 +359,7 @@ tamatsuu (Developer)
 - [TanStack Router](https://tanstack.com/router)
 - [TanStack Query](https://tanstack.com/query)
 - [TanStack Form](https://tanstack.com/form/latest)
+- [TanStack Charts](https://tanstack.com/charts/latest)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [react-i18next](https://react.i18next.com/)
 - [Zod](https://zod.dev/)
