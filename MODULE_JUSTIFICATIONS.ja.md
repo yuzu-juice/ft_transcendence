@@ -22,11 +22,11 @@
 
 **実装内容:** `apps/backend/src/features/task/public.ts` にて、Bearer形式のAPIキー認証つきで5つのエンドポイントを公開。
 
-- `GET /api/tasks` — ページネーション付き一覧
-- `POST /api/tasks` — 新規作成
-- `GET /api/tasks/{taskId}` — 詳細取得
-- `PATCH /api/tasks/{taskId}` — 部分更新
-- `DELETE /api/tasks/{taskId}` — 削除（キー所有者自身が作成したタスクのみ）
+- `GET /api/v1/tasks` — ページネーション付き一覧
+- `POST /api/v1/tasks` — 新規作成
+- `GET /api/v1/tasks/{taskId}` — 詳細取得
+- `PATCH /api/v1/tasks/{taskId}` — 部分更新
+- `DELETE /api/v1/tasks/{taskId}` — 削除（キー所有者自身が作成したタスクのみ）
 
 APIキーは `ft_<prefix>_<secret>` の形式で発行し、SHA-256でハッシュ化して保存（`apps/backend/src/features/api-key/service.ts`）。平文で保持するのは識別用のprefix部分のみ。リクエストはAPIキー単位で1分間30リクエストにレート制限（`hono-rate-limiter`）。仕様は `/api/v1/docs` のSwagger UIから閲覧・実行できる。
 
