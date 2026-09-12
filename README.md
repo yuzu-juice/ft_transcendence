@@ -159,6 +159,71 @@ Note: Better Auth and Drizzle ORM are currently RC versions in this project.
 
 ## Database Schema
 
+### Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    USER ||--o{ SESSION : has
+    USER ||--o{ ACCOUNT : has
+    USER ||--o| TWO_FACTOR : has
+    USER ||--o{ API_KEY : owns
+    USER ||--o{ TASK : creates
+    USER ||--o{ TASK_ASSIGNMENT : "assigned via"
+    TASK ||--o{ TASK_ASSIGNMENT : has
+
+    USER {
+        text id PK
+        text name
+        text email UK
+        text role
+        boolean emailVerified
+        text image
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    SESSION {
+        text id PK
+        text userId FK
+    }
+    ACCOUNT {
+        text id PK
+        text userId FK
+    }
+    VERIFICATION {
+        text id PK
+    }
+    TWO_FACTOR {
+        text id PK
+        text userId FK
+        boolean verified
+        integer failedVerificationCount
+    }
+    API_KEY {
+        text id PK
+        text name
+        text keyHash
+        text keyPrefix
+        text userId FK
+        timestamp lastUsedAt
+    }
+    TASK {
+        uuid id PK
+        text title
+        text description
+        text status
+        text priority
+        timestamp dueAt
+        text createdBy FK
+    }
+    TASK_ASSIGNMENT {
+        uuid taskId PK "FK"
+        text userId PK "FK"
+        timestamp assignedAt
+    }
+```
+
+`verification` has no foreign key relationship to other tables (standalone token store).
+
 ### Tables
 
 **user** — Stores user accounts and roles (managed by Better Auth + custom `role` field)
@@ -411,7 +476,7 @@ tamatsuu (Developer)
 
 ### AI Usage
 
-AI tools (Codex and GitHub Copilot) were used in this project for the following purposes:
+AI tools (Codex, GitHub Copilot, and Claude Code) were used in this project for the following purposes:
 
 | Task          | How AI was used                                                                                                              |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -421,6 +486,7 @@ AI tools (Codex and GitHub Copilot) were used in this project for the following 
 | Localization  | Drafting English and Chinese translation dictionaries for i18n; Chinese output was additionally reviewed by a native speaker |
 | API docs      | Drafting the public API specification document                                                                               |
 | Documentation | Drafting Privacy Policy, Terms of Service pages and README.md                                                                      |
+| ER diagram    | Generated the database Entity Relationship Diagram in README.md using Claude Code                                            |
 
 All AI-generated content was reviewed, tested, and understood by the team members before being included in the project. No code was copied without understanding its behavior.
 
