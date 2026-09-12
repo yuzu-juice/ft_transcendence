@@ -16,11 +16,13 @@ import '@fontsource/zen-maru-gothic/700.css'
 import { getSession } from './lib/auth/session'
 
 import '@/lib/i18n/config'
+import { ErrorPage } from './components/layout/ErrorPage'
 import { WebMcpProvider } from './lib/webmcp/WebMcpProvider'
 
 export const router = createRouter({
   routeTree,
   defaultPendingComponent: LoadingScreen,
+  defaultErrorComponent: ErrorPage,
   context: {
     getSession,
   },
