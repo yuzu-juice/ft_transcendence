@@ -29,7 +29,6 @@ This project is a task management web app built with React and Hono. It combines
 
 We checked project progress approximately once a week.
 
-
 **Communication:**
 Discord for daily communication
 
@@ -59,7 +58,7 @@ cd <!-- TODO: リポジトリ名 -->
 2. Copy the environment variables file and fill in the values:
 
 ```bash
-cp .env.example .env.dev
+cp .env.example .env.dev <!-- TODO: 本番環境での立ち上げ方が変わってるぽいので後ほど更新 -->
 ```
 
 For production deployment, create `.env.prod` as documented in `compose.prod.yaml`.
@@ -204,7 +203,7 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 
 ---
 
-## Features
+## Feature list
 
 ### Features Available to All Users
 
@@ -251,7 +250,6 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 | Get task detail           | `GET /api/tasks/:id` — returns task info and assignees                                                                   | ssoeno         |
 | Create a task             | `POST /api/tasks` — accepts title, description, priority, and due date                                                   | ssoeno         |
 | Update a task             | `PATCH /api/tasks/:id` — partial update (only sent fields are changed)                                                   | ssoeno         |
-| Update task assignees     | `PUT /api/tasks/:id/assignees` — atomically replaces assigned users for a task                                           | ssoeno         |
 | Delete a task             | `DELETE /api/tasks/:id` — deletes the task and returns 204                                                               | ssoeno         |
 | Rate limiting             | Uses `hono-rate-limiter`; 30 requests per minute per API key                                                             | ssoeno         |
 | API documentation         | `GET /api/v1/docs` — Swagger UI for browsing and testing endpoints in the browser                                        | ssoeno         |
