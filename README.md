@@ -1,7 +1,6 @@
-# LunaPhase
-
 _This project has been created as part of the 42 curriculum by takitaga, ssoeno, genomoto, and tamatsuu._
 
+# LunaPhase
 ---
 
 ## Description
@@ -230,7 +229,8 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 | Create a task                            | Set title, description, priority, and due date                                                               | genomoto       |
 | View task list                           | Browse all tasks created by any user                                                                         | genomoto       |
 | View task detail                         | See full task information and assignees                                                                      | genomoto       |
-| Edit / delete own tasks                  | Only tasks created by the user can be modified                                                               | genomoto       |
+| Edit tasks                               | Authenticated users can currently edit any task                                                              | genomoto       |
+| Delete own tasks                         | Regular users can delete only tasks they created; admins can delete any task                                  | genomoto       |
 | Change task status                       | Three stages: todo → in_progress → done                                                                      | genomoto       |
 | Assign users to a task                   | Multiple users can be assigned to a single task via assignee update API                                      | genomoto       |
 | Search, filter, sort, and paginate tasks | Supports `status[]`, `priority[]`, `dueFrom`, `dueTo`, `query`, `sortBy`, and `sortOrder`; 20 items per page | genomoto       |
@@ -265,7 +265,7 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 | Feature                                  | Description                                                    | Implemented by   |
 | ---------------------------------------- | -------------------------------------------------------------- | ---------------- |
 | Language switcher                        | Switch between Japanese, English, and one additional language  | ssoeno, genomoto |
-| Additional browser support               | Verified to work on Firefox and Chromium in addition to Chrome | genomoto         |
+| Additional browser support               | Verified to work on Edge, Brave and Chromium in addition to Chrome | genomoto         |
 | View Privacy Policy and Terms of Service | Accessible via links in the footer                             | ssoeno           |
 
 #### Monitoring and Logging
@@ -282,14 +282,14 @@ Drizzle migrations are tracked in 6 migration directories under `apps/backend/dr
 | Feature                   | Description                                         | Implemented by |
 | ------------------------- | --------------------------------------------------- | -------------- |
 | View user management page | Full list of all users (hidden from regular users)  | genomoto       |
-| Edit / delete users       | Update name and email, or delete accounts           | genomoto       |
+| Delete user accounts      | Delete user accounts                                 | genomoto       |
 | Change user roles         | Promote a user to admin, or demote an admin to user | genomoto       |
 
 #### Task Management
 
 | Feature                | Description                                    | Implemented by |
 | ---------------------- | ---------------------------------------------- | -------------- |
-| Edit / delete any task | Admins can modify tasks created by other users | genomoto       |
+| Delete any task        | Admins can delete tasks created by other users    | genomoto       |
 
 ---
 
@@ -339,6 +339,7 @@ genomoto (Technical Lead)
 - Designed the system architecture and selected the technology stack
 - Oversaw code quality across the project
 - Implemented a large number of modules
+- Designed the build dependency for generating Hono RPC types in the backend and consuming them in the frontend. In production, the Dockerfile builds the backend before the frontend. In development, the backend type information is built once before the frontend starts and then watched separately, so changes to the RPC types are reflected in the frontend without repeatedly performing a full build, reducing the load on development machines.
 
 tamatsuu (Developer)
 
@@ -358,11 +359,17 @@ tamatsuu (Developer)
 - [TanStack Router](https://tanstack.com/router)
 - [TanStack Query](https://tanstack.com/query)
 - [TanStack Form](https://tanstack.com/form/latest)
+- [Tailwind CSS](https://tailwindcss.com/docs)
 - [react-i18next](https://react.i18next.com/)
 - [Zod](https://zod.dev/)
 - [Zod OpenAPI - Hono](https://hono.dev/examples/zod-openapi)
 - [swagger-ui middleware](https://github.com/honojs/middleware/tree/main/packages/swagger-ui)
 - [hono-rate-limiter](https://github.com/rhinobase/hono-rate-limiter)
+- [Docker](https://docs.docker.com/)
+- [Grafana](https://grafana.com/docs/)
+- [Prometheus](https://prometheus.io/docs/)
+- [Kibana](https://www.elastic.co/guide/en/kibana/current/index.html)
+- [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
 
 ### Articles
 
@@ -378,6 +385,8 @@ AI tools (Codex and GitHub Copilot) were used in this project for the following 
 | Task          | How AI was used                                                                                                              |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Code review   | Reviewing pull requests                                                                                                      |
+| Library research | Investigating library capabilities and suitable implementation approaches                                                   |
+| Design discussion | Discussing and validating design ideas and implementation decisions                                                          |
 | Localization  | Drafting English and Chinese translation dictionaries for i18n; Chinese output was additionally reviewed by a native speaker |
 | API docs      | Drafting the public API specification document                                                                               |
 | Documentation | Drafting Privacy Policy and Terms of Service pages                                                                           |
