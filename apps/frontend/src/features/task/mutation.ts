@@ -61,7 +61,7 @@ export const taskMutations = {
         })
 
         await queryClient.invalidateQueries({
-          queryKey: taskQueryKeys.list(),
+          queryKey: taskQueryKeys.all(),
         })
       },
     }),
