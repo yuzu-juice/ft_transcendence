@@ -95,10 +95,10 @@ The application will be available at:
 | TanStack Query  | v5      | Simplifies data fetching and caching; prevents unnecessary re-fetches compared to plain useEffect/useState |
 | TanStack Form   | latest  | Form implementation with type-safe validation                                                              |
 | react-i18next   | latest  | React integration of i18next for multi-language support                                                    |
-| Sonner          | 2.0.7   | Toast notifications for API key issuance/revocation and user feedback                                      |
+| Sonner          | 2.0.8   | Toast notifications for API key issuance/revocation and user feedback                                      |
 | react-csv       | 2.2.2   | CSV export for analytics and report-like downloads                                                         |
-| react-qr-code   | 2.0.18  | QR code rendering for TOTP 2FA setup                                                                       |
-| boring-avatars  | 1.11.2  | Deterministic fallback avatar generation                                                                   |
+| react-qr-code   | 2.2.0   | QR code rendering for TOTP 2FA setup                                                                       |
+| boring-avatars  | 2.0.4   | Deterministic fallback avatar generation                                                                   |
 | react-markdown  | 10.1.0  | In-app markdown rendering for legal pages                                                                  |
 | remark-gfm      | 4.0.1   | GitHub Flavored Markdown support for markdown rendering                                                    |
 
