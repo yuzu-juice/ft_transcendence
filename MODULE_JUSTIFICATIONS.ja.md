@@ -83,29 +83,29 @@ Chromeに加えてEdge・Brave・Chromiumで手動テストを実施し、認証
 
 ## User Management
 
-### OAuth 2.0によるリモート認証 — Minor, 1pt
+### Implement remote authentication with OAuth 2.0 — Minor, 1pt
 
 この課題ではメールとパスワードによる認証が必須だが、GitHubアカウントでも安全にログインできる仕組みを追加した。
 
-**実装内容:** Better Authの `socialProviders` 設定（`apps/backend/src/auth/index.ts`）によるGitHub OAuth。フロントエンドには専用のサインインボタン（`GitHubSignIn.tsx`）を用意。OAuthのやり取りはBetter Authが処理し、得られたIDをローカルの `user`/`account` テーブルに紐付ける。
+**実装内容:** Better Authの `socialProviders` 設定（`apps/backend/src/auth/index.ts`）の`socialProviders`機能を用いて、GitHubアカウントによる認証・ログインを実現した。フロントエンドには専用のサインインボタン（`GitHubSignIn.tsx`）を用意。OAuthのやり取りはBetter Authが処理し、得られたIDを本アプリケーションのデータベースにある `user`/`account` テーブルに紐付ける。
 
 **担当:** genomoto
 
 ---
 
-### 完全な2FAシステム — Minor, 1pt
+###  Implement a complete 2FA (Two-Factor Authentication) system for the users — Minor, 1pt
 
 アカウント乗っ取りへのハードルを上げる、標準的な手段として実装した。
 
-**実装内容:** Better Authの `twoFactor` プラグイン（TOTP方式）を、issuer名 `LunaPhase` で設定。`two_factor` テーブルにシークレット・ハッシュ化されたバックアップコード・検証状態、そしてブルートフォース対策のロックアウト用フィールド（`failedVerificationCount`、`lockedUntil`）を保持している。フロントエンドでは、QRコードによる登録（`react-qr-code` 使用、`TotpSetup.tsx`）、ログイン時のチャレンジ画面（`TotpChallenge.tsx`）、コード入力フォーム（`TotpCodeForm.tsx`）を提供している。
+**実装内容:** Better Authの `twoFactor` プラグイン（TOTP方式）を、issuer名 `LunaPhase` で設定。Google Authenticatorを利用してワンタイムパスワードを発行し、ログイン時の本人確認に使用できる。`two_factor` テーブルにはシークレット・検証状態・ブルートフォース対策のロックアウト用フィールド（`failedVerificationCount`、`lockedUntil`）を保持している。フロントエンドでは、QRコードによる登録（`react-qr-code` 使用、`TotpSetup.tsx`）、ログイン時のチャレンジ画面（`TotpChallenge.tsx`）、コード入力フォーム（`TotpCodeForm.tsx`）を提供している。
 
 **担当:** genomoto
 
 ---
 
-### 高度な権限管理システム — Major, 2pt
+### Advanced permissions system 高度な権限管理システム — Major, 2pt
 
-管理者と一般ユーザーで利用できる機能と画面が異なるため、ロールに基づく権限管理を実装した。
+フロントエンド、バックエンドで一貫した権限チェックを行い、管理者限定の機能（ユーザの管理、他ユーザの作成したタスクの削除権限）を実装した。
 
 **実装内容:** Better Authの `admin` プラグインにより、`admin` と `user` の2ロールを実装している。管理者はユーザーの一覧・詳細閲覧、プロフィール編集、アカウント削除ができ、ユーザーのロールを変更できる。管理者専用のユーザー管理画面があり、一般ユーザーとは異なる画面と操作を提供している（`apps/frontend/src/features/admin/api.ts`）。バックエンドでは `requireAdmin` ミドルウェア（`apps/backend/src/middleware/auth.ts`）により、管理者専用エンドポイントへのアクセスを管理者に限定している。
 
